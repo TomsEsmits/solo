@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+	  	<Sumo_Sumo>
+	    	<version>1.0.0</version>
+	  	</Sumo_Sumo>
+	</modules>
+
+	<frontend>
+        <layout>
+            <updates>
+                <sumo>
+                    <file>sumo.xml</file>
+                </sumo>
+            </updates>
+        </layout>		
+		<routers>
+		  	<sumo>
+		    	<use>standard</use>
+		    	<args>
+		      		<module>Sumo_Sumo</module>
+		      		<frontName>sumo</frontName>
+		    	</args>
+		  	</sumo>
+		</routers>
+
+		<events>
+			<controller_action_layout_load_before>
+				<observers>
+				    <sumo_sumo_model_observer>
+				        <class>Sumo_Sumo_Model_Observer</class>
+				        <method>sumo_addCustomHandles</method>
+				    </sumo_sumo_model_observer>
+				 </observers>
+			</controller_action_layout_load_before>
+		</events>
+	</frontend>
+
+	<admin>
+		<routers>
+	    	<sumo_admin>
+	     		<use>admin</use>
+	     		<args>
+	      			<module>Sumo_Sumo</module>
+	      			<frontName>sumo_admin</frontName>
+	     		</args>
+	    	</sumo_admin>
+
+	  	</routers>
+	</admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <sumo>
+                    <file>sumo_admin.xml</file>
+                </sumo>
+            </updates>
+        </layout>
+		<menu>
+		   	<sumo module="sumo">
+		    	<title>Sumo</title>
+		    	<sort_order>100</sort_order>
+		    	<label>test</label>
+		    	<children>
+					<sumo module="sumo">
+					    <title>Dashboard</title>
+					    <sort_order>0</sort_order>
+					    <action>sumo_admin/adminhtml_index</action>
+				    </sumo>
+		    	</children>
+
+			    <children>
+				    <statistics module="sumo">
+				    	<title>Statistics</title>
+						<sort_order>1</sort_order>
+				        <action>sumo_admin/adminhtml_statistics</action>
+				    </statistics>
+			    </children>
+
+		    	<children>
+			      	<about module="sumo">
+				        <title>About</title>
+
+				        <sort_order>2</sort_order>
+				        <action>sumo_admin/adminhtml_about</action>
+			      </about>
+		    	</children>
+		   	</sumo>
+		</menu>
+    </adminhtml>
+
+	<global>
+	 	<helpers>
+		    <sumo>
+		    	<class>Sumo_Sumo_Helper</class>
+		    </sumo>
+	  	</helpers>
+
+	    <blocks>
+	    	<sumo>
+	    		<class>Sumo_Sumo_Block</class>
+	    	</sumo>
+	  	</blocks>
+
+	    <resources>
+	        <sumo_sumo_setup>
+	            <setup>
+	                <module>Sumo_Sumo</module>
+	                <class>Sumo_Sumo_Model_Resource_Setup</class>
+	            </setup>
+	            <connection>
+	            	<use>core_setup</use>
+	        	</connection>
+	        </sumo_sumo_setup>
+	    </resources>
+
+		<models>
+	        <sumo_sumo>
+	            <class>Sumo_Sumo_Model</class>
+	            <resourceModel>sumo_sumo_resource</resourceModel>
+	        </sumo_sumo>
+	        <sumo_sumo_resource>
+	            <class>Sumo_Sumo_Model_Resource</class>
+	            <entities>
+	                <sumodbdata>
+	                    <table>sumo_module</table>
+	                </sumodbdata>
+	            </entities>
+	        </sumo_sumo_resource>
+	    </models>
+	</global>
+
+</config>

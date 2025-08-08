@@ -1,0 +1,192 @@
+<div id="contact-us-form" class="box form">
+	<div class="grid-4">
+		<div class="grid-4-2">
+			<p>Name</p>
+			<p><input class="box" type="text" id="contact-us-name" rel="fullname"></p>
+		</div>
+		<div class="grid-4-2">
+			<p>Address</p>
+			<p><input class="box" type="text" id="contact-us-address" rel="address"></p>
+		</div>
+	</div>
+	<div class="grid-4">
+		<div class="grid-4-2">
+			<p>Phone Number</p>
+			<p><input class="box" type="text" id="contact-us-phone-number" rel="phone"></p>
+		</div>
+		<div class="grid-4-2">
+			<p>Email Address</p>
+			<p><input class="box" type="text" id="contact-us-email-address" rel="mail"></p>
+		</div>
+	</div>
+	<div class="grid-3" style="margin-bottom: 1.5em;">
+		<div class="grid-3-1">
+			<p>Payment Method</p>
+			<select id="contact-us-payment-method" class="box-select" required>
+				<option value=""></option>
+				<option value="paypal">PayPal</option>
+				<option value="cc">C.C.</option>
+				<option value="code">Code</option>
+			</select>
+		</div>
+	</div>
+	<div class="grid-3" style="margin-bottom: 1.5em;">
+		<div class="grid-3-1">
+			<p>Make</p>
+			<p><input class="box" type="text" id="contact-us-make" rel="required"></p>
+		</div>
+		<div class="grid-3-1">
+			<p>Model</p>
+			<p><input class="box" type="text" id="contact-us-model" rel="required"></p>
+		</div>
+		<div class="grid-3-1">
+			<p>Year</p>
+			<p><input class="box" type="text" id="contact-us-year" rel="required"></p>
+		</div>
+	</div>
+	<div class="grid-4">
+		<div class="grid-4-2">
+			<p>VIN Number</p>
+			<p><input class="box" type="text" id="contact-us-vin-number" rel="required"></p>
+		</div>
+		<div class="grid-4-2">
+			<p>Part Number</p>
+			<p><input class="box" type="text" id="contact-us-part-number" rel="required"></p>
+		</div>
+	</div>
+	<div class="grid-3" style="margin-bottom: 1.5em;">
+		<div class="grid-3-1">
+			<p>Engine Size</p>
+			<p><input class="box" type="text" id="contact-us-engine-size" rel="required"></p>
+		</div>
+		<div class="grid-3-1">
+			<p>LT</p>
+			<p><input class="box" type="text" id="contact-us-lt" rel="required"></p>
+		</div>
+		<div class="grid-3-1">
+			<p>Cyl</p>
+			<p><input class="box" type="text" id="contact-us-cyl" rel="required"></p>
+		</div>
+	</div>
+	<div class="grid-4">
+		<div class="grid-4-1">
+			<p>OHC</p>
+			<select id="contact-us-ohc" class="box-select" required>
+				<option value=""></option>
+				<option value="soch">SOCH</option>
+				<option value="doch">DOCH</option>
+			</select>
+		</div>
+		<div class="grid-4-1">
+			<p>Traction</p>
+			<select id="contact-us-traction" class="box-select" required>
+				<option value=""></option>
+				<option value="4x2">4x2</option>
+				<option value="4x4">4x4</option>
+			</select>
+		</div>
+		<div class="grid-4-1">
+			<p>Transmition</p>
+			<select id="contact-us-engine-transmition" class="box-select" required>
+				<option value=""></option>
+				<option value="automatic">Automatic</option>
+				<option value="manual">Manual</option>
+			</select>
+		</div>
+		<div class="grid-4-1">
+			<p>Type</p>
+			<select id="contact-us-engine-type" class="box-select" required>
+				<option value=""></option>
+				<option value="gas">Gas</option>
+				<option value="diesel">Diesel</option>
+			</select>
+		</div>
+	</div>
+	<div class="grid-4 padd-top">
+		<div class="grid-4-4">
+			<p>Comments</p>
+			<p><textarea class="box" id="contact-us-comments"></textarea></p>
+		</div>
+	</div>
+	<p><a href="#" id="contact-us-submit" class="submit">Submit</a></p>
+</div>
+
+<script type="text/javascript">
+    var m = null;
+    function __submitPrismForm() {
+        if ( __submittingPrism !== true ) {
+            jQuery( "#contact-us-submit" ).html( "Submitting..." ).animate( { opacity: "0.25" }, 250 );
+            __m = jQuery( "#contact-us-email-address" ).val();
+            jQuery.ajax({
+                type: "GET",
+                url: "https://cloud.pacific54.com/system/mail.php",
+                contentType: "application/json; charset=utf-8",
+                crossDomain: true,
+                dataType: "jsonp",
+                data: {
+                    website: "www.solopcms.com",
+                    full_name: jQuery( "#contact-us-full-name" ).val(),
+                    phone: jQuery( "#contact-us-phone-number" ).val(),
+                    mail: jQuery( "#contact-us-email-address" ).val(),
+					address: jQuery( "#contact-us-address").val(),
+                    form: {
+						payment: jQuery( "#contact-us-payment-method option:selected").val(),
+						vin: jQuery( "#contact-us-vin-number").val(),
+						part: jQuery( "#contact-us-part-number").val(),
+						engine: jQuery( "#contact-us-engine-size").val(),
+						lt: jQuery( "#contact-us-lt").val(),
+						cyl: jQuery( "#contact-us-cyl").val(),
+						ohc: jQuery( "#contact-us-ohc option:selected").val(),
+						traction: jQuery( "#contact-us-traction option:selected").val(),
+						transmition: jQuery( "#contact-us-engine-transmition option:selected").val(),
+						type: jQuery( "#contact-us-engine-type option:selected").val(),
+						comments: jQuery( "#contact-us-comments" ).val(),
+						make: jQuery( "#contact-us-make" ).val(),
+						model: jQuery( "#contact-us-model" ).val(),
+                        year: jQuery( "#contact-us-year" ).val(),						
+                        url: jQuery( location ).attr( "href" )
+                    }
+                },
+                complete: function() {
+                    __submittingPrism = false;
+                    jQuery( "#contact-us-submit" ).html( "Submit" ).animate( { opacity: "1" }, 250 );
+                    setTimeout( function() {
+                        window.location.href = "<?php echo $this->getUrl( "" ); ?>thank-you/?mail=" + __m + "&seed=" + jQuery.now();
+                    }, 1000 );
+                }
+            });
+        }
+    }
+    jQuery( document ).ready( function() {
+        __intervalPrism = setInterval( function() {
+            try {
+                if ( typeof( __initPrism ) !== undefined ) {
+                    validation.visuals.initial = "rgba( 255, 255, 255, 1 )";
+                    validation.visuals.background = "rgba( 128, 0, 3, 0.25 )";
+                    validation.visuals.offset_scroll = "disabled";
+                    __initPrism({
+                        "submit": jQuery( "#contact-us-submit" ),
+                        "form": jQuery( "#contact-us-form" ),
+                        "redirect": "none"
+                    });
+                }
+            }
+            catch ( e ) { /* Empty catch */ }
+        }, 100 );
+    });
+</script>
+<style>
+.box-select{
+	width: 100%;
+	border-radius: 5px;
+	padding: 10px;
+	box-shadow: none;
+	border: solid 1px #000;	
+}
+.grid-4-1 .box-select{
+	width:100%;
+}
+.padd-top{
+	padding-top:15px;
+}
+</style>

@@ -1,0 +1,247 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+
+<?php
+    $_helper = $this->helper('catalog/output');
+    $_product = $this->getProduct();
+    $currentUrl = Mage::helper('core/url')->getCurrentUrl();
+    $condition = strtolower( $_product->getAttributeText( "condition" ) );
+
+    $current_product_id = $_product->getId();
+    if ( $condition === "repair service" ) :
+        include( 'view-service-only.phtml' );
+    else : ?>
+        
+        <script type="text/javascript">
+            var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+        </script>
+        <div id="messages_product_view">
+            <?php echo $this->getMessagesBlock()->toHtml() ?>
+        </div>
+        <div class="product-view" itemscope itemtype="http://schema.org/Product">
+            <meta itemprop="itemCondition" content="refurbished">
+            <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                <meta itemprop="reviewCount" content="<?php $min=20; $max=60; echo rand($min,$max);?>">
+                <meta itemprop="worstRating" content="0">
+                <meta itemprop="bestRating" content="5">
+                <meta itemprop="ratingValue" content="<?php $min=3; $max=5; echo rand($min,$max);?>">
+            </div>
+            <meta itemprop="brand" content="<?php echo $_product->getAttributeText('make');?>" >
+            <meta itemprop="model" content="<?php echo $_product->getModel();?>" >
+            <meta itemprop="sku" content="<?php echo strtolower( $_product->getSku() ); ?>" >
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                <?php if($_product->isAvailable()): ?>
+                    <link itemprop="availability" href="http://schema.org/InStock" />
+                <?php endif; ?>
+                <meta itemprop="price" content="<?php echo number_format($_product->getPrice(), '2', '.', ',');?>" >
+                <meta itemprop="priceCurrency" content="USD" >
+                <meta itemprop="priceValidUntil" content="12/31/<?php echo date( "Y" ) + 1; ?>" >
+                <meta itemprop="url" content="<?php echo $_product->getProductUrl(); ?>" >
+            </div>
+            <div class="product-essential">
+                <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+                    <?php echo $this->getBlockHtml('formkey') ?>
+                    <div class="no-display">
+                        <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+                        <input type="hidden" name="related_product" id="related-products-field" value="" />
+                    </div>
+                    <div class="grid-3 s-p-o">
+                        <div class="grid-3-1">
+                            <div class="product-img-box">
+                                <?php echo $this->getChildHtml('media') ?>
+                            </div>
+                            <div class="clear"></div>
+                            <?php
+                                $detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml');
+                                echo $detailedInfoGroup[ "additional" ];
+                            ?>
+                            <p class="pre-social">Share and Recommend This Item:</p>
+                            <div class="social">
+                                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $currentUrl; ?>">
+                                    <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/facebook.png" alt="Facebook">
+                                </a>
+                                <a target="_blank" href="https://twitter.com/home?status=<?php echo $currentUrl; ?>">
+                                    <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/twitter.png" alt="Twitter">
+                                </a>
+                                <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $currentUrl; ?>&title=&summary=&source=">
+                                    <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/linkedin.png" alt="LinkedIn">
+                                </a>
+                            </div>
+                            <div class="fb-share-button" data-href="<?php echo $currentUrl; ?>" data-layout="button_count"></div>
+                            <br><br>
+                            <div id="fb-root"></div>
+                            <script>
+                                (function(d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s); js.id = id;
+                                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+                                fjs.parentNode.insertBefore(js, fjs);
+                                }(document, 'script', 'facebook-jssdk'));
+                            </script>
+                        </div>
+                        <div class="grid-3-2 s-p">
+                            <h1 itemprop="name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                            <hr class="thin-line">
+                            <?php if ($_product->getDescription()):?>
+                                <div class="short-description" itemprop="description">
+                                    <?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?>
+                                </div>
+                                <hr class="thin-line">
+                            <?php endif;?>
+                            <?php echo $this->getChildHtml('product_type_availability'); ?>
+                            <hr class="thin-line">
+                            <div class="price-box-s-p">
+                                <?php echo $this->getPriceHtml($_product); ?>
+                                <?php echo $this->getChildHtml('bundle_prices') ?>
+                                <?php echo $this->getTierPriceHtml() ?>
+                            </div>
+                            <hr class="thin-line">
+                            <h4>Lifetime Guarantee!</h4>
+                            <p>Please fill in your vehicle information below and click the 'Add to Cart' Button below to purchase.</p>
+                            <?php echo $this->getChildHtml('other');?>
+                            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                                <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                            <?php else : ?>
+                                <div class="product-options-bottom">
+                                    <?php echo $this->getChildHtml('product_type_data') ?>
+                                    <?php echo $this->getChildHtml('extrahint') ?>
+                                    <?php if (!$this->hasOptions()):?>
+                                        <div class="add-to-box">
+                                            <?php if($_product->isSaleable()): ?>
+                                                <?php echo $this->getChildHtml('addtocart') ?>
+                                                <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                                    <span class="or"><?php echo $this->__('OR') ?></span>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                            <?php echo $this->getChildHtml('addto') ?>
+                                            <?php //echo $this->getChildHtml('sharing') ?>
+                                        </div>
+                                        <?php echo $this->getChildHtml('extra_buttons') ?>
+                                    <?php elseif (!$_product->isSaleable()): ?>
+                                        <div class="add-to-box">
+                                            <?php echo $this->getChildHtml('addto') ?>
+                                            <?php //echo $this->getChildHtml('sharing') ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif;?>
+                        </div>
+                    </div>
+                    <?php echo $this->getChildHtml('related_products') ?>
+                    <div class="clearer"></div>
+                    <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                        <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
+                    <?php endif;?>
+                </form>
+                <script type="text/javascript">//<![CDATA[
+                    var productAddToCartForm = new VarienForm('product_addtocart_form');
+                    productAddToCartForm.submit = function(button, url) {
+                        if (this.validator.validate()) {
+                            var form = this.form;
+                            var oldUrl = form.action;
+                            if (url) {
+                               form.action = url;
+                            }
+                            var e = null;
+                            try {
+                                this.form.submit();
+                            } catch (e) {
+                            }
+                            this.form.action = oldUrl;
+                            if (e) {
+                                throw e;
+                            }
+                            if (button && button != 'undefined') {
+                                button.disabled = true;
+                            }
+                        }
+                    }.bind(productAddToCartForm);
+                    productAddToCartForm.submitLight = function(button, url){
+                        if(this.validator) {
+                            var nv = Validation.methods;
+                            delete Validation.methods['required-entry'];
+                            delete Validation.methods['validate-one-required'];
+                            delete Validation.methods['validate-one-required-by-name'];
+                            for (var methodName in Validation.methods) {
+                                if (methodName.match(/^validate-datetime-.*/i)) {
+                                    delete Validation.methods[methodName];
+                                }
+                            }
+                            if (this.validator.validate()) {
+                                if (url) {
+                                    this.form.action = url;
+                                }
+                                this.form.submit();
+                            }
+                            Object.extend(Validation.methods, nv);
+                        }
+                    }.bind(productAddToCartForm);
+                //]]></script>
+            </div>
+            <?php echo $this->getChildHtml('upsell_products') ?>
+        </div>
+        
+        <style type="text/css">
+            .thin-line {
+                border: none;
+                height: 1px;
+                margin: 20px 0px;
+                width: 100%;
+                background: #ddd;
+            }
+            .get-a-call-back {
+                z-index: 9999;
+            }
+            #get-a-call-back {
+                display: none !important;
+            }
+            .product-options-bottom {
+                border-top: 0px !important;
+            }
+            .price-box-s-p .price:before {
+                content: "Price:";
+                display: inline-block;
+                margin-right: 8px;
+            }
+            .price-box-s-p * {
+                font-weight: bold !important;
+                font-family: "Roboto Condensed", sans-serif !important;
+                font-size: 16px !important;
+                color: #000 !important;
+            }
+        </style>
+        
+    <?php endif;
+?>

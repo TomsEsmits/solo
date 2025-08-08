@@ -1,0 +1,39 @@
+<?php
+// @codingStandardsIgnoreFile
+$existingSiteID=$block->getSessionData('sumome_site_id');
+?>
+<div class="site-ID-container">
+  <div class="row row3 site-ID">
+    <div class="columns">
+      <div class="list-bullet">
+        <h4 class="list-number-title">Your Site ID</h4>
+      </div>
+
+      <form class="site-id-form" id="siteIdForm" method="post" action="<?php  print $formURL?>" onsubmit="return true;">
+           <input name="form_key" type="hidden" value="<?php print $formHiddenInput; ?>" />
+        <textarea type="text" name="siteID" class="sumome-site-id"><?php  print $existingSiteID;?></textarea>
+        <button onclick="sumome_generate_site_id(); return false;" class="button">Get New Site ID</button>
+        <div class="sumome-instructions">
+          NOTE: If you already have a site ID from a previous installation and wish to recover your settings, enter the site ID above. You may also generate a new site ID to perform a fresh installation. Changing the site ID will lose all settings, apps, and purchases.
+        </div>
+        <input type="submit" name="save" value="Save Changes">
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).on('submit','.site-id-form',function(evt){
+    var fd = new FormData(this);
+    $.ajax({
+        url: "index.phtml?page=siteID",
+        type: "POST",
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          sumo_logout();
+        }
+    })
+});
+</script>

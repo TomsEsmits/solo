@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <firecheckout_index_index>
+        <reference name="head">
+            <block type="core/text" name="ppplus" ifconfig="payment/iways_paypalplus_payment/active">
+                <action method="setText">
+                    <text><![CDATA[<script src="//www.paypalobjects.com/webstatic/ppplus/ppplus.min.js" type="text/javascript"></script>]]></text>
+                </action>
+            </block>
+            <action method="addCss" ifconfig="payment/iways_paypalplus_payment/active">
+                <stylesheet>css/iways-paypalplus.css</stylesheet>
+            </action>
+
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>tm/firecheckout/js/integration/iways_paypalplus.js</name>
+            </action>
+        </reference>
+    </firecheckout_index_index>
+</layout>

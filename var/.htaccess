@@ -1,0 +1,7 @@
+Order deny,allow
+Deny from all
+
+<Files "product_feed.csv">
+    Order Allow,Deny
+    Allow from all
+</Files>

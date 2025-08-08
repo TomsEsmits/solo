@@ -1,0 +1,104 @@
+<script type="text/javascript">
+    function preventDefault(e){e=e||window.event;if(e.preventDefault)e.preventDefault();e.returnValue=false}function keydown(e){for(var t=keys.length;t--;){if(e.keyCode===keys[t]){preventDefault(e);return}}}function wheel(e){preventDefault(e)}function disable_scroll(){if(window.addEventListener){window.addEventListener("DOMMouseScroll",wheel,false)}window.onmousewheel=document.onmousewheel=wheel;document.onkeydown=keydown}function enable_scroll(){if(window.removeEventListener){window.removeEventListener("DOMMouseScroll",wheel,false)}window.onmousewheel=document.onmousewheel=document.onkeydown=null};var keys=[37,38,39,40]
+</script>
+
+<div id="sidr" class="box">
+    <div id="simple-form"> 
+        <p>
+            <label for="simple-full-name">Full Name</label>
+            <input class="box" type="text" id="simple-full-name" rel="fullname">
+        </p>
+        <p>
+            <label for="simple-phone-number">Phone Number</label>
+            <input class="box" type="text" id="simple-phone-number" rel="phone">
+        </p>
+        <p>
+            <label for="simple-email-address">Email Address</label>
+            <input class="box" type="text" id="simple-email-address" rel="mail">
+        </p>
+        <p>
+            <label for="simple-questions">Questions</label>
+            <textarea class="box" id="simple-questions"></textarea>
+        </p>
+        <div class="g-recaptcha" data-sitekey="6Lf5bpAqAAAAAMRDs7LDzMt4v9S3QsdWAKXbGZ6w"></div>
+        <a href="#" id="simple-submit">Submit</a>
+        <a id="simple-menu-close" href="#">Close</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery( document ).ready( function() {
+        jQuery( "#simple-menu, .quick-simple" ).sidr({
+            side: "right",
+            onOpen: function() {
+                disable_scroll();
+            },
+            onClose: function() {
+                enable_scroll();
+            }
+        });
+        jQuery( "#simple-menu-close" ).click( function( e ) {
+            e.preventDefault();
+            jQuery.sidr( "close" );
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    var m = null;
+    function __submitPrismForm_A() {
+        if ( __submittingPrism_A !== true ) {
+            jQuery( "#simple-submit" ).html( "Submitting..." ).animate( { opacity: "0.25" }, 250 );
+            __m = jQuery( "#simple-email-address" ).val();
+            jQuery.ajax({
+                type: "GET",
+                url: "https://cloud.pacific54.com/system/mail.php",
+                contentType: "application/json; charset=utf-8",
+                crossDomain: true,
+                dataType: "jsonp",
+                data: {
+                    website: "www.solopcms.com",
+                    full_name: jQuery( "#simple-full-name" ).val(),
+                    phone: jQuery( "#simple-phone-number" ).val(),
+                    mail: jQuery( "#simple-email-address" ).val(),
+                    form: {
+                        questions: jQuery( "#simple-questions" ).val(),
+                        url: jQuery( location ).attr( "href" )
+                    }
+                },
+                complete: function() {
+                    __submittingPrism_A = false;
+                    jQuery( "#simple-submit" ).html( "Submit" ).animate( { opacity: "1" }, 250 );
+                    setTimeout( function() {
+                        window.location.href = "<?php echo $this->getUrl( "" ); ?>thank-you/?mail=" + __m + "&seed=" + jQuery.now();
+                    }, 1000 );
+                }
+            });
+        }
+    }
+    jQuery( document ).ready( function() {
+        __intervalPrism_A = setInterval( function() {
+            try {
+                const recaptchaResponse = grecaptcha.getResponse();
+                if ( typeof( __initPrism_A ) !== undefined ) {
+                    jQuery("#simple-submit").on("click", function (e) {
+                        e.preventDefault();
+                    });
+                        __checkPrism_A(jQuery( "#simple-form" ));
+                        validation.visuals.initial = "rgba( 0, 0, 0, 0.50 )";
+                        validation.visuals.background = "rgba( 128, 0, 3, 0.25 )";
+                        validation.visuals.offset_scroll = "disabled";
+                        
+                        if ( recaptchaResponse ) {
+                            __initPrism_A({
+                                "submit": jQuery( "#simple-submit" ),
+                                "form": jQuery( "#simple-form" ),
+                                "redirect": "none"
+                            });
+                        }
+                }
+            }
+            catch ( e ) { /* Empty catch */ }
+        }, 100 );
+    });
+</script>

@@ -1,0 +1,272 @@
+body, html {
+    font-family: "Droid Serif", serif;
+    font-size: 17px;
+    color: #000000;
+    margin: 0px;
+    padding: 0px;
+}
+body {
+    margin: 0px;
+    padding: 0px;
+}
+a {
+    outline: none;
+}
+p {
+    margin: 20px 0px;
+}
+.clear {
+    clear: both;
+}
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+#page {
+    display: block;
+    width: 1100px;
+    margin: 0px auto;
+    height: 1860px;
+}
+#header {
+    display: block;
+    background: #808080;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 20px;
+    position: relative;
+}
+#header p {
+    color: #ffffff;
+    top: 25px;
+    font-size: 18px;
+    left: 565px;
+    position: absolute;
+    text-align: center;
+    text-shadow: 0px 1px 1px #000000;
+    width: 370px;
+}
+#logo {
+    display: block;
+    margin-top: 5px;
+}
+#logo img {
+    display: block;
+}
+#banner {
+    display: block;
+    position: relative;
+    width: 1100px;
+    height: 410px;
+    background: url( 'http://www.solopcms.com/eBay/images/banner.jpg' ) no-repeat;
+}
+#banner-text {
+    left: 60px;
+    position: absolute;
+    top: 115px;
+}
+#banner-logo {
+    position: absolute;
+    right: 30px;
+    top: 90px;
+}
+#menu {
+    text-align: center;
+    font-size: 0px;
+    display: block;
+    overflow: hidden;
+}
+#menu a {
+    background: url( 'http://www.solopcms.com/eBay/images/separator.jpg' ) no-repeat center right;
+    color: #333333;
+    display: inline-block;
+    font-size: 17px;
+    margin-top: 1px;
+    padding: 7px 40px 5px 13px;
+    text-decoration: none;
+    text-shadow: 0px 1px 1px #FFFFFF;
+}
+#menu a:first-child {
+    padding-left: 0px;
+}
+#menu a:last-child {
+    background: none;
+    padding-right: 0px;
+}
+#menu a:hover {
+    color: #000000;
+}
+#content {
+    background: #e5e5e5 url( 'http://www.solopcms.com/eBay/images/shadow-top.png' ) no-repeat bottom center;
+    display: block;
+    padding: 50px 20px 20px 20px;
+    position: relative;
+}
+#second-menu {
+    text-align: center;
+    font-size: 0px;
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    width: 1100px;
+    height: 34px;
+    left: 0px;
+    top: 0px;
+    text-align: center;
+    background: url( 'http://www.solopcms.com/eBay/images/menu-second.png' ) no-repeat;
+}
+#second-menu a {
+    background: url( 'http://www.solopcms.com/eBay/images/separator.png' ) no-repeat center right;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 17px;
+    margin: 0px;
+    padding: 6px 45px 5px 13px;
+    text-decoration: none;
+    text-shadow: 0px 1px 1px rgba( 0, 0, 0, 1 );
+}
+#search {
+    position: relative;
+    top: -1px;
+    background: #fff url( 'http://www.solopcms.com/eBay/images/search.png' ) no-repeat 3px 3px;
+    margin: 0px 0px 0px 15px;
+    padding: 0px 0px 0px 20px;
+    display: inline-block;
+    font-family: "Droid Serif", serif;
+    font-size: 14px;
+    border: 0px;
+    border-radius: 5px;
+    width: 150px;
+}
+#second-menu a:first-child {
+    padding-left: 0px;
+}
+#second-menu a:last-child {
+    background: none;
+    padding-right: 0px;
+}
+#second-menu a:hover {
+    color: #cccccc;
+}
+#content > p {
+    font-family: "Arial", "Helvetica", sans-serif;
+    text-align: center;
+    padding: 0px 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+#image {
+    display: block;
+    width: 1100px;
+    height: 380px;
+    position: relative;
+    background: url( 'http://www.solopcms.com/eBay/images/image.jpg' ) no-repeat;
+}
+#image img {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
+#image #image-text {
+    font-size: 28px;
+    left: 64px;
+    margin: 0px !important;
+    padding: 0px !important;
+    position: absolute;
+    text-align: center;
+    top: 141px;
+    width: 400px;
+}
+#price {
+    font-size: 50px;
+    left: 494px;
+    position: absolute;
+    top: 57px;
+    transform: rotate(-10deg);
+    -webkit-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    z-index: 100;
+}
+#text {
+    display: block;
+    background: #e5e5e5 url( 'http://www.solopcms.com/eBay/images/shadow-bottom.png' ) no-repeat top center;
+    padding: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#text > .left {
+    padding-left: 20px;
+    width: 632px;
+}
+#text > .right {
+    padding-right: 20px;
+    width: 348px;
+}
+#text > .right img {
+    display: block;
+    margin: 20px 0px;
+}
+#text > .left p:nth-child( 1 ) {
+    font-family: "Arial", "Helvetica", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+#text > .left ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px 0px 0px 25px;
+}
+#text > .left ul li {
+    font-family: "Arial", "Helvetica", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background: url( 'http://www.solopcms.com/eBay/images/bullet.png' ) no-repeat left center;
+    padding: 3px 0px 3px 33px;
+}
+#text > .left p:nth-child( 2 ) {
+    font-family: "Arial", "Helvetica", sans-serif;
+    font-size: 20px;
+}
+#text .warranty {
+    display: block;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px #666666 solid;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px #666666 solid;
+}
+#text .warranty h4 {
+    font-size: 13px;
+    font-family: "Arial", "Helvetica", sans-serif;
+    color: #0071bc;
+    margin: 0px 0px 5px 0px;
+    padding: 0px;
+}
+#text .warranty .left {
+    margin-left: 20px;
+    width: 500px;
+}
+#text .warranty .left p {
+    font-size: 13px;
+    margin: 0px;
+    font-family: "Arial", "Helvetica", sans-serif;
+}
+#text .warranty .right {
+    margin-right: 20px;
+    width: 500px;
+}
+#text .warranty .right p {
+    font-size: 13px;
+    margin: 0px;
+    font-family: "Arial", "Helvetica", sans-serif;
+}
+.copy {
+    font-family: "Arial", "Helvetica", sans-serif;
+    text-align: center;
+    font-size: 14px;
+    color: #808080;
+    margin-bottom: 0px;
+}

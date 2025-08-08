@@ -1,0 +1,88 @@
+<div id="contact-us-form" class="box form">
+    <div class="grid-4">
+        <div class="grid-4-2">
+            <p>Full Name</p>
+            <p><input class="box" type="text" id="contact-us-full-name" rel="fullname"></p>
+        </div>
+        <div class="grid-4-2">
+            <p>Phone Number</p>
+            <p><input class="box" type="text" id="contact-us-phone-number" rel="phone"></p>
+        </div>
+    </div>
+    <div class="grid-4">
+        <div class="grid-4-4">
+            <p>Email Address</p>
+            <p><input class="box" type="text" id="contact-us-email-address" rel="mail"></p>
+        </div>
+    </div>
+    <div class="grid-4">
+        <div class="grid-4-4">
+            <p>Comments</p>
+            <p><textarea class="box" id="contact-us-comments"></textarea></p>
+        </div>
+    </div>
+    <div class="g-recaptcha" data-sitekey="6Lf5bpAqAAAAAMRDs7LDzMt4v9S3QsdWAKXbGZ6w"></div>
+    <p><a href="#" id="contact-us-submit" class="submit">Submit</a></p>
+</div>
+
+<script type="text/javascript">
+    var m = null;
+    function __submitPrismForm() {
+        if ( __submittingPrism !== true ) {
+            jQuery( "#contact-us-submit" ).html( "Submitting..." ).animate( { opacity: "0.25" }, 250 );
+            __m = jQuery( "#contact-us-email-address" ).val();
+            jQuery.ajax({
+                type: "GET",
+                url: "https://cloud.pacific54.com/system/mail.php",
+                contentType: "application/json; charset=utf-8",
+                crossDomain: true,
+                dataType: "jsonp",
+                data: {
+                    website: "www.solopcms.com",
+                    full_name: jQuery( "#contact-us-full-name" ).val(),
+                    phone: jQuery( "#contact-us-phone-number" ).val(),
+                    mail: jQuery( "#contact-us-email-address" ).val(),
+                    form: {
+                        comments: jQuery( "#contact-us-comments" ).val(),
+                        url: jQuery( location ).attr( "href" )
+                    }
+                },
+                complete: function() {
+                    __submittingPrism = false;
+                    jQuery( "#contact-us-submit" ).html( "Submit" ).animate( { opacity: "1" }, 250 );
+                    setTimeout( function() {
+                        window.location.href = "<?php echo $this->getUrl( "" ); ?>thank-you/?mail=" + __m + "&seed=" + jQuery.now();
+                    }, 1000 );
+                }
+            });
+        }
+    }
+    jQuery( document ).ready( function() {
+        __intervalPrism = setInterval( function() {
+            try {
+                const recaptchaResponse = grecaptcha.getResponse();
+                
+                if ( typeof( __initPrism ) !== undefined ) {
+                    jQuery("#contact-us-submit").on("click", function (e) {
+                        e.preventDefault();
+                    });
+                    
+                    __checkPrism_A(jQuery( "#contact-us-form" ));
+                    
+                    validation.visuals.initial = "rgba( 255, 255, 255, 1 )";
+                    validation.visuals.background = "rgba( 128, 0, 3, 0.25 )";
+                    validation.visuals.offset_scroll = "disabled";
+                    
+                    if ( recaptchaResponse ) {
+                        __initPrism({
+                            "submit": jQuery( "#contact-us-submit" ),
+                            "form": jQuery( "#contact-us-form" ),
+                            "redirect": "none"
+                        });
+                    }
+                }
+            }
+            catch ( e ) { /* Empty catch */ }
+        }, 100 );
+    });
+</script>

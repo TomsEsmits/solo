@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<layout>
+
+    <sumo_admin_adminhtml_index_index>
+        <reference name="head">
+            <action method="removeItem"><type>js</type><name>prototype/prototype.js</name></action>
+            <action method="addCss"><stylesheet>sumo/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>sumo/css/statistics.css</stylesheet></action>
+            <action method="addCss"><stylesheet>sumo/css/media.css</stylesheet></action>
+            <action method="addJs"><script>sumo/jquery-3.1.0.min.js</script></action>
+            <action method="addJs"><script>prototype/prototype.js</script></action>
+        </reference>
+        
+        <reference name="content">
+            <block type="sumo/sumo" name="sumo_layout" template="sumo/layout.phtml"/>
+        </reference>
+
+    </sumo_admin_adminhtml_index_index>
+
+
+    <sumo_admin_adminhtml_statistics_index>
+        <reference name="head">
+            <action method="removeItem"><type>js</type><name>prototype/prototype.js</name></action>
+            <action method="addCss"><stylesheet>sumo/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>sumo/css/statistics.css</stylesheet></action>
+            <action method="addCss"><stylesheet>sumo/css/media.css</stylesheet></action>
+            <action method="addJs"><script>sumo/jquery-3.1.0.min.js</script></action>
+            <action method="addJs"><script>prototype/prototype.js</script></action>
+        </reference>
+        
+        <reference name="content">
+            <block type="sumo/sumo" name="sumo_layout" template="sumo/layout.phtml"/>
+        </reference>
+
+    </sumo_admin_adminhtml_statistics_index>
+
+
+    <sumo_admin_adminhtml_about_index>
+        <reference name="head">
+            <action method="removeItem"><type>js</type><name>prototype/prototype.js</name></action>
+            <action method="addCss"><stylesheet>sumo/css/styles.css</stylesheet></action>
+            <action method="addCss"><stylesheet>sumo/css/statistics.css</stylesheet></action>
+            <action method="addCss"><stylesheet>sumo/css/media.css</stylesheet></action>
+            <action method="addJs"><script>sumo/jquery-3.1.0.min.js</script></action>
+            <action method="addJs"><script>prototype/prototype.js</script></action>
+        </reference>
+        
+        <reference name="content">
+            <block type="sumo/sumo" name="sumo_layout" template="sumo/layout.phtml"/>
+        </reference>
+
+    </sumo_admin_adminhtml_about_index>
+
+</layout>

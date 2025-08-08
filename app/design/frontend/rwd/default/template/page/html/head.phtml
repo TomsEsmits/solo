@@ -1,0 +1,87 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<!-- Start Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T2KBPSD');</script>
+<!-- End Google Tag Manager -->
+
+<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title><?php echo $this->getTitle() ?></title>
+
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+
+<meta name="twitter:card" content="Solo PCMS PCM ECM ECU Engine Auto Computers" />
+<meta name="twitter:site" content="@dodgepcm" />
+<meta name="twitter:title" content="Solo PCMS PCM ECU ECM Engine Auto Computers" />
+<meta name="twitter:description" content="Solo PCMS is the leading provider of PCM, ECM, and ECU auto omputers" />
+<meta name="twitter:image" content="http://www.solopcms.com/skin/frontend/rwd/default/images/logo.png" />
+<meta name="twitter:url" content="http://www.solopcms.com" />
+<meta name="twitter:creator" content="@dodgepcm" />
+
+<meta property="og:title" content="Solo PCMS PCM ECM ECU Engine Auto Computers"/>
+<meta property="og:image" content="http://www.solopcms.com/skin/frontend/rwd/default/images/logo.png"/>
+<meta property="og:site_name" content="SOLO PCMS PCM ECU ECM Engine Auto Computers"/>
+<meta property="og:description" content="Solo PCMS is a provider of PCM, ECM, ECU, and Engine Auto Computers"/>
+
+<meta name="google-site-verification" content="OKYgkhB36171uiZx5Xn9td1U-vdZS-HXUijseIhWagQ" />
+<meta name="google-site-verification" content="0VMFH8MrM846IjZJkk3afI2bcokKEMwblb7-4Nk1ACo" />
+
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+
+<script type="text/javascript">
+    window.onload = function () {
+        var viewport = document.getElementById( "viewport" );
+        /** viewport.setAttribute( "content", "width=600, user-scalable=no" ); */
+    }
+</script>
+
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+
+<?php $url = "https://dn1qkewum0hvl.cloudfront.net/"; ?>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="//fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700|Raleway:300,400,500,700,600|Dosis:400,700&display=swap" as="style">
+
+<script type="text/javascript" src="<?php echo $url; ?>skin/frontend/rwd/default/js/bjqs.min.js" defer></script>
+<script type="text/javascript" src="<?php echo $url; ?>skin/frontend/rwd/default/js/jquery.sidr.min.js" defer></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.css" integrity="sha512-iVAPZRCMdOOiZWYKdeY78tlHFUKf/PqAJEf/0bfnkxJ8MHQHqNXB/wK2y6RH/LmoQ0avRlGphSn06IMMxSW+xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.js" integrity="sha512-jfp1Gv+A3dHho9qOUUWOrZA6NWR08j7GYVn8VXcRI0FsDb3xe0hQHVwasi2UarjZzPYOxT5uvmlHrWLXQ+M4AQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+

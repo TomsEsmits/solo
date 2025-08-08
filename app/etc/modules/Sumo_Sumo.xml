@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sumo_Sumo>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Sumo_Sumo>
+    </modules>
+</config>

@@ -1,0 +1,23 @@
+<?php
+$this->setSessionData('sumome_site_id',$this->getSiteID());
+$this->skinURL=$this->getSkinUrl('sumo/');
+$this->imageURL=$this->skinURL.'images/';
+
+$block=$this;
+
+$formURL=Mage::helper("adminhtml")->getUrl('sumo_admin/adminhtml_index');
+$formHiddenInput=$block->updateCancelTime();
+
+$indexKey=Mage::helper("adminhtml")->getUrl('sumo_admin/adminhtml_index');
+
+$post = $this->getRequest()->getParams();
+
+$getAction=$this->getRequest()->getParam('action');
+$getPage=$this->getRequest()->getParam('page');
+
+$getChangeSiteKey=$this->getRequest()->getParam('changeSiteKey');
+
+$pluginPath=Mage::getModuleDir('Model', 'Sumo_Sumo');
+
+
+include_once $pluginPath.'/web/sumome-plugin/index.phtml';

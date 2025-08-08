@@ -1,0 +1,346 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<?php 
+$host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+if($host == 'www.solopcms.com/checkout/onepage/success/') 
+{?>
+    
+<?php 
+$orderId = Mage::getSingleton('checkout/session')->getLastOrderId();
+$order = Mage::getModel('sales/order')->load($orderId);
+$orderCurrency      = $order->getBaseCurrencyCode();
+$orderGrandTotal    = $order->getBaseGrandTotal();
+$orderShippingTotal = $order->getBaseShippingAmount();
+$orderTax           = $order->getBaseTaxAmount();
+$orderItems = $order->getAllVisibleItems();
+//exit;
+
+?>
+<script type="text/javascript">
+//<![CDATA[
+    window.dataLayer = window.dataLayer || [];
+    <?php $intCtr=0;?>
+    dataLayer.push({
+      'ecommerce': {
+        'purchase': {
+          'actionField': {
+            'id': '<?php echo $order->getIncrementId()?>',                         // Transaction ID. Required for purchases and refunds.
+            'affiliation': '<?php echo $order->getAffiliation() ?>',
+            'revenue': '<?php echo $orderGrandTotal?>',                     // Total transaction value (incl. tax and shipping)
+            'tax': '<?php echo $orderTax?>',
+            'shipping': '<?php echo $orderShippingTotal?>',
+            'coupon': '<?php echo $order->getCouponCode() ?>'
+          },
+          'products': [
+          <?php foreach($orderItems as $item): ?>
+                <?php $intCtr++;?>
+                <?php if($item->getParentItemId()) continue;?>
+          {
+            'name': '<?php echo $this->jsQuoteEscape($item->getName()) ?>',
+            'id': '<?php echo $this->jsQuoteEscape($item->getSku()) ?>',
+            'price': '<?php echo $item->getBasePrice()?>',
+            'quantity': <?php echo $item->getQtyOrdered()?>
+            <?php if ($intCtr==count($orderItems)):?>
+                }]
+            <?php else:?>
+                },
+            <?php endif;?>
+            <?php endforeach;?>
+        }
+      }
+    });
+//]]>
+</script>
+<?php
+}
+else
+{
+    
+}
+?>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2KBPSD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<?php
+    $currentUrl_2 = Mage::helper('core/url')->getCurrentUrl();
+    $url_2 = Mage::getSingleton('core/url')->parseUrl($currentUrl_2);
+    $path_2 = $url_2->getPath();
+?>
+
+<header class="new-header">
+    <div class="wrapper flex-display">
+        <div>
+            <div class="header-logo">
+            <div>
+                <a href="/">
+                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/xlogo.png.pagespeed.ic.xqXcqJ1HMP.png" alt="Solo PCMS" width="167" height="60">
+                </a>
+            </div>
+            <div>
+                <a href="tel:+18888480144" class="mobile-only mobile-cta-btn">
+                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/phone-icon-solopcms.png" alt="Call Us">
+                    <span>CALL US!</span>
+                </a>
+            </div>
+        </div>
+        <div class="header-contact-info">
+            <p><a href="tel:+18888480144">CALL US! (888) 848-0144</a></p>
+            <p>Mon - Fri. 9am - 6pm ET</p>
+        </div>
+        <div class="header-benefits">
+            <div>
+                <p>
+                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/lifetime.png" height="60" alt="Lifetime Warranty">
+                </p>
+            </div>
+            <div>
+                <p>
+                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/free-shipping.png" height="40" alt="Free US Shipping">
+                </p>
+                <p>
+                    Free US<br>Shipping
+                </p>
+            </div>
+            <div>
+                <p>
+                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/worldwide-shipping.png" height="40" alt="Worldwide Shipping">
+                </p>
+                <p>
+                    We Ship<br>Worldwide
+                </p>
+            </div>
+        </div>
+        <div class="header-account">
+            <div>
+                <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/cart-icon.png" alt="Cart">
+                <a href="http://solopcms.test/checkout/cart/">
+                    <span>Cart (
+                        <?php
+                            $cart2 = Mage::getSingleton('checkout/session')->getQuote();
+                            foreach ($cart2 as $cart_element) {
+                                if(isset($cart_element['items_count'])){
+                                    $cart_content = preg_replace("/[^0-9,.]/", "", $cart_element['items_count']);
+                                }
+                            }
+                            if(isset($cart_content) && $cart_content != ''){
+                                echo $cart_content;
+                            }else{
+                                echo '0';
+                            }
+                        ?>
+                    )
+                    </span></a>
+               
+            </div>
+            <div>
+                <a href="<?php echo $this->helper('customer')->getAccountUrl(); ?>" data-target-element="#header-account" class="skip-link">
+                    <span>
+                        <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/account-icon.png" alt="My Account">
+                    </span>
+                    <span>My Account</span>
+                </a>
+            </div>
+        </div>
+
+        </div>
+        
+    
+        <div  class="desktop-header-nav-container">
+            <div class="mobile-only mobile-header-bar display-flex">
+                <div id="header-nav-icon" class="mobile-hamburger-menu">
+                    <div>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <p>MENU</p>
+                </div>
+                <div id="header-search-icon" class="skip-content">
+                    <span><img src="https://www.solopcms.com/skin/frontend/rwd/default/images/search-icon-solopcms.png" alt="Search"></span>
+                    <p class="label">SEARCH</p>
+                </div>
+                <div id="header-account-icon">
+                    <span><img src="https://www.solopcms.com/skin/frontend/rwd/default/images/solo-account-icon.png" alt="Account"></span>
+                    <p>ACCOUNT</p>
+                </div>
+                 <div class="header-minicart">
+                    <a href="<?php echo $this->helper('checkout/cart')->getCartUrl(); ?>" data-target-element="#header-cart" class="skip-link skip-cart <?php if($_cartQty <= 0): ?> no-count<?php endif; ?>">
+                        <span class="icon"></span>
+                        <span class="label"><?php echo $this->__('Cart'); ?></span>
+                        <span class="count">
+                            <?php
+                            $cart2 = Mage::getSingleton('checkout/session')->getQuote();
+                            foreach ($cart2 as $cart_element) {
+                                if(isset($cart_element['items_count'])){
+                                    $cart_content = preg_replace("/[^0-9,.]/", "", $cart_element['items_count']);
+                                }
+                            }
+                            if(isset($cart_content) && $cart_content != ''){
+                                echo $cart_content;
+                            }else{
+                                echo '0';
+                            }
+                        ?>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <div id="header-cart-new">
+                    <?php echo $this->getChildHtml('minicart_head'); ?>
+                </div>
+                <div id="header-nav" class="skip-content desktop-header-nav">
+                    <?php echo $this->getChildHtml('topMenu') ?>
+                    <div class="scrolled-only">
+                         <div class="header-account">
+                            <div>
+                                <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/cart-icon.png" alt="Cart">
+                                <a href="https://www.solopcms.com/checkout/cart/">
+                                    <span>Cart (
+                                        <?php
+                                            $cart2 = Mage::getSingleton('checkout/session')->getQuote();
+                                            foreach ($cart2 as $cart_element) {
+                                                if(isset($cart_element['items_count'])){
+                                                    $cart_content = preg_replace("/[^0-9,.]/", "", $cart_element['items_count']);
+                                                }
+                                            }
+                                            if(isset($cart_content) && $cart_content != ''){
+                                                echo $cart_content;
+                                            }else{
+                                                echo '0';
+                                            }
+                                        ?>
+                                    )
+                                    </span></a>
+                               
+                            </div>
+                            <div>
+                                <a href="<?php echo $this->helper('customer')->getAccountUrl(); ?>" data-target-element="#header-account" class="skip-link">
+                                    <span>
+                                        <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/account-icon.png" alt="My Account">
+                                    </span>
+                                    <span>My Account</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="header-search" class="skip-content no-desktop">
+                    <?php echo $this->getChildHtml('topSearch') ?>
+                </div>
+                <div id="header-account" class="skip-content mobile-only">
+                    <div class="links">
+                        <ul>
+                            <li class="first"><a href="https://www.solopcms.com/customer/account/" title="My Account">My Account</a></li>
+                            <li><a href="https://www.solopcms.com/wishlist/" title="My Wishlist">My Wishlist</a></li>
+                            <li><a href="https://www.solopcms.com/checkout/cart/" title="My Cart" class="top-link-cart">My Cart</a></li>
+                            <li><a href="https://www.solopcms.com/checkout/" title="Checkout" class="top-link-checkout">Checkout</a></li>
+                            <li><a href="https://www.solopcms.com/customer/account/create/" title="Register">Register</a></li>
+                            
+                            <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) : ?>
+                                <li class=" last"><a href="https://www.solopcms.com/customer/account/login/" title="Log In">Log In</a></li>
+                            <?php else : ?>
+                                <a href="https://www.solopcms.com/customer/account/logout/" title="Log Out">Log Out</a>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+    function mobileMenuDropdown(){
+        if (jQuery(window).width() < 960 && jQuery(window).width() > 769) {
+            jQuery('li.parent').off();
+            jQuery('.new-header .nav-primary .has-children').on("click", function(){
+                event.preventDefault();
+                jQuery(this).parent().toggleClass('menu-active');
+                console.log('script working');
+            });
+        }else if(jQuery(window).width() >= 960){
+            jQuery('li.parent').on('mouseover', function(){
+                jQuery(this).addClass('menu-active');
+            });
+            jQuery('li.parent').on('mouseleave', function(){
+                jQuery(this).removeClass('menu-active');
+            });
+        }
+    }
+    jQuery(document).ready(function(){
+        
+        jQuery(window).bind('scroll', function () {
+            if (jQuery(window).scrollTop() > 160) {
+                jQuery('.new-header').addClass('scrolled');
+                jQuery('body').addClass('page-is-scrolled');
+            } else {
+                jQuery('.new-header').removeClass('scrolled');
+                jQuery('body').removeClass('page-is-scrolled');
+            }
+        });
+        
+        jQuery('#header-nav-icon').on('click', function(){
+            jQuery('#header-search, #header-account, #header-minicart, .header-minicart .skip-cart').removeClass('active');
+            jQuery('#header-cart').removeClass('skip-active');
+            jQuery('#header-nav').toggleClass('active');
+        });
+        
+        jQuery('#header-search-icon').on('click', function(){
+            jQuery('#header-nav, #header-account, #header-minicart, .header-minicart .skip-cart').removeClass('active');
+            jQuery('#header-cart').removeClass('skip-active');
+            jQuery('#header-search').toggleClass('active');
+        });
+        
+        jQuery('#header-account-icon').on('click', function(){
+            jQuery('#header-nav, #header-search, #header-minicart, .header-minicart .skip-cart').removeClass('active');
+            jQuery('#header-cart').removeClass('skip-active');
+            jQuery('#header-account').toggleClass('active');
+        });
+        
+        jQuery('#header-minicart-icon').on('click', function(){
+           jQuery('#header-nav, #header-search, #header-account, .header-minicart .skip-cart').removeClass('active');
+           jQuery('#header-cart').removeClass('skip-active');
+           jQuery('#header-minicart').toggleClass('active');
+        });
+        
+        jQuery('.header-minicart .skip-cart').on('click', function(){
+           jQuery('#header-nav, #header-search, #header-account').removeClass('active');
+           jQuery('#header-minicart').toggleClass('active');
+        });
+        
+        mobileMenuDropdown();
+    });
+    jQuery( window ).resize(function() {
+        mobileMenuDropdown();
+    });
+</script>
+
+<?php echo $this->getChildHtml('topContainer'); ?>

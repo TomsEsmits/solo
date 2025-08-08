@@ -1,0 +1,162 @@
+<div class="page-title checkout-title" style="display: none;">
+    <h1><?php echo Mage::getStoreConfig('firecheckout/general/title') ?></h1>
+    <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) : ?>
+    <p class="firecheckout-login-wrapper">
+        <a href="<?php echo $this->getUrl('customer/account/login') ?>" class="firecheckout-login">
+            <span><span><?php echo $this->__('Already registered? Login into your account') ?></span></span>
+        </a>
+    </p>
+    <?php endif; ?>
+
+    <?php $subtitle = trim(Mage::getStoreConfig('firecheckout/general/subtitle')); ?>
+    <?php if ($subtitle) : ?>
+        <div class="checkout-subtitle">
+            <?php echo $this->__($subtitle) ?>
+        </div>
+    <?php endif ?>
+</div>
+
+<?php
+    echo $this->getMessagesBlock()->getGroupedHtml();
+    $this->getMessagesBlock()->getMessageCollection()->clear();
+?>
+
+<?php
+    $topContainer = $this->getChildHtml('firecheckout.top.container');
+    $topContainer = trim($topContainer);
+    if (strlen($topContainer)) :
+?>
+    <div class="firecheckout-top-container">
+        <?php echo $topContainer ?>
+    </div>
+<?php endif ?>
+
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('tm/firecheckout/js/firecheckout.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('tm/firecheckout/js/firecheckout-compatibility.js') ?>"></script>
+<script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
+<script type="text/javascript">FC.Ajax.rules = <?php echo Mage::helper('core')->jsonEncode(Mage::helper('firecheckout/ajax')->getRules()) ?></script>
+
+<div class="wrapper-with-hidden-content">
+    <div class="page-title checkout-title">
+        <h1><?php echo Mage::getStoreConfig('firecheckout/general/title') ?></h1>
+
+        <?php $subtitle = trim(Mage::getStoreConfig('firecheckout/general/subtitle')); ?>
+        <?php if ($subtitle) : ?>
+            <div class="checkout-subtitle">
+                <?php echo $this->__($subtitle) ?>
+            </div>
+        <?php endif ?>
+
+        <?php if (!Mage::getSingleton('customer/session')->isLoggedIn()) : ?>
+            <p class="firecheckout-login-wrapper">
+                <a href="<?php echo $this->getUrl('customer/account/login') ?>" class="firecheckout-login">
+                    <div>
+                        <figure>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                <path d="M13.5 21C13.2167 21 12.9793 20.904 12.788 20.712C12.5967 20.52 12.5007 20.2827 12.5 20C12.4993 19.7173 12.5953 19.48 12.788 19.288C12.9807 19.096 13.218 19 13.5 19H19.5V5H13.5C13.2167 5 12.9793 4.904 12.788 4.712C12.5967 4.52 12.5007 4.28267 12.5 4C12.4993 3.71733 12.5953 3.48 12.788 3.288C12.9807 3.096 13.218 3 13.5 3H19.5C20.05 3 20.521 3.196 20.913 3.588C21.305 3.98 21.5007 4.45067 21.5 5V19C21.5 19.55 21.3043 20.021 20.913 20.413C20.5217 20.805 20.0507 21.0007 19.5 21H13.5ZM11.675 13H4.5C4.21667 13 3.97934 12.904 3.788 12.712C3.59667 12.52 3.50067 12.2827 3.5 12C3.49934 11.7173 3.59534 11.48 3.788 11.288C3.98067 11.096 4.218 11 4.5 11H11.675L9.8 9.125C9.61667 8.94167 9.525 8.71667 9.525 8.45C9.525 8.18333 9.61667 7.95 9.8 7.75C9.98334 7.55 10.2167 7.44567 10.5 7.437C10.7833 7.42833 11.025 7.52433 11.225 7.725L14.8 11.3C15 11.5 15.1 11.7333 15.1 12C15.1 12.2667 15 12.5 14.8 12.7L11.225 16.275C11.025 16.475 10.7877 16.571 10.513 16.563C10.2383 16.555 10.0007 16.4507 9.8 16.25C9.61667 16.05 9.52934 15.8127 9.538 15.538C9.54667 15.2633 9.64234 15.034 9.825 14.85L11.675 13Z" fill="#3873A0"/>
+                            </svg>
+                        </figure>
+                        <span class="weight-regular"><?php echo $this->__('Already registered?') ?></span>
+                        <span class="weight-bold"><?php echo $this->__('Login into your account') ?></span>
+                    </div>
+                </a>
+            </p>
+        <?php endif; ?>
+    </div>
+    <div class="step-wrapper">
+        <div class="step-item item-active" data-step="2">
+            <div class="step-counter">1</div>
+            <p class="step-text">Billing Address</p>
+        </div>
+        <div class="step-item" data-step="3">
+            <div class="step-counter">2</div>
+            <p class="step-text">shipping method</p>
+        </div>
+        <div class="step-item" data-step="4">
+            <div class="step-counter">3</div>
+            <p class="step-text">Payment method</p>
+        </div>
+        <div class="step-item" data-step="5">
+            <div class="step-counter">4</div>
+            <p class="step-text">Checkout Review</p>
+        </div>
+    </div>
+    <form action="" id="firecheckout-form" method="post">
+        <?php echo $this->getBlockHtml('formkey') ?>
+        <?php
+        if ($blockId = Mage::getStoreConfig('firecheckout/additional_content/top')) :
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockId)->toHtml();
+        endif;
+        ?>
+        <div class="clearer"></div>
+
+        <div class="col2-fire-set firecheckout-set">
+            <div class="col-fire-1">
+                <div class="firecheckout-section address-section">
+                    <?php
+                        foreach (array('billing.address', 'shipping.address') as $block) {
+                            if (!$this->getChild($block) || !$this->getChild($block)->isShow()) {
+                                continue;
+                            }
+                            echo $this->getChildHtml($block);
+                        }
+                    ?>
+                    
+                    <button data-step="2" class="checkout-next-step">Next</button>
+                </div>
+            </div>
+
+            <?php
+                $shippingMethods = $this->getChildHtml('shipping.method');
+                $columnClass = 'col2-set ';
+                if (!$shippingMethods || 'col2-set-alt' === Mage::getStoreConfig('firecheckout/general/layout')) {
+                    $columnClass = '';
+                }
+            ?>
+            <div class="col-fire-2">
+                <div class="<?php echo $columnClass ?>">
+                    <div class="col-1">
+                        <?php echo $this->getChildHtml('shipping.method') ?>
+                    </div>
+                    <div class="col-2">
+                        <?php echo $this->getChildHtml('payment.method') ?>
+                    </div>
+                </div>
+                <?php echo $this->getChildHtml('checkout.additional.information'); // it's not used since 3.8 ?>
+                <?php echo $this->getChildHtml('review') ?>
+            </div>
+        </div>
+
+        <?php
+        if ($blockId = Mage::getStoreConfig('firecheckout/additional_content/bottom')) :
+            echo $this->getLayout()->createBlock('cms/block')->setBlockId($blockId)->toHtml();
+        endif;
+        ?>
+        <div class="clearer"></div>
+    </form>
+</div>
+
+<?php echo $this->getChildHtml('customer.login') ?>
+<?php echo $this->getChildHtml('customer.forgot') ?>
+<?php if (Mage::helper('core')->isModuleOutputEnabled('RedPandaPlus_OrderAttachments')) : ?>
+    <?php $customer = Mage::getSingleton('customer/session')->getCustomer(); ?>
+    <?php $customerCanUploadAttachment = Mage::helper('redpandaplus_orderattachments')->customerCanUploadAttachment($customer); ?>
+    <?php $canAddAttachments = Mage::helper('redpandaplus_orderattachments')->getCanAddAttachments(); ?>
+    <?php if ($customerCanUploadAttachment && $canAddAttachments): ?>
+        <div id="firecheckout-attachments-window" style="display: none;">
+            <div class="order-attachments">
+                <?php echo $this->getChildHtml('order_attachments') ?>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+<?php if (Mage::helper('core')->isModuleOutputEnabled('Mage_Persistent')) : ?>
+    <?php echo $this->getChildHtml('persistent.login') ?>
+<?php endif; ?>
+<div id="checkout-centinel-iframe-load" style="display: none;"></div>
+<div id="checkout-paypaliframe-load" class="authentication" style="display: none;"></div>
+<div id="checkout-sagepay-iframe-load"></div>
+<form id="co-payment-form" method="post" action=""></form>
+
+<?php echo $this->getChildHtml('firecheckout.scripts') ?>
+<?php echo $this->getChildHtml('firecheckout.custom') ?>

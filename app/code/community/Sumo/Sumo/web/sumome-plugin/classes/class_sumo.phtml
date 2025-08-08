@@ -1,0 +1,77 @@
+<?php
+// @codingStandardsIgnoreFile
+namespace mps;
+
+class Magento_Plugin_Sumo {
+  public function __construct($magentoThis,$block="") {
+    $this->dataSumoPlatform="magento";
+    $this->magentoThis=$magentoThis;
+    $this->block=$block;
+  }
+
+
+  public function sanitize_site_id($value) {
+    $value = preg_replace('/[^0-9a-f]/', '', strtolower($value));
+
+    return $value;
+  }
+
+  public function sumome_generate_site_id() {
+    if (!isset($site_id) || Magento_Plugin_SumoMe::blacklisted_site_id($site_id)) {
+      list($usec, $sec) = explode(' ', microtime());
+      $sumoSeed=(float) $sec + ((float) $usec * 100000);
+
+      mt_srand($sumoSeed);
+      $site_id='';
+      for ($i=0;$i<8;$i++) {
+        $site_id.=substr(dechex(mt_rand()).'000000000',2,8);
+      }
+
+      return $site_id;
+    }
+  }
+
+  private function blacklisted_site_id($site_id) {
+    $blacklist=array("8ce3f35797bf87c1644e567db13d9b3c2d9422027c10a7874b3446c9283c9aad");
+    if ($site_id && in_array($site_id, $blacklist)) return true;
+  }
+
+
+  public function append_admin_script_code() {
+    $site_id=$this->block->getSessionData('sumome_site_id');
+
+    if ($site_id) {
+      include  __DIR__.'/../js/preload.phtml';
+      echo('<script data-cfasync="false" src="//load.sumome.com/" data-sumo-platform="'.$this->dataSumoPlatform.'" data-platform-version="1" data-sumo-mode="admin" data-sumo-site-id="' . $site_id . '" async></script>');
+
+    }
+  }
+
+
+
+
+  function loading_div() {
+      ?>
+      <div class="sumome-plugin-main sumome-loading-container">
+          <div class="loading"></div>
+      </div>
+      <?php
+  }
+
+  function admin_url($path) {
+    return $path;
+  }
+  function views_url($path,$dirname="") {
+    return 'index.phtml?page='.$path;
+  }
+  function plugins_url($path,$dirname="") {
+    return ''.$path;
+  }
+  function esc_js() {
+
+  }
+  function get_option() {
+
+  }
+
+}

@@ -1,0 +1,64 @@
+<?php
+require 'classes/class_sumo.phtml';
+// @codingStandardsIgnoreFile
+
+use mps\Magento_Plugin_Sumo;
+$magento_plugin_sumome = new Magento_Plugin_Sumo('',$block);
+
+
+if (isset($getAction) && $getAction=='logout') {
+	setcookie("__smUser", "", time() - 3600);
+
+	$magento_plugin_sumome->loading_div();
+	?>
+	<script>document.location.href='index.phtml';</script>
+	<?php
+} else {
+
+	if(isset($_COOKIE['__smUser']) && !isset($getPage)) {
+	  $getPage="dashboard";
+	}
+	if (isset($getPage)) {
+	  $pageArray['about']=array("page"=>"dashboard-welcome-page","title"=>"About");
+	  $pageArray['dashboard']=array("page"=>"main","title"=>"Dashboard");
+	  $pageArray['statistics']=array("page"=>"statistics","title"=>"Statistics");
+	  $pageArray['siteID']=array("page"=>"siteID","title"=>"Site ID");
+
+	  $page=$pageArray[$getPage];
+	}
+
+	$magento_plugin_sumome->append_admin_script_code();
+	include $magento_plugin_sumome->plugins_url('js/general.phtml');
+
+
+	$unlocked=false;
+	$mainCSS="";
+	$loadingCSS="";
+	if (isset($getPage) && (isset($_COOKIE['__smUser']) || $getPage=="siteID")) {
+		$unlocked=true;
+		$mainCSS="hidden";
+	} else {
+		$loadingCSS="hidden";
+	}
+	if ($getPage=="siteID") $loadingCSS="hidden";
+	?>
+
+	<div class="sumome-plugin-body">
+		<div class="sumome-plugin-main <?php print $mainCSS?>">
+		<?php
+		if ($unlocked==true) {
+			include $magento_plugin_sumome->plugins_url('views/'.$page['page'].'.phtml');
+		} else {
+			include $magento_plugin_sumome->plugins_url('views/dashboard-welcome-page.phtml');
+		}
+		?>
+		</div>
+		<div class="sumome-plugin-main sumome-pre-loading <?php print $loadingCSS?>">
+          <div class="loading"></div>
+      </div>
+	</div>
+
+
+
+<?php
+}

@@ -1,0 +1,162 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+    $_product = $this->getProduct();
+    $condition = strtolower( $_product->getAttributeText( "condition" ) );
+?>
+<?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php /* if($_product->isSaleable()): */ ?>
+    <div class="add-to-cart">
+        
+            <?php if(!$_product->isGrouped()): ?>
+                <div class="qty-wrapper">
+                    <label for="qty"><?php echo $this->__('Qty:') ?></label>
+                    <input type="text" pattern="\d*" name="qty" id="qty" maxlength="12" value="<?php echo max($this->getProductDefaultQty() * 1, 1) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                </div>
+            <?php endif; ?>
+            <div class="add-to-cart-buttons">
+                <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart green-btn" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+                <?php //echo $this->getChildHtml('', true, true) ?>
+            </div>
+        <?php /* 
+        <a style="width: 240px;" id="get-a-call-back" href="<?php echo $this->getUrl( "" ) ?>contact-us/" class="float-right button button-green">Question? Get A Call Back</a>
+        <div class="get-a-call-back">
+            
+            <div id="click-to-call">
+                <label>Call Us! (800) 886-9927 Or let us call you!</label>
+                <input id="click-to-call-npa" type="text" onkeyup="__focus( this, 'click-to-call-nnx', 3 );" maxlength="3" size="3" name="npa">
+                <input id="click-to-call-nnx" type="text" onkeyup="__focus( this, 'click-to-call-lin', 3 );" maxlength="3" size="3" name="nnx">
+                <input id="click-to-call-lin" type="text" onkeyup="__focus( this, 'click-to-call-submitbtn', 4 );" maxlength="4" size="4" name="lin">
+                <a id="click-to-call-submitbtn" class="button" href="javascript: request_call_local();">Connect</a>
+            </div>
+            
+        </div>
+        */ ?>
+    </div>
+    <script type="text/javascript">
+        ( function( $ ) {
+            $( document ).ready( function() {
+                var g = $( "#get-a-call-back" );
+                var h = $( ".get-a-call-back" );
+                
+                if ( g.length == 0 || h.length == 0 ) {
+                    return;
+                }
+                
+                h.css( { top: g.position().top - h.outerHeight() - 3, left: g.position().left - ( ( h.outerWidth() - g.outerWidth() ) / 2 ) } );
+                g.data( { "click": true } ).click( function( e ) {
+                    e.preventDefault();
+                    var object = $( this );
+                    if ( object.data( "click" ) == true ) {
+                        h.fadeIn( 250 );
+                        g.html( "Close" );
+                    }
+                    else {
+                        h.fadeOut( 250 );
+                        g.html( "Question? Get A Call Back" );
+                    }
+                    object.data( { "click": !object.data( "click" ) } );
+                });
+            });
+        })( jQuery );
+    </script>
+    <script type="text/javascript">
+        /* Edit those values as you need! */
+        var web_call = {
+            domain: "www.solopcms.com",
+            __processing_click_to_call: function( id ) {
+                jQuery( "#click-to-call-submitbtn" ).animate( { opacity: "0.25" } );
+            },
+            __connected_click_to_call: function( id ) {
+                jQuery( "#click-to-call-submitbtn" ).animate( { opacity: "1" } );
+            },
+            __validate_click_to_call: function() {
+                alert( "Sorry, the phone number you entered does not have 10 digits!" );
+            },
+            __callback_click_to_call: function( data ) {
+                trimmed = data.message.replace(/\n/g, '');
+                alert( trimmed );
+            }
+        }
+        /* End values to be edited. */
+        var request = false;
+        try {
+            request = new XMLHttpRequest();
+        }
+        catch ( trymicrosoft ) {
+            try {
+                request = new ActiveXObject( "Msxml2.XMLHTTP" );
+            }
+            catch ( othermicrosoft ) {
+                try {
+                    request = new ActiveXObject( "Microsoft.XMLHTTP" );
+                }
+                catch ( failed ) {
+                    request = false;
+                }
+            }
+        }
+        function __focus( element, item, value ) {
+            if ( element.value.length == value ) {
+                document.getElementById( item ).focus();
+            }
+        }
+        function update_status_message() {
+            if ( request.readyState < 4 ) {
+                web_call.__processing_click_to_call( "click-to-call-submitbtn" );
+            }
+            else {
+                if ( request.readyState == 4 ) {
+                    web_call.__connected_click_to_call( "click-to-call-submitbtn" );
+                    eval( request.responseText );
+                }
+            }
+        }
+        function request_call_local() {
+            if ( !request ) {
+                alert( "Sorry, Click to Call will not work with your browser!" );
+            }
+            else {
+                var phone = document.getElementById( "click-to-call-npa" ).value.concat( document.getElementById( "click-to-call-nnx" ).value ).concat( document.getElementById( "click-to-call-lin" ).value );
+                if ( validate_phone( phone ) ) {
+                    var url = "https://" + web_call.domain + "/click-to-proxy.php?phone_number=" + escape( phone );
+                    request.onreadystatechange = update_status_message;
+                    request.open( "GET", url, true );
+                    request.send( null );
+                }
+            }
+        }
+        function validate_phone( phone ) {
+            if ( phone.length != 10 ) {
+                web_call.__validate_click_to_call();
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+<?php /* endif; */ ?>

@@ -1,0 +1,16 @@
+<?php
+    $bonuses = array(
+        array('icon' => 'shield', 'title' => 'Lifetime Warranty', 'description' => 'You can rely on us to provide prompt, professional service and top-quality products'),
+        array('icon' => 'money', 'title' => 'Save Up to 80%', 'description' => 'By using our quality remanufactured auto computers backed by our lifetime warranty'),
+        array('icon' => 'truck', 'title' => 'Same Day Shipping', 'description' => 'You can rely on us to provide prompt, professional service and top-quality products')
+    );
+?>
+<section class="feature-banner">
+    <?php foreach ($bonuses as $bonuss): ?>
+        <div class="feature-item">
+            <span class="feature-icon <?php echo $bonuss['icon']; ?>"></span>
+            <h3 class="feature-title"><?php echo $bonuss['title']; ?></h3>
+            <p class="feature-description"><?php echo $bonuss['description']; ?></p>
+        </div>
+    <?php endforeach; ?>
+</section>

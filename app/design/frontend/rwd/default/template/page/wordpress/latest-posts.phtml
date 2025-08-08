@@ -1,0 +1,42 @@
+<?php
+	include( $_SERVER[ 'DOCUMENT_ROOT' ] . "/blog/wp-load.php" );
+	$posts = get_posts(
+		array(
+			"post_status" => "publish",
+			"posts_per_page" => 3,
+			"post_type" => "post"
+		)
+	);
+	function get_featured_image( $id ) {
+		global $post;
+		$id = ( $id == null ) ? $post->ID : $id;
+		return wp_get_attachment_url( get_post_thumbnail_id( $id ) );
+	}
+?>
+
+<section id="wordpress-posts">
+	<div class="content">
+		<h2>VISIT OUR KNOWLEDGE BASE</h2>
+		<div class="grid-3">
+			<?php foreach ( $posts as $p ) : ?>
+				<div class="grid-3-1">
+					<div class="square"  data-post-page="<?php echo get_permalink( $p->ID ); ?>" style="background-image: url( '<?php echo get_featured_image( $p->ID ); ?>' );">
+						<div>
+							<h3><?php echo $p->post_title; ?></h3>
+							<p><a href="<?php echo get_permalink( $p->ID ); ?>">Continue Reading →</a></p>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+
+<script>
+	jQuery(document).ready(function(){
+		jQuery("#wordpress-posts .square").click( function(){
+			var linkData = jQuery(this).attr("data-post-page");
+			window.location.href = linkData;
+		});
+	});
+</script>

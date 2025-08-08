@@ -1,0 +1,78 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.solopcms.com/sitemap.xml
+
+##### Directories ##### 
+
+Disallow: /404/
+Disallow: /app/
+Disallow: /cgi-bin/
+Disallow: /downloader/
+Disallow: /includes/
+Disallow: /lib/
+Disallow: /magento/
+Disallow: /pkginfo/
+Disallow: /report/
+Disallow: /stats/
+Disallow: /var/
+Disallow: /privacy-policy/
+
+##### Paths (clean URLs) #####
+
+Disallow: /catalog/product_compare/
+Disallow: /checkout/
+Disallow: /control/
+Disallow: /contacts/
+Disallow: /customer/
+Disallow: /customize/
+Disallow: /newsletter/
+Disallow: /poll/
+Disallow: /review/
+Disallow: /sendfriend/
+Disallow: /tag/
+Disallow: /wishlist/
+Disallow: /magmi/
+Disallow: /eBay/
+Disallow: /__images/
+Disallow: /phpmyadmin/
+
+##### Files #####
+
+Disallow: /cron.php
+Disallow: /cron.sh
+Disallow: /error_log
+Disallow: /install.php
+Disallow: /LICENSE.html
+Disallow: /LICENSE.txt
+Disallow: /LICENSE_AFL.txt
+Disallow: /STATUS.txt
+Disallow: /skin/frontend/default/theme384/js/ajaxwishlist/
+Disallow: /skin/frontend/enterprise/mobile/images/custom/
+Disallow: /skin/frontend/em0006/default/js/mage/
+Disallow: /skin/frontend/default/theme384/images/prettyPhoto/
+Disallow: /skin/frontend/em0006/default/images/catalog/product/placeholder/
+Disallow: /skin/frontend/default/theme384/images/prettyPhoto/light_square/
+Disallow: /skin/frontend/default/default/aw_blog/
+Disallow: /skin/frontend/default/default/aw_blog/images/
+Disallow: /skin/frontend/default/theme384/css/webandpeople/
+Disallow: /skin/frontend/default/hellomagento/css/
+Disallow: /skin/frontend/em0006/default/
+Disallow: /skin/frontend/em0006/default/css/
+Disallow: /skin/frontend/default/mapple/images/media/
+Disallow: /skin/frontend/default/mapple/images/xmlconnect/catalog/category/placeholder/
+Disallow: /skin/frontend/default/blank/images/
+Disallow: /skin/frontend/default/default/
+Disallow: /skin/frontend/base/default/images/xmlconnect/catalog/category/
+Disallow: /skin/frontend/base/default/lib/prototype/windows/themes/magento/
+Disallow: /skin/install/default/default/images/
+Disallow: /skin/frontend/base/default/images/
+Disallow: /skin/frontend/default/
+
+User-agent: SemrushBot
+Crawl-delay: 5
+
+User-agent: SiteAuditBot
+Crawl-delay: 5
+
+User-agent: AhrefsBot
+Crawl-delay: 5

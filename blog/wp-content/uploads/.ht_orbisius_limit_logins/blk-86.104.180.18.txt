@@ -1,0 +1,1 @@
+Mon, 18 Dec 2017 12:45:01 +0000: Login attempted with username: [admin], password: [n/a or not supplied]

@@ -1,0 +1,631 @@
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
+<div class="product-view" itemscope itemtype="http://schema.org/Product">
+    <meta itemprop="itemCondition" content="refurbished">
+    <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+        <meta itemprop="reviewCount" content="<?php $min=20; $max=60; echo rand($min,$max);?>">
+        <meta itemprop="worstRating" content="0">
+        <meta itemprop="bestRating" content="5">
+        <meta itemprop="ratingValue" content="<?php $min=3; $max=5; echo rand($min,$max);?>">
+    </div>
+    <meta itemprop="brand" content="<?php echo $_product->getAttributeText('make');?>" >
+    <meta itemprop="model" content="<?php echo $_product->getModel();?>" >
+    <meta itemprop="sku" content="<?php echo strtolower( $_product->getSku() ); ?>" >
+    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <?php if($_product->isAvailable()): ?>
+            <link itemprop="availability" href="http://schema.org/InStock" />
+        <?php endif; ?>
+        <meta itemprop="price" content="<?php echo number_format($_product->getPrice(), '2', '.', ',');?>" >
+        <meta itemprop="priceCurrency" content="USD" >
+        <meta itemprop="priceValidUntil" content="12/31/<?php echo date( "Y" ) + 1; ?>" >
+        <meta itemprop="url" content="<?php echo $_product->getProductUrl(); ?>" >
+    </div>
+
+    <div class="product-essential">
+        <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <?php echo $this->getBlockHtml('formkey') ?>
+            <div class="no-display">
+                <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+                <input type="hidden" name="related_product" id="related-products-field" value="" />
+            </div>
+            <div class="display-flex service-only-left-container">
+                <div class="display-flex service-only-left-container-top">
+                    <div class="service-only-left-sidebar">
+                        <div class="product-img-box">
+                            <?php echo $this->getChildHtml('media') ?>
+                        </div>
+                        <div class="clear"></div>
+                        <?php
+                            $detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml');
+                            echo $detailedInfoGroup[ "additional" ];
+                        ?>
+                    </div>
+                    <div class="service-only-center-content">
+                        <h1 itemprop="name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                        <hr class="thin-line">
+                        <div class="clear"></div>
+                        <?php if ($_product->getDescription()):?>
+                            <div class="short-description" itemprop="description">
+                                <?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?>
+                            </div>
+                            <hr class="thin-line">
+                        <?php endif;?>
+                        <p class="availability in-stock"><span class="value">Repair Service Only</span></p>
+                        <hr class="thin-line">
+                        <div class="price-box-s-p">
+                            <?php echo $this->getPriceHtml($_product); ?>
+                            <?php echo $this->getChildHtml('bundle_prices') ?>
+                            <?php echo $this->getTierPriceHtml() ?>
+                        </div>
+                        
+                        <!-- isSaleable: <?php var_dump( $_product->isSaleable() ); ?> -->
+                        <!-- hasOptions: <?php var_dump( $this->hasOptions() ); ?> -->
+                        
+                        <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                            <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                        <?php else : ?>
+                            <div class="product-options-bottom">
+                                <?php echo $this->getChildHtml('product_type_data') ?>
+                                <?php echo $this->getChildHtml('extrahint') ?>
+                                <?php if (!$this->hasOptions()):?>
+                                    <div class="add-to-box">
+                                        <?php if($_product->isSaleable()): ?>
+                                            <?php echo $this->getChildHtml('addtocart') ?>
+                                            <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                                <span class="or"><?php echo $this->__('OR') ?></span>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                        <?php echo $this->getChildHtml('addto') ?>
+                                    </div>
+                                    <?php echo $this->getChildHtml('extra_buttons') ?>
+                                <?php elseif (!$_product->isSaleable()): ?>
+                                    <div class="add-to-box">
+                                        <?php echo $this->getChildHtml('addto') ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php 
+                            echo $this->getChildHtml('addtocartnew');
+                            $detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml');
+                            echo $detailedInfoGroup[ "additional" ];
+                        ?>
+                        <p class="pre-social">Share and Recommend This Item:</p>
+                        <div class="display-flex share-recommend">
+                            <div>
+                                <div class="social">
+                                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $currentUrl; ?>">
+                                        <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/facebook.png" alt="Facebook">
+                                    </a>
+                                    <a target="_blank" href="https://twitter.com/home?status=<?php echo $currentUrl; ?>">
+                                        <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/twitter.png" alt="Twitter">
+                                    </a>
+                                    <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $currentUrl; ?>&title=&summary=&source=">
+                                        <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/linkedin.png" alt="LinkedIn">
+                                    </a>
+                                </div>
+                                <div class="fb-share-button" data-href="<?php echo $currentUrl; ?>" data-layout="button_count"></div>
+                                <br><br>
+                                <div id="fb-root"></div>
+                                <script>
+                                    (function(d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (d.getElementById(id)) return;
+                                    js = d.createElement(s); js.id = id;
+                                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                    }(document, 'script', 'facebook-jssdk'));
+                                </script>
+                            </div>
+                            <div>
+                                <a href="tel:+18008869926">Call Us: 800.886.9926</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="product-description-benefits">
+                        <div>
+                            <div>
+                                <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/place-order-min.png" alt="Place Order" width="84" height="82" />
+                            </div>
+                            <p>
+                                <span class="blue-span-title">1. Place your order</span>
+                                Place your order online and checkout. If you have any questions, contact us through live chat or give us a call!
+                            </p>
+                        </div>
+                        <div>
+                            <div>
+                                <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/send-old-computer-min.png" alt="Send us your computer" width="93" height="92">
+                            </div>
+                            <p>
+                                <span class="blue-span-title">2. Send us your computer</span>
+                                After you check out, mail your computer to 14361 SW 120th Street Unit 106, Miami, FL 33186.
+                            </p>
+                        </div>
+                        <div>
+                            <div>
+                                <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/quality-check-min.png" alt="Quality check" width="71" height="93">
+                            </div>
+                            <p>
+                                <span class="blue-span-title">3. Quality check</span>
+                                We'll fully repair, program, and test your computer to make sure it is in full working order. After that, it will be shipped to your door.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="service-details-box">
+                        <div class="service-details-title">SERVICE DETAILS</div>
+                        <div class="service-details-content">
+                            <hr class="thin-line hide-on-mobile">
+                            <h4>12 Month Guarantee!</h4>
+                            <p>The process of repairing your control module involves assessing the symptoms of your module, calibrating the codes, and an internal and external inspection. Once the preliminary testing is complete our in-house techs will have the necessary information to get the job done. Before we send your repaired unit back Solo Auto will test the functionality of the unit, update the programming codes and finally retest the functionality. <b>If you need your <b>ECM computer module</b> repair simply send it to us at 14361 SW 120th Street Unit 106, Miami, FL 33186. Call us today at <a href="tel:+18888480144">888.848.0144</a> for a free estimate!</b></p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="mobile-recently-viewed">
+                        <div class="mobile-recently-viewed-title">
+                            Recently Viewed Products
+                        </div>
+                        <div class="mobile-recently-viewed-content">
+                            <?php
+                                $collection = Mage::getSingleton('Mage_Reports_Block_Product_Viewed')->getItemsCollection();
+                                
+                                foreach ($collection as $_recentlyProduct):
+                                    $product_id = $_recentlyProduct->_data[ "product_id" ];
+                                    $_product = Mage::getModel('catalog/product')->load( $product_id ); ?>
+                                    
+                                    <div class="mobile-recently-viewed-box">
+                                        <div class="thumbnail">
+                                            <img src="<?php echo Mage::helper( "catalog/image" )->init( $_product, "image" )->resize( 50, 50 ); ?>" width="50px" height="50px" alt="<?php echo $_product->getName(); ?>">
+                                        </div>
+                                        <div>
+                                            <?php echo $_product->getName(); ?>
+                                        </div>
+                                        <div>
+                                            <a href="<?php echo $_product->getProductUrl(); ?>">View product</a>
+                                        </div>
+                                    </div>
+                                <?php endforeach;
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <script type="text/javascript">//<![CDATA[
+            var productAddToCartForm = new VarienForm('product_addtocart_form');
+            productAddToCartForm.submit = function(button, url) {
+                if (this.validator.validate()) {
+                    var form = this.form;
+                    var oldUrl = form.action;
+                    if (url) {
+                       form.action = url;
+                    }
+                    var e = null;
+                    try {
+                        this.form.submit();
+                    } catch (e) {
+                    }
+                    this.form.action = oldUrl;
+                    if (e) {
+                        throw e;
+                    }
+                    if (button && button != 'undefined') {
+                        button.disabled = true;
+                    }
+                }
+            }.bind(productAddToCartForm);
+            productAddToCartForm.submitLight = function(button, url){
+                if(this.validator) {
+                    var nv = Validation.methods;
+                    delete Validation.methods['required-entry'];
+                    delete Validation.methods['validate-one-required'];
+                    delete Validation.methods['validate-one-required-by-name'];
+                    for (var methodName in Validation.methods) {
+                        if (methodName.match(/^validate-datetime-.*/i)) {
+                            delete Validation.methods[methodName];
+                        }
+                    }
+                    if (this.validator.validate()) {
+                        if (url) {
+                            this.form.action = url;
+                        }
+                        this.form.submit();
+                    }
+                    Object.extend(Validation.methods, nv);
+                }
+            }.bind(productAddToCartForm);
+        //]]></script>
+    </div>
+
+    <?php echo $this->getChildHtml('upsell_products') ?>
+</div>
+
+<style type="text/css">
+    #get-a-call-back {
+        display: none !important;
+    }
+    .product-options-bottom {
+        border-top: 0px !important;
+    }
+    .display-flex {
+        display: flex;
+    }
+    .display-flex.share-recommend {
+        justify-content: space-between;
+    }
+    .display-flex {
+        display: flex;
+    }
+    .display-flex.service-only-left-container {
+        flex-direction: column;
+    }
+    .service-only-left-sidebar {
+        min-width: 250px;
+        margin-right: 2.5%;
+    }
+    .service-only-left-container .availability.in-stock:before {
+        content: "";
+        display: inline-block;
+        margin-right: 5px;
+        background: url("https://www.solopcms.com/skin/frontend/rwd/default/images/in-stock.jpg");
+        width: 22px;
+        height: 22px;
+        position: relative;
+        top: 5px;
+    }
+    .service-only-left-container .social a {
+        display: inline-block;
+        margin-right: 7px;
+    }
+    .service-only-center-content #product-attribute-specs-table,
+    .service-only-center-content h2 {
+        display: none;
+    }
+    .product-description-benefits .blue-span-title {
+        display: block;
+        padding-bottom: 20px;
+    }
+    .mobile-recently-viewed {
+        display: none;
+    }
+    .service-only-center-content .product-options-bottom {
+        display: none;
+    }
+    .service-only-center-content .product-options dd .input-text {
+        box-sizing: border-box;
+    }
+    @media(max-width:960px) {
+        .col-main,
+        .col-right {
+            width: 100%;
+        }
+    }
+    @media(max-width:768px) {
+        .service-only-left-container-top {
+            flex-direction: column;
+        }
+        .service-only-left-container .service-details-title,
+        .mobile-recently-viewed .mobile-recently-viewed-title {
+            background: #f2f2f2;
+            color: #202020;
+            text-transform: none;
+            margin-bottom: 1px;
+            font-size: 18px;
+            padding: 11px !important;
+            margin-bottom: 10px;
+            font-family: "Roboto Condensed", sans-serif;
+            text-transform: uppercase;
+        }
+        .service-only-left-container .service-details-box.active .service-details-title,
+        .mobile-recently-viewed.active .mobile-recently-viewed-title {
+            background: #4587b9;
+            color: #fff;
+        }
+        .service-details-box.active .service-details-title:after,
+        .mobile-recently-viewed.active .mobile-recently-viewed-title::after {
+            filter: none;
+        }
+        .service-details-box .service-details-title::after,
+        .mobile-recently-viewed .mobile-recently-viewed-title::after {
+            filter: invert(100%);
+        }
+        .sidebar .block-viewed,
+        .sidebar .block-compare {
+            display: none;
+        }
+        .sidebar .block:not(.block-layered-nav) .block-title>strong {
+            font-weight: bold;
+        }
+        .service-only-left-sidebar #product-attribute-specs-table,
+        .service-only-left-sidebar h2 {
+            display: none;
+        }
+        .service-only-center-content #product-attribute-specs-table,
+        .service-only-center-content h2 {
+            display: block;
+        }
+        .service-only-center-content h2 {
+            background: #4587b9;
+            color: #fff;
+            text-transform: none;
+            margin-bottom: 1px;
+            font-size: 18px;
+            padding: 11px !important;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            font-family: "Roboto Condensed", sans-serif;
+        }
+        .service-only-center-content .price-box {
+            border-bottom: solid 1px #ccc;
+            padding-bottom: 15px;
+        }
+        .product-description-benefits>div {
+            display: flex;
+        }
+        .product-description-benefits>div>div {
+            display: flex;
+            align-self: center;
+            width: 30%;
+        }
+        .product-description-benefits>div p {
+            text-align: justify;
+            width: 70%;
+        }
+        .product-description-benefits .blue-span-title {
+            display: block;
+            padding-bottom: 10px;
+        }
+        .service-only-center-content #product-attribute-specs-table {
+            display: table;
+        }
+        .hide-on-mobile {
+            display: none;
+        }
+        .service-details-box .service-details-title,
+        .mobile-recently-viewed .mobile-recently-viewed-title {
+            position: relative;
+            cursor: pointer;
+        }
+        .service-details-box .service-details-title:after,
+        .mobile-recently-viewed .mobile-recently-viewed-title:after {
+            content: '';
+            display: block;
+            background: url('https://www.solopcms.com/skin/frontend/rwd/default/images/arrow-down-white.png');
+            width: 18px;
+            height: 11px;
+            position: absolute;
+            right: 10px;
+            top: 20px;
+        }
+        .service-details-box.active .service-details-title:after,
+        .mobile-recently-viewed.active .mobile-recently-viewed-title:after {
+            transform: rotate(180deg);
+            transition: all 250ms linear;
+            -webkit-transition: all 250ms linear;
+            -moz-transition: all 250ms linear;
+            -o-transition: all 250ms linear;
+            -ms-transition: all 250ms linear;
+        }
+        .service-details-box .service-details-content,
+        .mobile-recently-viewed .mobile-recently-viewed-content {
+            max-height: 0px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .service-details-box.active .service-details-content,
+        .mobile-recently-viewed.active .mobile-recently-viewed-content {
+            max-height: 1000px;
+            transition: max-height 1s ease-in-out;
+        }
+        .mobile-recently-viewed {
+            display: flex;
+            flex-direction: column;
+        }
+        .mobile-recently-viewed-box {
+            display: flex;
+            justify-content: space-between;
+        }
+        .mobile-recently-viewed-box>div:nth-child(2) {
+            padding-left: 10px;
+        }
+        .mobile-recently-viewed-box>div:last-child {
+            width: 230px;
+            text-align: right;
+        }
+    }
+    @media(max-width:500px) {
+        .product-description-benefits>div img {
+            max-width: 80%;
+        }
+    }
+    .price-box-s-p .price:before {
+        content: "Price:";
+        display: inline-block;
+        margin-right: 8px;
+    }
+    .price-box-s-p * {
+        font-weight: bold !important;
+        font-family: "Roboto Condensed", sans-serif !important;
+        font-size: 16px !important;
+        color: #000 !important;
+    }
+    .thin-line {
+        border: none;
+        height: 1px;
+        margin: 20px 0px;
+        width: 100%;
+        background: #ddd;
+    }
+    .get-a-call-back {
+        z-index: 9999;
+    }
+    .product-description-benefits {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        padding: 30px 0px;
+        margin-right: 0px!important;
+    }
+    .product-description-benefits>div {
+        width: 31%;
+        background: #f2f2f2;
+        box-sizing: border-box;
+        padding: 20px 10px;
+        border: solid 1px #bfbfbf;
+    }
+    .product-description-benefits>div img {
+        margin: 0 auto;
+        padding-bottom: 10px;
+    }
+    .product-description-benefits>div *:last-child {
+        margin-bottom: 0px !imporant;
+    }
+    .blue-span-title {
+        color: #4487b9;
+    }
+    .service-details-title {
+        color: #4487b9;
+        font-size: 18px;
+    }
+    .service-only-left-sidebar h2 {
+        font-family: "Dosis", sans-serif;
+        background: #4587b9;
+        color: #fff;
+        box-sizing: border-box;
+        margin-bottom: 0px;
+        padding: 10px;
+        text-transform: capitalize;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .green-btn {
+        background: #39b54a;
+    }
+    .product-tabs-nav {
+        margin-bottom: 18px;
+        margin-left: 0;
+        list-style: none;
+    }
+    .product-tabs-nav>li>a {
+        display: block;
+    }
+    .product-tabs-nav {
+        zoom: 1;
+    }
+    .product-tabs-nav:before,
+    .product-tabs-nav:after {
+        display: table;
+        content: "";
+    }
+    .product-tabs-nav:after {
+        clear: both;
+    }
+    .product-tabs-nav>li {
+        float: left;
+    }
+    .product-tabs-nav>li:first-child {
+        border-left: none;
+    }
+    .product-tabs-nav>li:first-child>a {
+        padding-left: 0px;
+        border-left: none;
+    }
+    .product-tabs-nav>li:first-child>a:before {
+        display: none;
+    }
+    .product-tabs-nav>li>a {
+        position: relative;
+        padding-right: 12px;
+        padding-left: 12px;
+        margin-right: 2px;
+        line-height: 14px;
+        text-align: left;
+    }
+    .product-tabs-nav>li>a:before {
+        content: '';
+        position: absolute;
+        display: block;
+        height: 14px;
+        width: 2px;
+        left: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #dcdbda;
+    }
+    .product-tabs-nav {
+        border-bottom: 1px solid #ddd;
+    }
+    .product-tabs-nav>li {
+        margin-bottom: -1px;
+    }
+    .product-tabs-nav>li>a {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        line-height: 18px;
+        text-transform: uppercase;
+        color: #b0b0b0;
+    }
+    .product-tabs-nav>li>a:hover {
+        color: #4487b9;
+    }
+    .product-tabs-nav>.active>a,
+    .product-tabs-nav>.active>a:hover {
+        color: #4487b9;
+        cursor: default;
+    }
+    .product-tabs-nav li {
+        line-height: 18px;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .tab-content.hide {
+        display: none;
+    }
+    #product-options-wrapper .input-box>textarea {
+        background: #FFFFFF;
+        border-radius: 15px;
+        border: 1px solid silver;
+        font-size: 15px;
+        max-width: 100% !important;
+        min-width: 0px !important;
+        width: 100% !important;
+    }
+    #product-options-wrapper label.required em {
+        color: red;
+        display: inline-block !important;
+        float: right;
+        font-size: 20px;
+        font-style: normal !important;
+        line-height: 14px;
+        margin-left: 5px !important;
+        position: relative;
+        top: 2px;
+    }
+</style>
+
+<script>
+    jQuery(document).ready(function() {
+        jQuery('.service-details-title, .mobile-recently-viewed-title').on('click', function(){
+            jQuery(this).parent().toggleClass('active');            
+        });
+        jQuery('.product-tabs-nav > li > a').click(function(event){
+            event.preventDefault();
+            var active_tab_selector = jQuery('.product-tabs-nav > li.active > a').attr('href');                    
+            var actived_nav = jQuery('.product-tabs-nav > li.active');
+            actived_nav.removeClass('active');
+            jQuery(this).parents('li').addClass('active');
+            jQuery(active_tab_selector).removeClass('active');
+            jQuery(active_tab_selector).addClass('hide');
+            var target_tab_selector = jQuery(this).attr('href');
+            jQuery(target_tab_selector).removeClass('hide');
+            jQuery(target_tab_selector).addClass('active');
+        });
+    });
+</script>

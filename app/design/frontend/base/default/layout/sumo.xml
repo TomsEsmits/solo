@@ -1,0 +1,8 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">   
+  <sumo_sumo_new_handle>   
+    <reference name="head">
+		<block type="sumo/sumo" name="sumo.sumo"  template="sumo/sumo.phtml" />
+	</reference> 
+  </sumo_sumo_new_handle>   
+</layout>   

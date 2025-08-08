@@ -1,0 +1,82 @@
+<section id="ajax-quick-search">
+	<div class="content">
+		<div id="front-form" class="box">
+			<h2>Search For Your Auto Computer</h2>
+			<div class="responsive-call">Or Call Us <a href="tel:+18888480144">888.848.0144</a></div>
+
+			<div>
+				<select id="make" onchange="getCategoryAjax( this.options[this.selectedIndex].value, 'model' );">
+					<option value="~" disabled="disabled" selected="selected">Step 1. Select Auto Make</option>
+				</select>
+			</div>
+			<div>
+				<select id="model" class="l-1" onchange="getCategoryAjax( 'year', 'year' );">
+					<option value="~" disabled="disabled" selected="selected">Step 2. Select Auto Model</option>
+				</select>
+			</div>
+			<div>
+				<select id="year" class="l-1 l-2" onchange="getCategoryAjax( 'engine_type', 'engine-type' );">
+					<option value="~" disabled="disabled" selected="selected">Step 3. Select Auto Year</option>
+				</select>
+			</div>
+			<div>
+				<select id="engine-type" class="l-1 l-2 l-3">
+					<option value="~" disabled="disabled" selected="selected">Step 4. Select Engine Type</option>
+				</select>
+			</div>
+			<div>
+				<a href="#" id="front-form-submit">Search</a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		jQuery( document ).ready( function() {
+			jQuery( "#front-form-submit" ).unbind( "click" ).bind( "click", function( e ) {
+				e.preventDefault();
+				var make = ( jQuery( "#make" ).val() != "~" ) ? "category=" + jQuery( "#make" ).val() : "";
+				var model = ( jQuery( "#model" ).val() != "~" ) ? "model=" + jQuery( "#model option:selected" ).attr( "alt-value" ) : "";
+				var year = ( jQuery( "#year" ).val() != "~" ) ? "year[]=" + jQuery( "#year" ).val() : "";
+				var engine_type = ( jQuery( "#engine-type" ).val() != "~" ) ? "engine_type[]=" + jQuery( "#engine-type" ).val() : "";
+				
+				if ( jQuery( "#make" ).val() !== null && jQuery( "#model" ).val() !== null ) {
+					__query = [ make, model, year, engine_type ];
+					__query = __query.filter( function( n ) { return n.indexOf( "null" ) == -1 } );
+					window.location.href = "<?php echo $this->getUrl( "" ) ?>catalogsearch/advanced/result/?" + $( __query ).join( "&" );
+				} else {
+					alert( "Please choose make and model of the car." );
+				}
+
+			});
+			getCategoryAjax( 111, "make" );
+		});
+		function getCategoryAjax( id, location ) {
+			jQuery( "#" + location ).addClass( "ajax" );
+			switch ( location ) {
+				case "make":
+					jQuery.get( "<?php echo $this->getUrl( "" ) ?>/ajax-call.php?action=get&category=" + id, function( data ) {
+						jQuery( "#" + location ).html( data ).removeClass( "ajax" );
+					});
+					jQuery( ".l-1" ).html( '<option value="" disabled="disabled" selected="selected">Select...</option>' );
+				break;
+				case "model":
+					jQuery.get( "<?php echo $this->getUrl( "" ) ?>/ajax-call.php?action=get&category=" + id, function( data ) {
+						console.log(data);
+						jQuery( "#" + location ).html( data ).removeClass( "ajax" );
+					});
+					jQuery( ".l-2" ).html( '<option value="" disabled="disabled" selected="selected">Select...</option>' );
+				break;
+				case "year":
+					jQuery.get( "<?php echo $this->getUrl( "" ) ?>/ajax-call.php?action=get&attribute=" + id + "&model=" + jQuery( "#model" ).val(), function( data ) {
+						jQuery( "#" + location ).html( data ).removeClass( "ajax" );
+					});
+					jQuery( ".l-3" ).html( '<option value="" disabled="disabled" selected="selected">Select...</option>' );
+				break;
+				case "engine-type":
+					jQuery.get( "<?php echo $this->getUrl( "" ) ?>/ajax-call.php?action=get&attribute=" + id + "&model=" + jQuery( "#model" ).val() + "&year=" + jQuery( "#year" ).val(), function( data ) {
+						jQuery( "#" + location ).html( data ).removeClass( "ajax" );
+					});
+				break;
+			}
+		}
+	</script>
+</section>

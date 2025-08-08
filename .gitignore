@@ -1,0 +1,103 @@
+######################################
+# MAGENTO 1.9
+######################################
+
+# Magento var directories
+var/cache/
+var/log/
+var/report/
+var/session/
+var/tmp/
+
+# Compiled files
+includes/src/
+includes/src/__default.php
+includes/config.php
+
+# Local configuration
+app/etc/local.xml
+
+# Static/deployment artifacts
+media/tmp/
+media/import/
+pub/static/
+static/
+
+# Backup files
+*.bak
+*.swp
+*.tmp
+*.log
+*.csv
+
+# Composer (if used)
+vendor/
+composer.lock
+
+######################################
+# WORDPRESS
+######################################
+
+# WP core config (contains DB creds)
+wp-config.php
+wp-config-local.php
+
+# WP content uploads (optional to include or ignore)
+wp-content/uploads/
+# wp-content/upgrade/        # often temporary, can exclude
+
+# WP core files (exclude if WordPress is installed in same repo)
+wp-admin/
+wp-includes/
+readme.html
+license.txt
+
+# WP default themes (exclude if unmodified)
+wp-content/themes/twenty*/
+
+# WP plugins (exclude if unmodified or from repo)
+wp-content/plugins/hello.php
+wp-content/plugins/akismet/
+
+######################################
+# SHARED / GENERAL
+######################################
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Logs and env
+*.log
+.env
+.env.local
+.env.*.local
+
+# Archives
+*.tar
+*.zip
+*.gz
+
+# PHPUnit
+phpunit.xml
+phpunit.xml.dist
+
+# Node / Build
+node_modules/
+package-lock.json
+yarn.lock
+
+# Coverage / Debug
+coverage/
+.nfs*
+
+# Swap / temp
+*.swp
+*.tmp
