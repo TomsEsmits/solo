@@ -34,6 +34,7 @@
   - `h1.llv-hero__title` font-size `48px` → `56px`; `.llv-eyebrow` font-size `14px` → `16px`.
   - **Responsive breakpoint changed sitewide-for-this-page: `900px` → `992px`.** The single `@media (max-width: 900px)` block (only occurrence of that breakpoint in the file) is now `@media (max-width: 992px)`, per the site owner's request to switch to the smaller-screen layout sooner rather than waiting until 900px.
 - **Fourth post-launch live-tweak round (2026-08-25, same session):** `!important` added to every `font-size`/color-type declaration inside the `@media (max-width: 992px)` block, matching the treatment already applied to their desktop counterparts (`h1.llv-hero__title`, `h2.llv-heading` colors, image dimensions) — without it, a mobile-width override at normal specificity can lose to a `!important` desktop rule of the same selector regardless of the media query matching (this is the same class of bug caught and fixed for `.llv-strip img`'s mobile height earlier). No `color` properties are actually re-declared inside the media block (color values inherit from the `!important` desktop rules unchanged at every width, so there was nothing to touch there) — the three `font-size` declarations (`h1.llv-hero__title`, `p.llv-hero__lede`, the `h2.llv-heading` 3-selector compound) all gained `!important`.
+- **Fifth post-launch live-tweak round (2026-08-25, same session):** a full mobile-typography pass across the `@media (max-width: 992px)` block, driven by two things: (1) explicit pixel values the site owner gave directly (`.llv-problems__grid` gains `width: 100%`; `.llv-hero` mobile `padding-bottom` moved to `0` and the freed-up spacing relocated to `.llv-hero__scrim`'s `padding-bottom: 80px`, keeping its existing `padding-top: 44px`; `.llv-badge__title` mobile `font-size: 15px !important` since the site owner observed it rendering at `12px` on small screens without an explicit override; `.llv-problems__item` mobile `padding: 16px 18px`; `.llv-problems__label` mobile `font-size: 15px`), and (2) the site owner asking to "compare font size on smaller screens for every section" against the original approved mobile design (the `#mobile-view` block from the source mockup, `USPS Grumman LLV PCM Repair - Solo Auto Electronics (2) (1).html`, extracted during brainstorming but never used verbatim — this plan deliberately collapsed it into responsive CSS on a single markup block instead of shipping duplicate desktop/mobile HTML). That comparison added mobile-only overrides, matched to the mockup's mobile values, for elements that previously had no mobile override at all and so silently inherited oversized desktop values: `.llv-eyebrow` (12px), `p.llv-lede` (15px/1.7), `p.llv-note` (14px/1.7), `.llv-badge__text` (12.5px), `.llv-specialist__media` padding-top (26px), `.llv-specialist__media-backdrop` (220×150px), `.llv-specialist__media img` margin-top (26px), `.llv-process` heading (added to the existing 26px compound selector — it wasn't covered before), `.llv-process__num` (34px), `.llv-process__title` (17px), `.llv-process__text` (14px), `.llv-why__media-caption strong` (17px), `.llv-why__card-eyebrow` (11px), `.llv-why__card-title` (18px), `.llv-why__card-text` (13.5px), `.llv-disclaimer` (12px). Known minor, deliberately-accepted discrepancy: the source mockup itself isn't fully internally consistent between sections for shared classes (e.g. `p.llv-lede` is 15px on mobile in the problems/specialist sections of the mockup but 14px in the quote section; `.llv-heading` mobile size varies 22–26px across sections) — this pass picked the value shared by the majority of sections for each shared class rather than forking per-section variants, to keep the CSS maintainable; not chased further unless the site owner flags a specific section as visibly wrong.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -764,12 +765,27 @@ body.usps-grumman-llv-pcm-repair .main-content {
     padding: 0 20px;
   }
 
+  .landing-grumman-llv .llv-eyebrow {
+    font-size: 12px;
+  }
+
+  .landing-grumman-llv p.llv-lede {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .landing-grumman-llv p.llv-note {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
   .landing-grumman-llv .llv-hero {
-    padding-bottom: 60px;
+    padding-bottom: 0;
   }
 
   .landing-grumman-llv .llv-hero__scrim {
     padding-top: 44px;
+    padding-bottom: 80px;
   }
 
   .landing-grumman-llv h1.llv-hero__title {
@@ -802,6 +818,14 @@ body.usps-grumman-llv-pcm-repair .main-content {
     border-radius: var(--llv-radius-md);
   }
 
+  .landing-grumman-llv .llv-badge__title {
+    font-size: 15px !important;
+  }
+
+  .landing-grumman-llv .llv-badge__text {
+    font-size: 12.5px;
+  }
+
   .landing-grumman-llv .llv-problems,
   .landing-grumman-llv .llv-specialist,
   .landing-grumman-llv .llv-process,
@@ -822,12 +846,22 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-problems__intro h2.llv-heading,
   .landing-grumman-llv .llv-specialist__content h2.llv-heading,
-  .landing-grumman-llv .llv-quote__content h2.llv-heading {
+  .landing-grumman-llv .llv-quote__content h2.llv-heading,
+  .landing-grumman-llv .llv-process h2.llv-heading {
     font-size: 26px !important;
   }
 
   .landing-grumman-llv .llv-problems__grid {
     grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .landing-grumman-llv .llv-problems__item {
+    padding: 16px 18px;
+  }
+
+  .landing-grumman-llv .llv-problems__label {
+    font-size: 15px;
   }
 
   .landing-grumman-llv .llv-points {
@@ -840,9 +874,34 @@ body.usps-grumman-llv-pcm-repair .main-content {
     height: 220px !important;
   }
 
+  .landing-grumman-llv .llv-specialist__media {
+    padding-top: 26px;
+  }
+
+  .landing-grumman-llv .llv-specialist__media-backdrop {
+    width: 220px;
+    height: 150px;
+  }
+
+  .landing-grumman-llv .llv-specialist__media img {
+    margin-top: 26px;
+  }
+
   .landing-grumman-llv .llv-process__grid {
     grid-template-columns: 1fr;
     gap: 26px;
+  }
+
+  .landing-grumman-llv .llv-process__num {
+    font-size: 34px;
+  }
+
+  .landing-grumman-llv .llv-process__title {
+    font-size: 17px;
+  }
+
+  .landing-grumman-llv .llv-process__text {
+    font-size: 14px;
   }
 
   .landing-grumman-llv .llv-why__grid {
@@ -854,9 +913,25 @@ body.usps-grumman-llv-pcm-repair .main-content {
     min-height: 240px;
   }
 
+  .landing-grumman-llv .llv-why__media-caption strong {
+    font-size: 17px;
+  }
+
   .landing-grumman-llv .llv-why__card--dark {
     grid-column: auto;
     flex-direction: column;
+  }
+
+  .landing-grumman-llv .llv-why__card-eyebrow {
+    font-size: 11px;
+  }
+
+  .landing-grumman-llv .llv-why__card-title {
+    font-size: 18px;
+  }
+
+  .landing-grumman-llv p.llv-why__card-text {
+    font-size: 13.5px;
   }
 
   .landing-grumman-llv .llv-quote__box {
@@ -867,6 +942,10 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-quote__panel {
     width: 100%;
+  }
+
+  .landing-grumman-llv .llv-disclaimer {
+    font-size: 12px;
   }
 }
 ```
