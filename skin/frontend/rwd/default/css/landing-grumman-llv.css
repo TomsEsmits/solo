@@ -749,9 +749,12 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-problems__intro h2.llv-heading,
   .landing-grumman-llv .llv-specialist__content h2.llv-heading,
-  .landing-grumman-llv .llv-quote__content h2.llv-heading,
   .landing-grumman-llv .llv-process h2.llv-heading {
     font-size: 26px !important;
+  }
+
+  .landing-grumman-llv .llv-quote__content h2.llv-heading {
+    font-size: 22px !important;
   }
 
   .landing-grumman-llv .llv-problems__grid {
@@ -892,17 +895,53 @@ body.usps-grumman-llv-pcm-repair .main-content {
     font-size: 13.5px;
   }
 
+  .landing-grumman-llv .llv-quote {
+    padding-bottom: 40px;
+  }
+
+  .landing-grumman-llv .llv-btn--cyan,
+  .landing-grumman-llv .llv-btn--outline-blue {
+    font-size: 15px;
+    padding: 15px;
+  }
+
   .landing-grumman-llv .llv-quote__box {
     flex-direction: column;
-    padding: 32px 26px;
+    padding: 28px 24px;
     gap: 30px;
   }
 
   .landing-grumman-llv .llv-quote__panel {
     width: 100%;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-title {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row {
+    font-size: 13px;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row + .llv-quote__panel-row {
+    margin-top: 0;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row a {
+    color: #2B79C2;
+  }
+
+  .landing-grumman-llv .llv-quote__br--stack {
+    display: none;
   }
 
   .landing-grumman-llv .llv-disclaimer {
     font-size: 12px;
+    padding: 18px 22px;
+    text-align: left;
   }
 }

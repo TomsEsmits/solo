@@ -43,6 +43,18 @@
 - **Eighth post-launch live-tweak round (2026-08-25, same session):** two more requests. (1) `.llv-point` mobile padding reduced from the inherited desktop `30px 32px` to `16px 18px`, matching the source mockup's mobile checklist-card padding (same value already used for `.llv-problems__item`). (2) The 3-point checklist and the photo strip needed to swap visual order on mobile (photo first, checklist below, overlapping its bottom edge) — but unlike the Specialist section (round seven), these two aren't flex siblings and the desktop overlap effect depends on DOM adjacency (`.llv-points` has `margin-bottom: -60px` pulling the *following* sibling, the strip section, up underneath it), so a plain `order` swap would have broken the overlap without also flipping which element carries the negative margin. Went with the same duplication technique as the Common Problems note (round six) instead: the strip `<section>` is now duplicated — one copy (`llv-strip--mobile`) placed *before* `.llv-inner > .llv-points`, one copy (`llv-strip--desktop`) kept in its original position *after* — with `display: none`/`block` toggling per breakpoint exactly one into view, same as the Problems note pattern. On mobile, `.llv-points` gets `margin-bottom: 0` (removing the now-irrelevant pull toward the hidden desktop copy, which would otherwise have yanked the *Process* section up instead) and a new `margin-top: -40px` (pulling itself up to overlap the *preceding* mobile strip image's bottom edge — the overlap direction had to flip along with the visual order). The `-40px` value is an estimate matching the screenshots' proportions, not a pixel-measured value from the mockup; nudge it if the overlap looks off once live.
 - **Ninth post-launch live-tweak round (2026-08-25, same session):** two changes to the Process section steps on mobile, per screenshot comparison against the mockup. (1) `.llv-process__step` mobile `padding-top` set to `20px` (an explicit mobile-only override — desktop's `44px`, set in round two, was unintentionally inherited on mobile since no override previously existed; `20px` is the value that was in place before round two's desktop-only bump). (2) Restructured the step's number/title/text from vertical stacking (num above title above text, matching desktop) into a CSS Grid on mobile only: `grid-template-columns: auto 1fr` puts `.llv-process__num` and `.llv-process__title` side by side on row 1 (`align-items: baseline`, `column-gap: 16px`), with `.llv-process__text` spanning both columns (`grid-column: 1 / -1`) on row 2 below (`row-gap: 8px`). `margin-bottom` was zeroed on both num and title since the grid's `row-gap` now governs spacing instead. `.llv-process__tick` (the small cyan line marker) needed no change — it's `position: absolute`, so it's already removed from normal flow and unaffected by the switch from block stacking to grid. This restores, for this one section, the same mobile-vs-desktop number/title arrangement difference that the original source mockup had and that brainstorming deliberately dropped for simplicity (see the Fifth round's note on this file's general "same order both breakpoints" simplification) — same rationale as the sixth/eighth rounds' section-specific restorations.
 - **Tenth post-launch live-tweak round (2026-08-25, same session):** further mobile refinements to the Why section's cards, requested directly (no screenshot this time, exact selectors/values given): (1) `.llv-why__media-caption` mobile padding set to `50px 20px 18px` (was inheriting desktop's `70px 30px 28px`, no prior mobile override). (2) `.llv-why__card` mobile padding set to `26px 24px` (was inheriting desktop's `36px 34px`) — this is the shared base class for all three card variants (`--dark`, `--outline`, `--cyan`), so one rule covers all three, matching how the site owner phrased it ("same for" the outline and cyan cards). (3) `.llv-why__card-icon` set to `display: none` on mobile. The request explicitly named this only next to `--dark`, but `.llv-why__card-icon` is itself the shared icon class used by all three variants (not a `--dark`-specific one), and the source mockup's mobile design omits the icon from all three card variants, not just the dark one — interpreted as hiding it everywhere for consistency with both the mockup and the shared-class structure; flagged to the site owner as an interpretation call in case only the dark card's icon was meant.
+- **Eleventh post-launch live-tweak round (2026-08-25, same session):** the final-CTA/Quote section's mobile treatment, per screenshot comparison and explicit values:
+  - `.llv-quote` mobile `padding-bottom: 40px` (new override; base is `0 0 90px`, i.e. `90px` bottom on desktop).
+  - `.llv-quote__box` mobile padding `32px 26px` → `28px 24px`.
+  - `.llv-quote__content h2.llv-heading` split out of the shared 26px mobile heading-size compound selector into its own rule at `22px !important` — this section's heading was always meant to be smaller on mobile than Problems/Specialist/Process per the source mockup (see the Fifth round's noted discrepancy), now fixed for this section specifically rather than picking the majority value.
+  - `.llv-btn--cyan` and `.llv-btn--outline-blue` mobile: `font-size: 15px; padding: 15px;` (both CTA button variants used in this section's button row).
+  - `.llv-quote__panel` mobile: `background: none; box-shadow: none; border-radius: 0; padding: 0;` — the info panel becomes plain text below the buttons instead of a bordered card, matching the screenshot.
+  - `.llv-quote__panel-title` ("We are at your service") hidden on mobile.
+  - `.llv-quote__panel-row` mobile: `font-size: 13px`; the `margin-top: 14px` between sibling rows removed (`margin-top: 0`) so spacing between rows comes only from line-height, matching the screenshot's uniform, tightly-flowing look.
+  - `.llv-quote__panel-row a` (the phone/email links) mobile color changed to `#2B79C2` (was the shared navy link color).
+  - Three specific `<br>` tags — the one between "Working hours:" and its value, and the two inside the "Ship to:" address — gained a new class `llv-quote__br--stack`, hidden (`display: none`) on mobile only. Desktop keeps these as real line breaks (unchanged, matching the originally-approved desktop design); mobile now lets "Working hours: Mon - Fri: 7:30am - 5:30pm" and the full ship-to address each flow as one line that wraps naturally, matching the mockup's mobile version of this panel (a single flowing text block, not stacked labels) without touching desktop's markup or requiring content duplication — a `<br class="...">` toggle is simpler than the duplication technique used for the Problems-note/photo-strip reorders (rounds six/eight) because here the fix is purely about suppressing specific line breaks, not moving an element relative to a sibling.
+  - The Phone/Email `<br>` (between those two lines) was deliberately left as a real, undedicated `<br>` at both breakpoints — it wasn't flagged as a problem and already reads as two separate lines correctly.
+- **Twelfth post-launch live-tweak round (2026-08-25, same session):** `.llv-disclaimer` mobile: `padding: 18px 22px` (was inheriting desktop's `24px` all-around) and `text-align: left` (was inheriting the base rule's `text-align: center`).
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -862,9 +874,12 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-problems__intro h2.llv-heading,
   .landing-grumman-llv .llv-specialist__content h2.llv-heading,
-  .landing-grumman-llv .llv-quote__content h2.llv-heading,
   .landing-grumman-llv .llv-process h2.llv-heading {
     font-size: 26px !important;
+  }
+
+  .landing-grumman-llv .llv-quote__content h2.llv-heading {
+    font-size: 22px !important;
   }
 
   .landing-grumman-llv .llv-problems__grid {
@@ -1005,18 +1020,54 @@ body.usps-grumman-llv-pcm-repair .main-content {
     font-size: 13.5px;
   }
 
+  .landing-grumman-llv .llv-quote {
+    padding-bottom: 40px;
+  }
+
+  .landing-grumman-llv .llv-btn--cyan,
+  .landing-grumman-llv .llv-btn--outline-blue {
+    font-size: 15px;
+    padding: 15px;
+  }
+
   .landing-grumman-llv .llv-quote__box {
     flex-direction: column;
-    padding: 32px 26px;
+    padding: 28px 24px;
     gap: 30px;
   }
 
   .landing-grumman-llv .llv-quote__panel {
     width: 100%;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-title {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row {
+    font-size: 13px;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row + .llv-quote__panel-row {
+    margin-top: 0;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row a {
+    color: #2B79C2;
+  }
+
+  .landing-grumman-llv .llv-quote__br--stack {
+    display: none;
   }
 
   .landing-grumman-llv .llv-disclaimer {
     font-size: 12px;
+    padding: 18px 22px;
+    text-align: left;
   }
 }
 ```
@@ -1274,9 +1325,9 @@ Create `docs/superpowers/plans/grumman-llv-admin-handoff/cms-page-content.html`:
         </div>
         <div class="llv-quote__panel">
           <div class="llv-quote__panel-title">We are at your service</div>
-          <div class="llv-quote__panel-row"><strong>Working hours:</strong><br>Mon - Fri: 7:30am - 5:30pm</div>
+          <div class="llv-quote__panel-row"><strong>Working hours:</strong><br class="llv-quote__br--stack">Mon - Fri: 7:30am - 5:30pm</div>
           <div class="llv-quote__panel-row"><strong>Phone:</strong> <a href="tel:+18888480144">(888) 848-0144</a><br><strong>Email:</strong> <a href="mailto:sales@solopcms.com">sales@solopcms.com</a></div>
-          <div class="llv-quote__panel-row"><strong>Ship to:</strong><br>14361 SW 120th Street Unit 106,<br>Miami, FL 33186</div>
+          <div class="llv-quote__panel-row"><strong>Ship to:</strong><br class="llv-quote__br--stack">14361 SW 120th Street Unit 106,<br class="llv-quote__br--stack">Miami, FL 33186</div>
         </div>
       </div>
     </div>
