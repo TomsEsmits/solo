@@ -233,6 +233,7 @@ Create `skin/frontend/rwd/default/css/landing-grumman-llv.css`:
 }
 
 .landing-grumman-llv .llv-hero {
+  position: relative;
   background: var(--llv-dark);
   overflow: hidden;
   padding-bottom: 110px;
