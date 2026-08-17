@@ -17,7 +17,11 @@
 - "Call" CTAs → `tel:+18888480144`. "Email"/quote CTAs → trigger the site's existing global quick-quote sidebar (class `quick-simple`, already wired in `footer.phtml` via `page/forms/quick-quote.phtml`) instead of `mailto:` — except plain informational contact-detail text (e.g. "Email: sales@solopcms.com" inside the info panel), which stays a real `mailto:` link since it isn't a lead-gen CTA.
 - Legal disclaimer line must be preserved verbatim: "Solo Auto Electronics is an independent automotive electronics repair provider and is not affiliated with or endorsed by the United States Postal Service or Grumman."
 - Source mockup already extracted to `/tmp/claude-1000/-home-mr-esh/d7378aa7-de48-4baa-9eab-ef0c091cf9f7/scratchpad/extracted/` in the brainstorming session (images `img_3_*.jpeg` 298562 bytes, `img_4_*.png` 658912 bytes, `img_5_*.jpeg` 467291 bytes, `img_6_*.jpeg` 31013 bytes are the four unique real photos needed; everything else extracted there — logo, header/clock/phone icons, duplicate mobile-view copies — is not used). If that scratchpad no longer exists when this plan is executed, re-extract from `USPS Grumman LLV PCM Repair - Solo Auto Electronics (2) (1).html` in the user's Downloads folder using the same technique (serve over local HTTP, open in browser, `fetch()` each image `blob:` URL and POST the bytes to a small local upload server — file:// URLs are blocked by the browser extension and direct raw-HTML reading won't work because the file is a self-extracting JS bundle).
-- Real theme content width: `.main-container` (the ancestor of CMS page content) has `max-width: 1260px` with `15px`/`30px` side padding (`skin/frontend/rwd/default/css/styles.css:1800-1821`), not the mockup's 1594px canvas. Full-bleed sections use the `.llv-bleed` breakout technique (`width:100vw; margin-left:50%; transform:translateX(-50%)`). Without mitigation this can cause a page-wide horizontal scrollbar, since `100vw` always includes the vertical-scrollbar gutter and this theme's `overflow-x` is `visible` at every breakpoint (`skin/frontend/rwd/default/css/styles.css:15953`, `:16773` — `body>.wrapper { overflow-x: visible !important }`), i.e. no ancestor clips the overflow. The site owner was asked and chose to keep the full-bleed look rather than remove the technique, and approved a page-scoped fix: a body class (`usps-grumman-llv-pcm-repair`) added via this page's own Layout Update XML, paired with a `body.usps-grumman-llv-pcm-repair > .wrapper { overflow-x: hidden }` rule (documented as a sanctioned exception at the top of `landing-grumman-llv.css`, since it's the one rule in that file not nested under `.landing-grumman-llv`). This suppresses the scrollbar on this page only, without affecting any other page on the site.
+- Real theme content width: `.main-container` (the ancestor of CMS page content) has `max-width: 1260px` with `15px`/`30px` side padding (`skin/frontend/rwd/default/css/styles.css:1800-1821`), not the mockup's 1594px canvas. Full-bleed sections use the `.llv-bleed` breakout technique (`width:100vw; margin-left:50%; transform:translateX(-50%)`). Without mitigation this can cause a page-wide horizontal scrollbar, since `100vw` always includes the vertical-scrollbar gutter and this theme's `overflow-x` is `visible` at every breakpoint (`skin/frontend/rwd/default/css/styles.css:15953`, `:16773` — `body>.wrapper { overflow-x: visible !important }`), i.e. no ancestor clips the overflow. The site owner was asked and chose to keep the full-bleed look rather than remove the technique, and approved a page-scoped fix: a body class (`usps-grumman-llv-pcm-repair`) added via this page's own Layout Update XML, paired with a `body.usps-grumman-llv-pcm-repair > .wrapper { overflow-x: hidden !important }` rule (documented as a sanctioned exception at the top of `landing-grumman-llv.css`).
+- **Post-launch live-tweak round (2026-08-25):** once actually live at `https://www.solopcms.com/usps-grumman-llv-pcm-repair/`, the site owner requested visual adjustments after seeing the real production theme, which has diverged from what this plan was originally written against (production runs a newer `.new-header`/`.two-column-right-hero` header system not present in the locally-explored branch, and serves skin assets through a CloudFront CDN — `dn1qkewum0hvl.cloudfront.net` — so uploaded file changes may need a CDN cache purge/TTL wait to appear live). Changes made, all still scoped to this page only:
+  - `.llv-inner` and `.llv-process__grid` `max-width` raised from `1200px` to `1590px` to match the real site header's content width.
+  - `.llv-hero__bg`, `.llv-why__media img` width/height, and `.llv-strip img` height (`420px` → `520px`, mobile override `220px` kept) all needed `!important` — the live production theme apparently forces image dimensions elsewhere with higher specificity or `!important` of its own (not visible in the locally-explored branch, which had diverged from production); the site owner confirmed via direct testing in the browser which properties needed it.
+  - Two more sanctioned exceptions added alongside the existing overflow-x one (all body-class-scoped, none can affect other pages): `body.usps-grumman-llv-pcm-repair .two-column-right-hero { display: none; }` hides the theme's auto-generated page-title banner above the content on this page only; `body.usps-grumman-llv-pcm-repair .main-content { padding-bottom: 0; border-bottom: 1px solid #CACACA; }` removes the theme's default spacing/rule under the main content area on this page only.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -92,20 +96,34 @@ Create `skin/frontend/rwd/default/css/landing-grumman-llv.css`:
    one CMS page via that page's Layout Update XML — never add this file
    to a global layout handle. */
 
-/* SANCTIONED EXCEPTION — approved by site owner 2026-08-17.
-   .llv-bleed uses 100vw to break out of the theme's ~1260px container for
-   true edge-to-edge hero/photo-strip backgrounds. 100vw always includes the
+/* SANCTIONED EXCEPTIONS — the only rules in this file not nested under
+   .landing-grumman-llv. Every one is additionally scoped to
+   body.usps-grumman-llv-pcm-repair, a class that ONLY exists on this one
+   CMS page (added by this page's own Layout Update XML — see
+   docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml), so
+   none of these can affect any other page on the site even though the
+   selectors themselves reach outside .landing-grumman-llv. */
+
+/* .llv-bleed uses 100vw to break out of the theme's container for true
+   edge-to-edge hero/photo-strip backgrounds. 100vw always includes the
    vertical-scrollbar gutter, and this theme's overflow-x is `visible` at
    every breakpoint (skin/frontend/rwd/default/css/styles.css:15953,16773),
-   so without this rule the hero causes a page-wide horizontal scrollbar.
-   This selector is scoped to body.usps-grumman-llv-pcm-repair, a class
-   that ONLY exists on this one CMS page (added by this page's own Layout
-   Update XML — see docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml)
-   — no other page on the site gets this class, so no other page is
-   affected by this rule, even though the selector itself lives outside
-   .landing-grumman-llv. */
+   so without this rule the hero causes a page-wide horizontal scrollbar. */
 body.usps-grumman-llv-pcm-repair > .wrapper {
   overflow-x: hidden !important;
+}
+
+/* The theme's own "page title" banner above the main content — approved
+   by site owner 2026-08-25 to be hidden on this page only. */
+body.usps-grumman-llv-pcm-repair .two-column-right-hero {
+  display: none;
+}
+
+/* Removes the theme's default bottom spacing/rule under the main content
+   area on this page only — approved by site owner 2026-08-25. */
+body.usps-grumman-llv-pcm-repair .main-content {
+  padding-bottom: 0;
+  border-bottom: 1px solid #CACACA;
 }
 
 .landing-grumman-llv {
@@ -140,7 +158,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
 }
 
 .landing-grumman-llv .llv-inner {
-  max-width: 1200px;
+  max-width: 1590px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -258,8 +276,8 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
 .landing-grumman-llv .llv-hero__bg {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   object-fit: cover;
 }
 
@@ -454,7 +472,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
 
 .landing-grumman-llv .llv-strip img {
   width: 100%;
-  height: 420px;
+  height: 520px !important;
   object-fit: cover;
 }
 
@@ -467,7 +485,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  max-width: 1200px;
+  max-width: 1590px;
   margin: 0 auto;
 }
 
@@ -531,7 +549,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   object-fit: cover;
 }
 
@@ -803,7 +821,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   }
 
   .landing-grumman-llv .llv-strip img {
-    height: 220px;
+    height: 220px !important;
   }
 
   .landing-grumman-llv .llv-process__grid {
@@ -863,9 +881,9 @@ else:
     print('all selectors scoped')
 "
 ```
-Expected (as originally written, before the final-review fix wave added the one sanctioned exception below): `all selectors scoped`. Any printed `line: content` is a selector that isn't nested under `.landing-grumman-llv` — fix it before continuing (this is the check that directly enforces the "must not affect header/menu/footer" requirement). The script treats any line ending in `{` or `,` as a selector line and requires it to start with `.landing-grumman-llv`; lines ending in `;` or `);` are treated as property/value lines and skipped; `/* */` comments are stripped first so multi-line comment text can't cause false positives.
+Expected (as originally written, before later rounds added the sanctioned exceptions below): `all selectors scoped`. Any printed `line: content` is a selector that isn't nested under `.landing-grumman-llv` — fix it before continuing (this is the check that directly enforces the "must not affect header/menu/footer" requirement). The script treats any line ending in `{` or `,` as a selector line and requires it to start with `.landing-grumman-llv`; lines ending in `;` or `);` are treated as property/value lines and skipped; `/* */` comments are stripped first so multi-line comment text can't cause false positives.
 
-**Post-final-review update:** the committed CSS file now contains exactly one intentional exception (`body.usps-grumman-llv-pcm-repair > .wrapper`, see the "SANCTIONED EXCEPTION" comment at the top of the CSS block above and the Global Constraints entry on the `.llv-bleed` scrollbar fix) — running this script against the final file now prints that one line instead of `all selectors scoped`, and that single-line output is the correct, expected result.
+**Post-final-review update:** the committed CSS file now contains three intentional exceptions, all under the "SANCTIONED EXCEPTIONS" comment at the top of the CSS block above: `body.usps-grumman-llv-pcm-repair > .wrapper` (the `.llv-bleed` scrollbar fix, see Global Constraints), `body.usps-grumman-llv-pcm-repair .two-column-right-hero` (hides the theme's page-title banner on this page only), and `body.usps-grumman-llv-pcm-repair .main-content` (removes the theme's default bottom spacing on this page only — both added in the 2026-08-25 post-launch live-tweak round, see Global Constraints). Running this script against the final file now prints those three lines instead of `all selectors scoped`, and that three-line output is the correct, expected result.
 
 - [ ] **Step 3: Commit**
 

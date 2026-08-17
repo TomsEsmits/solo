@@ -4,20 +4,34 @@
    one CMS page via that page's Layout Update XML — never add this file
    to a global layout handle. */
 
-/* SANCTIONED EXCEPTION — approved by site owner 2026-08-17.
-   .llv-bleed uses 100vw to break out of the theme's ~1260px container for
-   true edge-to-edge hero/photo-strip backgrounds. 100vw always includes the
+/* SANCTIONED EXCEPTIONS — the only rules in this file not nested under
+   .landing-grumman-llv. Every one is additionally scoped to
+   body.usps-grumman-llv-pcm-repair, a class that ONLY exists on this one
+   CMS page (added by this page's own Layout Update XML — see
+   docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml), so
+   none of these can affect any other page on the site even though the
+   selectors themselves reach outside .landing-grumman-llv. */
+
+/* .llv-bleed uses 100vw to break out of the theme's container for true
+   edge-to-edge hero/photo-strip backgrounds. 100vw always includes the
    vertical-scrollbar gutter, and this theme's overflow-x is `visible` at
    every breakpoint (skin/frontend/rwd/default/css/styles.css:15953,16773),
-   so without this rule the hero causes a page-wide horizontal scrollbar.
-   This selector is scoped to body.usps-grumman-llv-pcm-repair, a class
-   that ONLY exists on this one CMS page (added by this page's own Layout
-   Update XML — see docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml)
-   — no other page on the site gets this class, so no other page is
-   affected by this rule, even though the selector itself lives outside
-   .landing-grumman-llv. */
+   so without this rule the hero causes a page-wide horizontal scrollbar. */
 body.usps-grumman-llv-pcm-repair > .wrapper {
   overflow-x: hidden !important;
+}
+
+/* The theme's own "page title" banner above the main content — approved
+   by site owner 2026-08-25 to be hidden on this page only. */
+body.usps-grumman-llv-pcm-repair .two-column-right-hero {
+  display: none;
+}
+
+/* Removes the theme's default bottom spacing/rule under the main content
+   area on this page only — approved by site owner 2026-08-25. */
+body.usps-grumman-llv-pcm-repair .main-content {
+  padding-bottom: 0;
+  border-bottom: 1px solid #CACACA;
 }
 
 .landing-grumman-llv {
@@ -52,7 +66,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
 }
 
 .landing-grumman-llv .llv-inner {
-  max-width: 1200px;
+  max-width: 1590px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -170,8 +184,8 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
 .landing-grumman-llv .llv-hero__bg {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   object-fit: cover;
 }
 
@@ -366,7 +380,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
 
 .landing-grumman-llv .llv-strip img {
   width: 100%;
-  height: 420px;
+  height: 520px !important;
   object-fit: cover;
 }
 
@@ -379,7 +393,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  max-width: 1200px;
+  max-width: 1590px;
   margin: 0 auto;
 }
 
@@ -443,7 +457,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   object-fit: cover;
 }
 
@@ -715,7 +729,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   }
 
   .landing-grumman-llv .llv-strip img {
-    height: 220px;
+    height: 220px !important;
   }
 
   .landing-grumman-llv .llv-process__grid {
