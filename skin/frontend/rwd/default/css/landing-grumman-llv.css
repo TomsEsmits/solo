@@ -35,6 +35,12 @@ body.usps-grumman-llv-pcm-repair .main-content {
   border-bottom: 1px solid #CACACA;
 }
 
+/* Hides the shared footer's copyright/description line on this page
+   only — approved by site owner 2026-08-25. */
+body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copyright {
+  display: none;
+}
+
 .landing-grumman-llv {
   --llv-navy: #39608E;
   --llv-cyan: #19BAE0;
@@ -902,6 +908,14 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-why__card-icon {
     display: none;
+  }
+
+  .landing-grumman-llv .llv-why__cta {
+    margin-top: 24px;
+  }
+
+  .landing-grumman-llv .llv-why {
+    padding-bottom: 40px;
   }
 
   .landing-grumman-llv .llv-why__card-eyebrow {

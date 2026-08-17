@@ -59,6 +59,8 @@
 - **Fourteenth post-launch live-tweak round (2026-08-25, same session):** `.llv-problems__layout` mobile `gap` reduced from the shared `34px` (also used by `.llv-specialist__layout`) to `20px`, via the same single-property-override technique as the thirteenth round.
 - **Fifteenth post-launch live-tweak round (2026-08-25, same session):** the Common Problems section's lede paragraph — specifically "Common symptoms of a failing Grumman LLV PCM may include:" — gets `margin-bottom: 0`, via `.landing-grumman-llv .llv-problems__intro p.llv-lede`. Unlike the other rounds in this batch, no breakpoint was specified for this one, so it was applied as a base rule (both desktop and mobile), scoped narrowly to this one section's lede rather than the shared `p.llv-lede` class (which is also used, with different desired spacing, in the Specialist and Quote sections).
 - **Sixteenth post-launch live-tweak round (2026-08-25, same session):** `.llv-point__text` mobile `font-size: 14px` (new mobile-only override; base/desktop stays `17px`).
+- **Seventeenth post-launch live-tweak round (2026-08-25, same session):** two more mobile spacing overrides using the established single-property-override technique — `.llv-why__cta` mobile `margin-top: 24px` (base is `44px`), `.llv-why` mobile `padding-bottom: 40px` (was inheriting the shared `50px` from the `.llv-problems, .llv-specialist, .llv-process, .llv-why` mobile rule, same pattern as rounds thirteen/fourteen).
+- **Eighteenth post-launch live-tweak round (2026-08-25, same session):** a new (fifth) sanctioned exception — `body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copyright { display: none; }` hides the shared site footer's copyright/description line (`<address class="copyright ...">Solo Auto Electronics has been serving...</address>`, from `footer.phtml`) on this page only. Same pattern as the other footer/header-adjacent exceptions: gated on the page-only body class, so no other page loses this text.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -162,6 +164,12 @@ body.usps-grumman-llv-pcm-repair .main-content {
   padding-top: 0;
   padding-bottom: 0;
   border-bottom: 1px solid #CACACA;
+}
+
+/* Hides the shared footer's copyright/description line on this page
+   only — approved by site owner 2026-08-25. */
+body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copyright {
+  display: none;
 }
 
 .landing-grumman-llv {
@@ -1033,6 +1041,14 @@ body.usps-grumman-llv-pcm-repair .main-content {
     display: none;
   }
 
+  .landing-grumman-llv .llv-why__cta {
+    margin-top: 24px;
+  }
+
+  .landing-grumman-llv .llv-why {
+    padding-bottom: 40px;
+  }
+
   .landing-grumman-llv .llv-why__card-eyebrow {
     font-size: 11px;
   }
@@ -1125,7 +1141,7 @@ else:
 ```
 Expected (as originally written, before later rounds added the sanctioned exceptions below): `all selectors scoped`. Any printed `line: content` is a selector that isn't nested under `.landing-grumman-llv` — fix it before continuing (this is the check that directly enforces the "must not affect header/menu/footer" requirement). The script treats any line ending in `{` or `,` as a selector line and requires it to start with `.landing-grumman-llv`; lines ending in `;` or `);` are treated as property/value lines and skipped; `/* */` comments are stripped first so multi-line comment text can't cause false positives.
 
-**Post-final-review update:** the committed CSS file now contains three intentional exceptions, all under the "SANCTIONED EXCEPTIONS" comment at the top of the CSS block above: `body.usps-grumman-llv-pcm-repair > .wrapper` (the `.llv-bleed` scrollbar fix, see Global Constraints), `body.usps-grumman-llv-pcm-repair .two-column-right-hero` (hides the theme's page-title banner on this page only), and `body.usps-grumman-llv-pcm-repair .main-content` (removes the theme's default bottom spacing on this page only — both added in the 2026-08-25 post-launch live-tweak round, see Global Constraints). Running this script against the final file now prints those three lines instead of `all selectors scoped`, and that three-line output is the correct, expected result.
+**Post-final-review update:** the committed CSS file now contains four intentional exceptions, all under the "SANCTIONED EXCEPTIONS" comment at the top of the CSS block above: `body.usps-grumman-llv-pcm-repair > .wrapper` (the `.llv-bleed` scrollbar fix, see Global Constraints), `body.usps-grumman-llv-pcm-repair .two-column-right-hero` (hides the theme's page-title banner on this page only), `body.usps-grumman-llv-pcm-repair .main-content` (removes the theme's default bottom spacing on this page only), and `body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copyright` (hides the shared footer's copyright line on this page only) — all added across the 2026-08-25 post-launch live-tweak rounds, see Global Constraints. Running this script against the final file now prints those four lines instead of `all selectors scoped`, and that four-line output is the correct, expected result.
 
 - [ ] **Step 3: Commit**
 
@@ -1525,19 +1541,40 @@ session has no admin login. Steps:
    - Click "Show / Hide Editor" to switch to raw HTML mode
    - Paste the entire contents of `cms-page-content.html` (same folder as
      this file) into the Content box
+   - Leave the **Content Heading** field (a separate field from the main
+     Content box, above it) **empty**. If you fill it in, Magento renders
+     an extra `<h1>` page title above the pasted content, which would
+     duplicate the page's own headline (already in the pasted HTML) and
+     hurt SEO on a page whose whole purpose is SEO.
+   - **Warning:** once this HTML is pasted in raw/HTML mode and saved, do
+     **not** re-open this page in the WYSIWYG (rich text) editor and save
+     again. Magento's editor doesn't recognize `<svg>` markup and will
+     strip all the inline SVG icons on the page, and it can also mangle
+     the `{{skin url=...}}` image directives. Any future edits to this
+     page's content must also be done in raw HTML mode.
 4. **Design tab:**
    - Layout: "1 column" (this is what keeps the real header/topmenu/footer
      rendering — do not pick a blank/empty layout)
-   - Layout Update XML: paste the entire contents of `layout-update.xml`
-     (same folder as this file) into this field — this is what loads
-     `landing-grumman-llv.css` on this page only
+   - Magento 1.9 has **two** different layout-XML fields on this tab: the
+     plain **Layout Update XML** field, and a separate **Custom Layout
+     Update XML** field inside a date-ranged "Custom Design Update"
+     section. Use the plain **Layout Update XML** field — paste the entire
+     contents of `layout-update.xml` (same folder as this file) into it.
+     Do **not** use "Custom Layout Update XML" — picking the wrong field
+     means the page renders completely unstyled with no error message.
+     This is what loads `landing-grumman-llv.css` (and the body class that
+     suppresses the hero's horizontal scrollbar) on this page only.
 5. **Meta Data tab:**
    - Meta Title: `USPS Grumman LLV PCM Repair | Solo Auto Electronics`
    - Meta Description: `Grumman LLV PCM testing and repair for no-start, stalling and communication problems. Work directly with an experienced Solo Auto Electronics specialist.`
 6. **Save Page.**
 7. Do **not** add this page to the main navigation menu — it's meant to be
    a standalone link/SEO landing page, not a nav item.
-8. **Verify:**
+8. **Flush the cache:** go to **System > Cache Management** and click
+   "Flush Magento Cache" before checking the live page. Otherwise the new
+   CSS may not appear yet and it can look like something's broken when it
+   isn't.
+9. **Verify:**
    - Visit `/usps-grumman-llv-pcm-repair` on the site
    - Confirm the header, top nav, and footer look and work exactly like
      any other page (nav links work, "Quick Quote" header button still
@@ -1548,11 +1585,22 @@ session has no admin login. Steps:
    - Confirm the "Call" buttons dial `(888) 848-0144`
    - Resize the browser down to a phone width and confirm the page
      reflows sensibly (single-column sections, stacked buttons)
+   - Check for a horizontal scrollbar at the bottom of the browser window
+     on a desktop-width view (Windows Chrome/Edge especially) — there
+     shouldn't be one
+   - Confirm the hero headline is white and the hero paragraph text is
+     light/readable against the dark photo (not dark grey or blue)
 
 If anything looks off style-wise, the fix is almost always in
 `skin/frontend/rwd/default/css/landing-grumman-llv.css` — every rule in
-that file is scoped under `.landing-grumman-llv`, so it's safe to edit
-without risk of touching any other page.
+that file is scoped under `.landing-grumman-llv` EXCEPT a handful of
+clearly-commented "SANCTIONED EXCEPTIONS" grouped near the top of the file
+(suppressing the horizontal-scrollbar risk, hiding the theme's page-title
+banner, adjusting `.main-content` spacing, and hiding the shared footer's
+copyright line — all specific to this page). Every one of those exceptions
+is scoped to `body.usps-grumman-llv-pcm-repair`, a class that only exists
+on this page — so it's safe to edit the file without risk of touching any
+other page, as long as you don't remove any exception's scoping class.
 ```
 
 - [ ] **Step 2: Verify referenced files exist**
