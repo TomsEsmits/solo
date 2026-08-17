@@ -4,6 +4,22 @@
    one CMS page via that page's Layout Update XML — never add this file
    to a global layout handle. */
 
+/* SANCTIONED EXCEPTION — approved by site owner 2026-08-17.
+   .llv-bleed uses 100vw to break out of the theme's ~1260px container for
+   true edge-to-edge hero/photo-strip backgrounds. 100vw always includes the
+   vertical-scrollbar gutter, and this theme's overflow-x is `visible` at
+   every breakpoint (skin/frontend/rwd/default/css/styles.css:15953,16773),
+   so without this rule the hero causes a page-wide horizontal scrollbar.
+   This selector is scoped to body.usps-grumman-llv-pcm-repair, a class
+   that ONLY exists on this one CMS page (added by this page's own Layout
+   Update XML — see docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml)
+   — no other page on the site gets this class, so no other page is
+   affected by this rule, even though the selector itself lives outside
+   .landing-grumman-llv. */
+body.usps-grumman-llv-pcm-repair > .wrapper {
+  overflow-x: hidden;
+}
+
 .landing-grumman-llv {
   --llv-navy: #39608E;
   --llv-cyan: #19BAE0;
@@ -50,7 +66,7 @@
   margin: 0 0 18px;
 }
 
-.landing-grumman-llv .llv-heading {
+.landing-grumman-llv h2.llv-heading {
   font-weight: 600;
   font-size: 34px;
   line-height: 1.15;
@@ -62,13 +78,13 @@
   text-align: center;
 }
 
-.landing-grumman-llv .llv-lede {
+.landing-grumman-llv p.llv-lede {
   font-size: 17px;
   line-height: 1.8;
   margin: 0 0 14px;
 }
 
-.landing-grumman-llv .llv-note {
+.landing-grumman-llv p.llv-note {
   font-size: 15px;
   line-height: 1.8;
   color: var(--llv-muted);
@@ -165,7 +181,7 @@
   padding: 70px 0 0;
 }
 
-.landing-grumman-llv .llv-hero__title {
+.landing-grumman-llv h1.llv-hero__title {
   font-weight: 600;
   font-size: 48px;
   line-height: 1.1;
@@ -178,7 +194,7 @@
   color: var(--llv-cyan);
 }
 
-.landing-grumman-llv .llv-hero__lede {
+.landing-grumman-llv p.llv-hero__lede {
   font-size: 17px;
   line-height: 1.75;
   color: rgba(255, 255, 255, 0.85);
@@ -243,7 +259,7 @@
   flex: none;
 }
 
-.landing-grumman-llv .llv-problems__intro .llv-heading {
+.landing-grumman-llv .llv-problems__intro h2.llv-heading {
   font-size: 36px;
 }
 
@@ -314,7 +330,7 @@
   flex: 1;
 }
 
-.landing-grumman-llv .llv-specialist__content .llv-heading {
+.landing-grumman-llv .llv-specialist__content h2.llv-heading {
   font-size: 36px;
 }
 
@@ -522,7 +538,7 @@
   color: var(--llv-navy);
 }
 
-.landing-grumman-llv .llv-why__card-text {
+.landing-grumman-llv p.llv-why__card-text {
   font-family: 'Inter', sans-serif;
   font-size: 14.5px;
   line-height: 1.7;
@@ -564,7 +580,7 @@
   flex: 1.1;
 }
 
-.landing-grumman-llv .llv-quote__content .llv-heading {
+.landing-grumman-llv .llv-quote__content h2.llv-heading {
   font-size: 32px;
 }
 
@@ -634,12 +650,12 @@
     padding-top: 44px;
   }
 
-  .landing-grumman-llv .llv-hero__title {
+  .landing-grumman-llv h1.llv-hero__title {
     font-size: 30px;
     margin-bottom: 18px;
   }
 
-  .landing-grumman-llv .llv-hero__lede {
+  .landing-grumman-llv p.llv-hero__lede {
     font-size: 15px;
     margin-bottom: 26px;
   }
@@ -682,9 +698,9 @@
     width: 100%;
   }
 
-  .landing-grumman-llv .llv-problems__intro .llv-heading,
-  .landing-grumman-llv .llv-specialist__content .llv-heading,
-  .landing-grumman-llv .llv-quote__content .llv-heading {
+  .landing-grumman-llv .llv-problems__intro h2.llv-heading,
+  .landing-grumman-llv .llv-specialist__content h2.llv-heading,
+  .landing-grumman-llv .llv-quote__content h2.llv-heading {
     font-size: 26px;
   }
 
