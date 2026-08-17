@@ -62,6 +62,9 @@
 - **Seventeenth post-launch live-tweak round (2026-08-25, same session):** two more mobile spacing overrides using the established single-property-override technique — `.llv-why__cta` mobile `margin-top: 24px` (base is `44px`), `.llv-why` mobile `padding-bottom: 40px` (was inheriting the shared `50px` from the `.llv-problems, .llv-specialist, .llv-process, .llv-why` mobile rule, same pattern as rounds thirteen/fourteen).
 - **Eighteenth post-launch live-tweak round (2026-08-25, same session):** a new (fifth) sanctioned exception — `body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copyright { display: none; }` hides the shared site footer's copyright/description line (`<address class="copyright ...">Solo Auto Electronics has been serving...</address>`, from `footer.phtml`) on this page only. Same pattern as the other footer/header-adjacent exceptions: gated on the page-only body class, so no other page loses this text.
 - **Nineteenth post-launch live-tweak round (2026-08-25, same session):** `.llv-hero__scrim` mobile `padding-bottom` reduced from `80px` (set in round eleven's padding-move-from-`.llv-hero`) to `35px`; `padding-top: 44px` unchanged.
+- **Twentieth post-launch live-tweak round (2026-08-25, same session):** `.llv-problems` mobile gains `padding-top: 14px` (alongside its existing `padding-bottom: 40px` override from round twenty).
+- **Twenty-first post-launch live-tweak round (2026-08-25, same session):** `p.llv-note` mobile gains `margin-bottom: 10px` (base rule is `margin: 0` on all sides; this overrides just the bottom for mobile).
+- **Twenty-second post-launch live-tweak round (2026-08-25, same session):** `.llv-inner` mobile `margin-bottom` reverted from `26px` (round thirteen) back to `0` — the site owner tried the uniform trailing space across every section and asked to remove it again. `.llv-problems__layout` mobile also picked up its own explicit `margin-bottom: 0` in the same round (requested moments before this reversion, when `.llv-inner`'s `26px` was still in effect) — now redundant with `.llv-inner` back at `0`, but left in place since it's harmless and wasn't asked to be removed.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -808,7 +811,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 @media (max-width: 992px) {
   .landing-grumman-llv .llv-inner {
     padding: 0 20px;
-    margin-bottom: 26px;
+    margin-bottom: 0;
   }
 
   .landing-grumman-llv .llv-eyebrow {
@@ -823,6 +826,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
   .landing-grumman-llv p.llv-note {
     font-size: 14px;
     line-height: 1.7;
+    margin-bottom: 10px;
   }
 
   .landing-grumman-llv .llv-hero {
@@ -880,6 +884,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
   }
 
   .landing-grumman-llv .llv-problems {
+    padding-top: 14px;
     padding-bottom: 40px;
   }
 
@@ -895,6 +900,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 
   .landing-grumman-llv .llv-problems__layout {
     gap: 20px;
+    margin-bottom: 0;
   }
 
   .landing-grumman-llv .llv-problems__intro,
