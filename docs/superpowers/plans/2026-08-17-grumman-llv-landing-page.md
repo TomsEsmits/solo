@@ -35,6 +35,10 @@
   - **Responsive breakpoint changed sitewide-for-this-page: `900px` → `992px`.** The single `@media (max-width: 900px)` block (only occurrence of that breakpoint in the file) is now `@media (max-width: 992px)`, per the site owner's request to switch to the smaller-screen layout sooner rather than waiting until 900px.
 - **Fourth post-launch live-tweak round (2026-08-25, same session):** `!important` added to every `font-size`/color-type declaration inside the `@media (max-width: 992px)` block, matching the treatment already applied to their desktop counterparts (`h1.llv-hero__title`, `h2.llv-heading` colors, image dimensions) — without it, a mobile-width override at normal specificity can lose to a `!important` desktop rule of the same selector regardless of the media query matching (this is the same class of bug caught and fixed for `.llv-strip img`'s mobile height earlier). No `color` properties are actually re-declared inside the media block (color values inherit from the `!important` desktop rules unchanged at every width, so there was nothing to touch there) — the three `font-size` declarations (`h1.llv-hero__title`, `p.llv-hero__lede`, the `h2.llv-heading` 3-selector compound) all gained `!important`.
 - **Fifth post-launch live-tweak round (2026-08-25, same session):** a full mobile-typography pass across the `@media (max-width: 992px)` block, driven by two things: (1) explicit pixel values the site owner gave directly (`.llv-problems__grid` gains `width: 100%`; `.llv-hero` mobile `padding-bottom` moved to `0` and the freed-up spacing relocated to `.llv-hero__scrim`'s `padding-bottom: 80px`, keeping its existing `padding-top: 44px`; `.llv-badge__title` mobile `font-size: 15px !important` since the site owner observed it rendering at `12px` on small screens without an explicit override; `.llv-problems__item` mobile `padding: 16px 18px`; `.llv-problems__label` mobile `font-size: 15px`), and (2) the site owner asking to "compare font size on smaller screens for every section" against the original approved mobile design (the `#mobile-view` block from the source mockup, `USPS Grumman LLV PCM Repair - Solo Auto Electronics (2) (1).html`, extracted during brainstorming but never used verbatim — this plan deliberately collapsed it into responsive CSS on a single markup block instead of shipping duplicate desktop/mobile HTML). That comparison added mobile-only overrides, matched to the mockup's mobile values, for elements that previously had no mobile override at all and so silently inherited oversized desktop values: `.llv-eyebrow` (12px), `p.llv-lede` (15px/1.7), `p.llv-note` (14px/1.7), `.llv-badge__text` (12.5px), `.llv-specialist__media` padding-top (26px), `.llv-specialist__media-backdrop` (220×150px), `.llv-specialist__media img` margin-top (26px), `.llv-process` heading (added to the existing 26px compound selector — it wasn't covered before), `.llv-process__num` (34px), `.llv-process__title` (17px), `.llv-process__text` (14px), `.llv-why__media-caption strong` (17px), `.llv-why__card-eyebrow` (11px), `.llv-why__card-title` (18px), `.llv-why__card-text` (13.5px), `.llv-disclaimer` (12px). Known minor, deliberately-accepted discrepancy: the source mockup itself isn't fully internally consistent between sections for shared classes (e.g. `p.llv-lede` is 15px on mobile in the problems/specialist sections of the mockup but 14px in the quote section; `.llv-heading` mobile size varies 22–26px across sections) — this pass picked the value shared by the majority of sections for each shared class rather than forking per-section variants, to keep the CSS maintainable; not chased further unless the site owner flags a specific section as visibly wrong.
+- **Sixth post-launch live-tweak round (2026-08-25, same session):** the site owner shared two side-by-side screenshots of the Common Problems section showing the mockup's original mobile content order (lede shortened to "...may include:", the note paragraph moved from before the grid to after it) versus what actually shipped (lede with the fuller "...may include the failures listed here." wording, note before the grid) — this is exactly the mobile-only content reordering the original design intentionally simplified away during brainstorming (see the source-mockup note in the Fifth round entry above), now being restored for this one section specifically because the site owner flagged it. Implementation, since flexbox can't reorder an element from inside one flex-child to after a sibling flex-child without either restructuring the DOM or forking the CSS layout entirely:
+  - `p.llv-lede` copy shortened to "Common symptoms of a failing Grumman LLV PCM may include:" (applies at every breakpoint — pure copy edit, no layout implication).
+  - The note paragraph is now **duplicated** in the HTML rather than reordered: the original stays inside `.llv-problems__intro` (before the grid) with an added class `llv-problems__note--desktop`; a second, identical copy was added as a new element after `.llv-problems__grid` (still inside `.llv-problems__layout`) with class `llv-problems__note--mobile`. CSS shows exactly one of the two at a time: `.llv-problems__note--mobile` is `display: none` by default (hidden on desktop) and `display: block` inside the `@media (max-width: 992px)` block; `.llv-problems__note--desktop` is shown by default and set `display: none` inside that same media block. A hidden (`display: none`) element is automatically excluded from the accessibility tree by browsers, so no `aria-hidden` is needed on either copy — whichever one is currently invisible is also correctly invisible to screen readers, with no risk of the note being announced twice or not at all.
+  - This is a deliberate, scoped exception to the "don't ship duplicate desktop/mobile markup" principle from the original design — one paragraph, not the whole page, and only because visually reordering it across a flex-column-vs-flex-row breakpoint change has no CSS-only solution here without restructuring `.llv-problems__layout` in a way that risked the desktop 2-column layout the site owner hasn't asked to change. If more sections need this same before/after-the-grid reordering later, worth reconsidering a CSS Grid-based layout with named/ordered areas instead of piling up more duplicated paragraphs.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -412,6 +416,10 @@ body.usps-grumman-llv-pcm-repair .main-content {
   font-size: 17px;
   line-height: 1.4;
   color: var(--llv-slate);
+}
+
+.landing-grumman-llv .llv-problems__note--mobile {
+  display: none;
 }
 
 .landing-grumman-llv .llv-specialist {
@@ -864,6 +872,14 @@ body.usps-grumman-llv-pcm-repair .main-content {
     font-size: 15px;
   }
 
+  .landing-grumman-llv .llv-problems__note--desktop {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-problems__note--mobile {
+    display: block;
+  }
+
   .landing-grumman-llv .llv-points {
     grid-template-columns: 1fr;
     gap: 14px;
@@ -1060,8 +1076,8 @@ Create `docs/superpowers/plans/grumman-llv-admin-handoff/cms-page-content.html`:
       <div class="llv-problems__intro">
         <div class="llv-eyebrow">Common problems</div>
         <h2 class="llv-heading">Common Grumman LLV PCM Problems</h2>
-        <p class="llv-lede">Common symptoms of a failing Grumman LLV PCM may include the failures listed here.</p>
-        <p class="llv-note">Because these symptoms can also be caused by wiring, sensors, power supply issues, or other components, the original PCM should be properly diagnosed before replacement.</p>
+        <p class="llv-lede">Common symptoms of a failing Grumman LLV PCM may include:</p>
+        <p class="llv-note llv-problems__note--desktop">Because these symptoms can also be caused by wiring, sensors, power supply issues, or other components, the original PCM should be properly diagnosed before replacement.</p>
       </div>
       <div class="llv-problems__grid">
         <div class="llv-problems__item"><span class="llv-problems__num">01</span><span class="llv-problems__label">Engine cranks but will not start</span></div>
@@ -1071,6 +1087,7 @@ Create `docs/superpowers/plans/grumman-llv-admin-handoff/cms-page-content.html`:
         <div class="llv-problems__item"><span class="llv-problems__num">05</span><span class="llv-problems__label">Vehicle stalls or shuts off unexpectedly</span></div>
         <div class="llv-problems__item"><span class="llv-problems__num">06</span><span class="llv-problems__label">Check engine light or recurring fault codes</span></div>
       </div>
+      <p class="llv-note llv-problems__note--mobile">Because these symptoms can also be caused by wiring, sensors, power supply issues, or other components, the original PCM should be properly diagnosed before replacement.</p>
     </div>
   </section>
 

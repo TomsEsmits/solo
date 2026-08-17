@@ -309,6 +309,10 @@ body.usps-grumman-llv-pcm-repair .main-content {
   color: var(--llv-slate);
 }
 
+.landing-grumman-llv .llv-problems__note--mobile {
+  display: none;
+}
+
 .landing-grumman-llv .llv-specialist {
   padding: 90px 0 60px;
 }
@@ -757,6 +761,14 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-problems__label {
     font-size: 15px;
+  }
+
+  .landing-grumman-llv .llv-problems__note--desktop {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-problems__note--mobile {
+    display: block;
   }
 
   .landing-grumman-llv .llv-points {
