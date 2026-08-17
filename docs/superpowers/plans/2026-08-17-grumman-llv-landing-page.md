@@ -61,6 +61,7 @@
 - **Sixteenth post-launch live-tweak round (2026-08-25, same session):** `.llv-point__text` mobile `font-size: 14px` (new mobile-only override; base/desktop stays `17px`).
 - **Seventeenth post-launch live-tweak round (2026-08-25, same session):** two more mobile spacing overrides using the established single-property-override technique — `.llv-why__cta` mobile `margin-top: 24px` (base is `44px`), `.llv-why` mobile `padding-bottom: 40px` (was inheriting the shared `50px` from the `.llv-problems, .llv-specialist, .llv-process, .llv-why` mobile rule, same pattern as rounds thirteen/fourteen).
 - **Eighteenth post-launch live-tweak round (2026-08-25, same session):** a new (fifth) sanctioned exception — `body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copyright { display: none; }` hides the shared site footer's copyright/description line (`<address class="copyright ...">Solo Auto Electronics has been serving...</address>`, from `footer.phtml`) on this page only. Same pattern as the other footer/header-adjacent exceptions: gated on the page-only body class, so no other page loses this text.
+- **Nineteenth post-launch live-tweak round (2026-08-25, same session):** `.llv-hero__scrim` mobile `padding-bottom` reduced from `80px` (set in round eleven's padding-move-from-`.llv-hero`) to `35px`; `padding-top: 44px` unchanged.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -830,7 +831,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 
   .landing-grumman-llv .llv-hero__scrim {
     padding-top: 44px;
-    padding-bottom: 80px;
+    padding-bottom: 35px;
   }
 
   .landing-grumman-llv h1.llv-hero__title {
