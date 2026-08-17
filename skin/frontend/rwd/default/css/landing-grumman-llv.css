@@ -145,6 +145,7 @@
 }
 
 .landing-grumman-llv .llv-hero {
+  position: relative;
   background: var(--llv-dark);
   overflow: hidden;
   padding-bottom: 110px;
