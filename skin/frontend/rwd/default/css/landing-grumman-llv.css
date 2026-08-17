@@ -783,6 +783,11 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-specialist__media {
     padding-top: 26px;
+    order: 2;
+  }
+
+  .landing-grumman-llv .llv-specialist__content {
+    order: 1;
   }
 
   .landing-grumman-llv .llv-specialist__media-backdrop {
