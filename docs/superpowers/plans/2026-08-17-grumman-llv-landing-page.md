@@ -41,6 +41,7 @@
   - This is a deliberate, scoped exception to the "don't ship duplicate desktop/mobile markup" principle from the original design — one paragraph, not the whole page, and only because visually reordering it across a flex-column-vs-flex-row breakpoint change has no CSS-only solution here without restructuring `.llv-problems__layout` in a way that risked the desktop 2-column layout the site owner hasn't asked to change. If more sections need this same before/after-the-grid reordering later, worth reconsidering a CSS Grid-based layout with named/ordered areas instead of piling up more duplicated paragraphs.
 - **Seventh post-launch live-tweak round (2026-08-25, same session):** same class of request as the sixth round, this time for the Specialist section — the site owner shared screenshots showing the mockup's mobile order (text content, *then* the truck photo below it) versus what shipped (photo first, text below). Unlike the Common Problems note, this one needed no HTML change at all: `.llv-specialist__media` and `.llv-specialist__content` are already direct siblings in the same `.llv-specialist__layout` flex container (unlike the Problems note, which was nested two levels deep inside `.llv-problems__intro`), so a plain CSS `order` swap inside the `@media (max-width: 992px)` block is sufficient — `.llv-specialist__media { order: 2; }` and `.llv-specialist__content { order: 1; }`. Desktop is untouched (no `order` set there, so it keeps the DOM's natural media-then-content left/right arrangement). This is the general lesson from the sixth round's note: when the two things needing reordering are *already flex siblings*, `order` is the right tool and no duplication is needed; duplication is only a fallback for when the content to reorder is nested inside one of the siblings instead.
 - **Eighth post-launch live-tweak round (2026-08-25, same session):** two more requests. (1) `.llv-point` mobile padding reduced from the inherited desktop `30px 32px` to `16px 18px`, matching the source mockup's mobile checklist-card padding (same value already used for `.llv-problems__item`). (2) The 3-point checklist and the photo strip needed to swap visual order on mobile (photo first, checklist below, overlapping its bottom edge) — but unlike the Specialist section (round seven), these two aren't flex siblings and the desktop overlap effect depends on DOM adjacency (`.llv-points` has `margin-bottom: -60px` pulling the *following* sibling, the strip section, up underneath it), so a plain `order` swap would have broken the overlap without also flipping which element carries the negative margin. Went with the same duplication technique as the Common Problems note (round six) instead: the strip `<section>` is now duplicated — one copy (`llv-strip--mobile`) placed *before* `.llv-inner > .llv-points`, one copy (`llv-strip--desktop`) kept in its original position *after* — with `display: none`/`block` toggling per breakpoint exactly one into view, same as the Problems note pattern. On mobile, `.llv-points` gets `margin-bottom: 0` (removing the now-irrelevant pull toward the hidden desktop copy, which would otherwise have yanked the *Process* section up instead) and a new `margin-top: -40px` (pulling itself up to overlap the *preceding* mobile strip image's bottom edge — the overlap direction had to flip along with the visual order). The `-40px` value is an estimate matching the screenshots' proportions, not a pixel-measured value from the mockup; nudge it if the overlap looks off once live.
+- **Ninth post-launch live-tweak round (2026-08-25, same session):** two changes to the Process section steps on mobile, per screenshot comparison against the mockup. (1) `.llv-process__step` mobile `padding-top` set to `20px` (an explicit mobile-only override — desktop's `44px`, set in round two, was unintentionally inherited on mobile since no override previously existed; `20px` is the value that was in place before round two's desktop-only bump). (2) Restructured the step's number/title/text from vertical stacking (num above title above text, matching desktop) into a CSS Grid on mobile only: `grid-template-columns: auto 1fr` puts `.llv-process__num` and `.llv-process__title` side by side on row 1 (`align-items: baseline`, `column-gap: 16px`), with `.llv-process__text` spanning both columns (`grid-column: 1 / -1`) on row 2 below (`row-gap: 8px`). `margin-bottom` was zeroed on both num and title since the grid's `row-gap` now governs spacing instead. `.llv-process__tick` (the small cyan line marker) needed no change — it's `position: absolute`, so it's already removed from normal flow and unaffected by the switch from block stacking to grid. This restores, for this one section, the same mobile-vs-desktop number/title arrangement difference that the original source mockup had and that brainstorming deliberately dropped for simplicity (see the Fifth round's note on this file's general "same order both breakpoints" simplification) — same rationale as the sixth/eighth rounds' section-specific restorations.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -932,16 +933,33 @@ body.usps-grumman-llv-pcm-repair .main-content {
     gap: 26px;
   }
 
+  .landing-grumman-llv .llv-process__step {
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 16px;
+    row-gap: 8px;
+    align-items: baseline;
+  }
+
   .landing-grumman-llv .llv-process__num {
     font-size: 34px;
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0;
   }
 
   .landing-grumman-llv .llv-process__title {
     font-size: 17px;
+    grid-column: 2;
+    grid-row: 1;
+    margin-bottom: 0;
   }
 
   .landing-grumman-llv .llv-process__text {
     font-size: 14px;
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   .landing-grumman-llv .llv-why__grid {
