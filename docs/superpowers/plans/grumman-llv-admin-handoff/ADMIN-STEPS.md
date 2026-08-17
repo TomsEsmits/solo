@@ -50,11 +50,11 @@ session has no admin login. Steps:
 6. **Save Page.**
 7. Do **not** add this page to the main navigation menu — it's meant to be
    a standalone link/SEO landing page, not a nav item.
-7a. **Flush the cache:** go to **System > Cache Management** and click
-    "Flush Magento Cache" before checking the live page. Otherwise the new
-    CSS may not appear yet and it can look like something's broken when it
-    isn't.
-8. **Verify:**
+8. **Flush the cache:** go to **System > Cache Management** and click
+   "Flush Magento Cache" before checking the live page. Otherwise the new
+   CSS may not appear yet and it can look like something's broken when it
+   isn't.
+9. **Verify:**
    - Visit `/usps-grumman-llv-pcm-repair` on the site
    - Confirm the header, top nav, and footer look and work exactly like
      any other page (nav links work, "Quick Quote" header button still
@@ -73,5 +73,8 @@ session has no admin login. Steps:
 
 If anything looks off style-wise, the fix is almost always in
 `skin/frontend/rwd/default/css/landing-grumman-llv.css` — every rule in
-that file is scoped under `.landing-grumman-llv`, so it's safe to edit
-without risk of touching any other page.
+that file is scoped under `.landing-grumman-llv` EXCEPT one clearly-commented
+exception near the top of the file (`body.usps-grumman-llv-pcm-repair > .wrapper`,
+which suppresses a horizontal-scrollbar risk and is scoped to only this page's
+body class) — so it's safe to edit without risk of touching any other page, as
+long as you don't remove that one exception's scoping class.

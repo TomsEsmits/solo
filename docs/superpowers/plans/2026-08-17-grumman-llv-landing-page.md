@@ -105,7 +105,7 @@ Create `skin/frontend/rwd/default/css/landing-grumman-llv.css`:
    affected by this rule, even though the selector itself lives outside
    .landing-grumman-llv. */
 body.usps-grumman-llv-pcm-repair > .wrapper {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 .landing-grumman-llv {
