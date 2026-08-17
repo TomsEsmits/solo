@@ -42,6 +42,7 @@
 - **Seventh post-launch live-tweak round (2026-08-25, same session):** same class of request as the sixth round, this time for the Specialist section — the site owner shared screenshots showing the mockup's mobile order (text content, *then* the truck photo below it) versus what shipped (photo first, text below). Unlike the Common Problems note, this one needed no HTML change at all: `.llv-specialist__media` and `.llv-specialist__content` are already direct siblings in the same `.llv-specialist__layout` flex container (unlike the Problems note, which was nested two levels deep inside `.llv-problems__intro`), so a plain CSS `order` swap inside the `@media (max-width: 992px)` block is sufficient — `.llv-specialist__media { order: 2; }` and `.llv-specialist__content { order: 1; }`. Desktop is untouched (no `order` set there, so it keeps the DOM's natural media-then-content left/right arrangement). This is the general lesson from the sixth round's note: when the two things needing reordering are *already flex siblings*, `order` is the right tool and no duplication is needed; duplication is only a fallback for when the content to reorder is nested inside one of the siblings instead.
 - **Eighth post-launch live-tweak round (2026-08-25, same session):** two more requests. (1) `.llv-point` mobile padding reduced from the inherited desktop `30px 32px` to `16px 18px`, matching the source mockup's mobile checklist-card padding (same value already used for `.llv-problems__item`). (2) The 3-point checklist and the photo strip needed to swap visual order on mobile (photo first, checklist below, overlapping its bottom edge) — but unlike the Specialist section (round seven), these two aren't flex siblings and the desktop overlap effect depends on DOM adjacency (`.llv-points` has `margin-bottom: -60px` pulling the *following* sibling, the strip section, up underneath it), so a plain `order` swap would have broken the overlap without also flipping which element carries the negative margin. Went with the same duplication technique as the Common Problems note (round six) instead: the strip `<section>` is now duplicated — one copy (`llv-strip--mobile`) placed *before* `.llv-inner > .llv-points`, one copy (`llv-strip--desktop`) kept in its original position *after* — with `display: none`/`block` toggling per breakpoint exactly one into view, same as the Problems note pattern. On mobile, `.llv-points` gets `margin-bottom: 0` (removing the now-irrelevant pull toward the hidden desktop copy, which would otherwise have yanked the *Process* section up instead) and a new `margin-top: -40px` (pulling itself up to overlap the *preceding* mobile strip image's bottom edge — the overlap direction had to flip along with the visual order). The `-40px` value is an estimate matching the screenshots' proportions, not a pixel-measured value from the mockup; nudge it if the overlap looks off once live.
 - **Ninth post-launch live-tweak round (2026-08-25, same session):** two changes to the Process section steps on mobile, per screenshot comparison against the mockup. (1) `.llv-process__step` mobile `padding-top` set to `20px` (an explicit mobile-only override — desktop's `44px`, set in round two, was unintentionally inherited on mobile since no override previously existed; `20px` is the value that was in place before round two's desktop-only bump). (2) Restructured the step's number/title/text from vertical stacking (num above title above text, matching desktop) into a CSS Grid on mobile only: `grid-template-columns: auto 1fr` puts `.llv-process__num` and `.llv-process__title` side by side on row 1 (`align-items: baseline`, `column-gap: 16px`), with `.llv-process__text` spanning both columns (`grid-column: 1 / -1`) on row 2 below (`row-gap: 8px`). `margin-bottom` was zeroed on both num and title since the grid's `row-gap` now governs spacing instead. `.llv-process__tick` (the small cyan line marker) needed no change — it's `position: absolute`, so it's already removed from normal flow and unaffected by the switch from block stacking to grid. This restores, for this one section, the same mobile-vs-desktop number/title arrangement difference that the original source mockup had and that brainstorming deliberately dropped for simplicity (see the Fifth round's note on this file's general "same order both breakpoints" simplification) — same rationale as the sixth/eighth rounds' section-specific restorations.
+- **Tenth post-launch live-tweak round (2026-08-25, same session):** further mobile refinements to the Why section's cards, requested directly (no screenshot this time, exact selectors/values given): (1) `.llv-why__media-caption` mobile padding set to `50px 20px 18px` (was inheriting desktop's `70px 30px 28px`, no prior mobile override). (2) `.llv-why__card` mobile padding set to `26px 24px` (was inheriting desktop's `36px 34px`) — this is the shared base class for all three card variants (`--dark`, `--outline`, `--cyan`), so one rule covers all three, matching how the site owner phrased it ("same for" the outline and cyan cards). (3) `.llv-why__card-icon` set to `display: none` on mobile. The request explicitly named this only next to `--dark`, but `.llv-why__card-icon` is itself the shared icon class used by all three variants (not a `--dark`-specific one), and the source mockup's mobile design omits the icon from all three card variants, not just the dark one — interpreted as hiding it everywhere for consistency with both the mockup and the shared-class structure; flagged to the site owner as an interpretation call in case only the dark card's icon was meant.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -971,13 +972,25 @@ body.usps-grumman-llv-pcm-repair .main-content {
     min-height: 240px;
   }
 
+  .landing-grumman-llv .llv-why__media-caption {
+    padding: 50px 20px 18px;
+  }
+
   .landing-grumman-llv .llv-why__media-caption strong {
     font-size: 17px;
+  }
+
+  .landing-grumman-llv .llv-why__card {
+    padding: 26px 24px;
   }
 
   .landing-grumman-llv .llv-why__card--dark {
     grid-column: auto;
     flex-direction: column;
+  }
+
+  .landing-grumman-llv .llv-why__card-icon {
+    display: none;
   }
 
   .landing-grumman-llv .llv-why__card-eyebrow {

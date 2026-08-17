@@ -859,13 +859,25 @@ body.usps-grumman-llv-pcm-repair .main-content {
     min-height: 240px;
   }
 
+  .landing-grumman-llv .llv-why__media-caption {
+    padding: 50px 20px 18px;
+  }
+
   .landing-grumman-llv .llv-why__media-caption strong {
     font-size: 17px;
+  }
+
+  .landing-grumman-llv .llv-why__card {
+    padding: 26px 24px;
   }
 
   .landing-grumman-llv .llv-why__card--dark {
     grid-column: auto;
     flex-direction: column;
+  }
+
+  .landing-grumman-llv .llv-why__card-icon {
+    display: none;
   }
 
   .landing-grumman-llv .llv-why__card-eyebrow {
