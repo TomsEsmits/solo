@@ -65,6 +65,8 @@
 - **Twentieth post-launch live-tweak round (2026-08-25, same session):** `.llv-problems` mobile gains `padding-top: 14px` (alongside its existing `padding-bottom: 40px` override from round twenty).
 - **Twenty-first post-launch live-tweak round (2026-08-25, same session):** `p.llv-note` mobile gains `margin-bottom: 10px` (base rule is `margin: 0` on all sides; this overrides just the bottom for mobile).
 - **Twenty-second post-launch live-tweak round (2026-08-25, same session):** `.llv-inner` mobile `margin-bottom` reverted from `26px` (round thirteen) back to `0` — the site owner tried the uniform trailing space across every section and asked to remove it again. `.llv-problems__layout` mobile also picked up its own explicit `margin-bottom: 0` in the same round (requested moments before this reversion, when `.llv-inner`'s `26px` was still in effect) — now redundant with `.llv-inner` back at `0`, but left in place since it's harmless and wasn't asked to be removed.
+- **Twenty-third post-launch live-tweak round (2026-08-25, same session):** `.llv-hero__scrim` mobile `padding-bottom` changed again, `35px` (round nineteen) → `65px`.
+- **Twenty-fourth post-launch live-tweak round (2026-08-25, same session):** `.llv-problems` mobile `padding-top` changed again, `14px` (round twenty) → `40px` (`padding-bottom: 40px` unchanged).
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -835,7 +837,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 
   .landing-grumman-llv .llv-hero__scrim {
     padding-top: 44px;
-    padding-bottom: 35px;
+    padding-bottom: 65px;
   }
 
   .landing-grumman-llv h1.llv-hero__title {
@@ -884,7 +886,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
   }
 
   .landing-grumman-llv .llv-problems {
-    padding-top: 14px;
+    padding-top: 40px;
     padding-bottom: 40px;
   }
 
