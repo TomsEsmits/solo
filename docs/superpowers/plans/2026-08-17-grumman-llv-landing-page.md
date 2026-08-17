@@ -22,6 +22,13 @@
   - `.llv-inner` and `.llv-process__grid` `max-width` raised from `1200px` to `1590px` to match the real site header's content width.
   - `.llv-hero__bg`, `.llv-why__media img` width/height, and `.llv-strip img` height (`420px` → `520px`, mobile override `220px` kept) all needed `!important` — the live production theme apparently forces image dimensions elsewhere with higher specificity or `!important` of its own (not visible in the locally-explored branch, which had diverged from production); the site owner confirmed via direct testing in the browser which properties needed it.
   - Two more sanctioned exceptions added alongside the existing overflow-x one (all body-class-scoped, none can affect other pages): `body.usps-grumman-llv-pcm-repair .two-column-right-hero { display: none; }` hides the theme's auto-generated page-title banner above the content on this page only; `body.usps-grumman-llv-pcm-repair .main-content { padding-bottom: 0; border-bottom: 1px solid #CACACA; }` removes the theme's default spacing/rule under the main content area on this page only.
+- **Second post-launch live-tweak round (2026-08-25, same session):** further visual refinements requested after seeing the 1590px-width update live:
+  - `padding-bottom: 110px` moved from `.llv-hero` to `.llv-hero__scrim` (same value, different element — visual result is the badges-overlap spacing is now driven by the scrim, not the outer hero box).
+  - `h1.llv-hero__title` color and `h2.llv-heading` color both given `!important` (same theme-specificity issue as the earlier Critical fix for these same two selectors — production's `.cms-page-view .std h1/h2` rules apparently still contest color here in some cases the earlier element-qualification fix didn't fully cover on the live theme). `h2.llv-heading` font-size/line-height also bumped `34px/1.15` → `42px/1.12` to match the live design more closely.
+  - `.llv-specialist__media` width `460px` → `620px`; `.llv-specialist__media-backdrop` `300x220px` → `420x300px`; `.llv-specialist__media img` gained `width:100%`, `display:block`, `margin-top` `40px`→`60px`, updated `filter` drop-shadow values, and `height: unset !important` (overrides the earlier `.landing-grumman-llv img { height:auto }` base reset, which was fighting the intended natural aspect ratio here now that the image is width-constrained instead of absolutely positioned).
+  - `.llv-point` padding `26px 28px` → `30px 32px`; `.llv-point__text` `16px/1.5` → `17px/1.55`.
+  - `.llv-process__step` padding-top `20px` → `44px`; `.llv-process__num` `44px/16px-margin` → `52px/20px-margin`; `.llv-process__title` `20px/10px-margin` → `22px/14px-margin`.
+  - `.llv-why__card-eyebrow` font-size `13px` → `14px`.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -174,9 +181,9 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv h2.llv-heading {
   font-weight: 600;
-  font-size: 34px;
-  line-height: 1.15;
-  color: var(--llv-navy);
+  font-size: 42px;
+  line-height: 1.12;
+  color: var(--llv-navy) !important;
   margin: 0 0 20px;
 }
 
@@ -270,7 +277,6 @@ body.usps-grumman-llv-pcm-repair .main-content {
   position: relative;
   background: var(--llv-dark);
   overflow: hidden;
-  padding-bottom: 110px;
 }
 
 .landing-grumman-llv .llv-hero__bg {
@@ -285,13 +291,14 @@ body.usps-grumman-llv-pcm-repair .main-content {
   position: relative;
   background: linear-gradient(100deg, rgba(15, 12, 8, 0.9) 0%, rgba(15, 12, 8, 0.6) 55%, rgba(15, 12, 8, 0.15) 100%);
   padding: 70px 0 0;
+  padding-bottom: 110px;
 }
 
 .landing-grumman-llv h1.llv-hero__title {
   font-weight: 600;
   font-size: 48px;
   line-height: 1.1;
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   margin: 0 0 26px;
   max-width: 720px;
 }
@@ -411,7 +418,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
 }
 
 .landing-grumman-llv .llv-specialist__media {
-  width: 460px;
+  width: 620px;
   flex: none;
   position: relative;
   padding-top: 40px;
@@ -421,15 +428,18 @@ body.usps-grumman-llv-pcm-repair .main-content {
   position: absolute;
   right: 24px;
   top: 0;
-  width: 300px;
-  height: 220px;
+  width: 420px;
+  height: 300px;
   background: var(--llv-cyan);
 }
 
 .landing-grumman-llv .llv-specialist__media img {
   position: relative;
-  margin-top: 40px;
-  filter: drop-shadow(0 20px 34px rgba(20, 27, 36, 0.25));
+  width: 100%;
+  display: block;
+  margin-top: 60px;
+  filter: drop-shadow(0 24px 40px rgba(20, 27, 36, 0.25));
+  height: unset !important;
 }
 
 .landing-grumman-llv .llv-specialist__content {
@@ -452,7 +462,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
 .landing-grumman-llv .llv-point {
   background: #FFFFFF;
   border-radius: var(--llv-radius-lg);
-  padding: 26px 28px;
+  padding: 30px 32px;
   display: flex;
   gap: 14px;
   align-items: center;
@@ -465,8 +475,8 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv .llv-point__text {
   font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.55;
   color: var(--llv-slate);
 }
 
@@ -491,7 +501,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv .llv-process__step {
   position: relative;
-  padding-top: 20px;
+  padding-top: 44px;
   border-top: 2px solid var(--llv-border);
 }
 
@@ -506,18 +516,18 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv .llv-process__num {
   font-weight: 600;
-  font-size: 44px;
+  font-size: 52px;
   line-height: 1;
   color: var(--llv-cyan);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .landing-grumman-llv .llv-process__title {
   font-weight: 600;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.3;
   color: var(--llv-navy);
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 .landing-grumman-llv .llv-process__text {
@@ -622,7 +632,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv .llv-why__card-eyebrow {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--llv-cyan);
