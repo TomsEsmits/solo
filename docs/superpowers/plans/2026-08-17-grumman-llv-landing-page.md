@@ -154,7 +154,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   margin: 0 0 18px;
 }
 
-.landing-grumman-llv .llv-heading {
+.landing-grumman-llv h2.llv-heading {
   font-weight: 600;
   font-size: 34px;
   line-height: 1.15;
@@ -166,13 +166,13 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   text-align: center;
 }
 
-.landing-grumman-llv .llv-lede {
+.landing-grumman-llv p.llv-lede {
   font-size: 17px;
   line-height: 1.8;
   margin: 0 0 14px;
 }
 
-.landing-grumman-llv .llv-note {
+.landing-grumman-llv p.llv-note {
   font-size: 15px;
   line-height: 1.8;
   color: var(--llv-muted);
@@ -269,7 +269,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   padding: 70px 0 0;
 }
 
-.landing-grumman-llv .llv-hero__title {
+.landing-grumman-llv h1.llv-hero__title {
   font-weight: 600;
   font-size: 48px;
   line-height: 1.1;
@@ -282,7 +282,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   color: var(--llv-cyan);
 }
 
-.landing-grumman-llv .llv-hero__lede {
+.landing-grumman-llv p.llv-hero__lede {
   font-size: 17px;
   line-height: 1.75;
   color: rgba(255, 255, 255, 0.85);
@@ -347,7 +347,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   flex: none;
 }
 
-.landing-grumman-llv .llv-problems__intro .llv-heading {
+.landing-grumman-llv .llv-problems__intro h2.llv-heading {
   font-size: 36px;
 }
 
@@ -418,7 +418,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   flex: 1;
 }
 
-.landing-grumman-llv .llv-specialist__content .llv-heading {
+.landing-grumman-llv .llv-specialist__content h2.llv-heading {
   font-size: 36px;
 }
 
@@ -626,7 +626,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   color: var(--llv-navy);
 }
 
-.landing-grumman-llv .llv-why__card-text {
+.landing-grumman-llv p.llv-why__card-text {
   font-family: 'Inter', sans-serif;
   font-size: 14.5px;
   line-height: 1.7;
@@ -668,7 +668,7 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   flex: 1.1;
 }
 
-.landing-grumman-llv .llv-quote__content .llv-heading {
+.landing-grumman-llv .llv-quote__content h2.llv-heading {
   font-size: 32px;
 }
 
@@ -738,12 +738,12 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
     padding-top: 44px;
   }
 
-  .landing-grumman-llv .llv-hero__title {
+  .landing-grumman-llv h1.llv-hero__title {
     font-size: 30px;
     margin-bottom: 18px;
   }
 
-  .landing-grumman-llv .llv-hero__lede {
+  .landing-grumman-llv p.llv-hero__lede {
     font-size: 15px;
     margin-bottom: 26px;
   }
@@ -786,9 +786,9 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
     width: 100%;
   }
 
-  .landing-grumman-llv .llv-problems__intro .llv-heading,
-  .landing-grumman-llv .llv-specialist__content .llv-heading,
-  .landing-grumman-llv .llv-quote__content .llv-heading {
+  .landing-grumman-llv .llv-problems__intro h2.llv-heading,
+  .landing-grumman-llv .llv-specialist__content h2.llv-heading,
+  .landing-grumman-llv .llv-quote__content h2.llv-heading {
     font-size: 26px;
   }
 
@@ -863,7 +863,9 @@ else:
     print('all selectors scoped')
 "
 ```
-Expected: `all selectors scoped`. Any printed `line: content` is a selector that isn't nested under `.landing-grumman-llv` — fix it before continuing (this is the check that directly enforces the "must not affect header/menu/footer" requirement). The script treats any line ending in `{` or `,` as a selector line and requires it to start with `.landing-grumman-llv`; lines ending in `;` or `);` are treated as property/value lines and skipped; `/* */` comments are stripped first so multi-line comment text can't cause false positives.
+Expected (as originally written, before the final-review fix wave added the one sanctioned exception below): `all selectors scoped`. Any printed `line: content` is a selector that isn't nested under `.landing-grumman-llv` — fix it before continuing (this is the check that directly enforces the "must not affect header/menu/footer" requirement). The script treats any line ending in `{` or `,` as a selector line and requires it to start with `.landing-grumman-llv`; lines ending in `;` or `);` are treated as property/value lines and skipped; `/* */` comments are stripped first so multi-line comment text can't cause false positives.
+
+**Post-final-review update:** the committed CSS file now contains exactly one intentional exception (`body.usps-grumman-llv-pcm-repair > .wrapper`, see the "SANCTIONED EXCEPTION" comment at the top of the CSS block above and the Global Constraints entry on the `.llv-bleed` scrollbar fix) — running this script against the final file now prints that one line instead of `all selectors scoped`, and that single-line output is the correct, expected result.
 
 - [ ] **Step 3: Commit**
 
@@ -1168,11 +1170,12 @@ Run:
 cd /mnt/c/Users/mresm/OneDrive/Desktop/pacific_projects/solopcms/public_html
 python3 -c "
 import xml.dom.minidom as m
-m.parse('docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml')
+content = open('docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml', encoding='utf-8').read()
+m.parseString(f'<root>{content}</root>')
 print('well-formed')
 "
 ```
-Expected: `well-formed`. (Magento wraps this snippet in an outer `<layout>` element itself when the page is saved — this file intentionally contains only the fragment that goes inside it, matching what the CMS page's Layout Update XML field expects.)
+Expected: `well-formed`. (Magento wraps this snippet in an outer `<layout>` element itself when the page is saved — this file intentionally contains only the fragment that goes inside it, matching what the CMS page's Layout Update XML field expects. The file has more than one top-level `<reference>` sibling, which is a valid XML fragment but not a standalone well-formed document on its own — parsing it wrapped in a synthetic `<root>` element, as this command does, is the correct way to validate a multi-root fragment like this one. Parsing the raw file directly with `m.parse(...)` will fail with "junk after document element" once there's more than one top-level element — that failure is expected and not a sign the file is broken.)
 
 - [ ] **Step 3: Commit**
 
