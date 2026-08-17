@@ -40,6 +40,7 @@
   - The note paragraph is now **duplicated** in the HTML rather than reordered: the original stays inside `.llv-problems__intro` (before the grid) with an added class `llv-problems__note--desktop`; a second, identical copy was added as a new element after `.llv-problems__grid` (still inside `.llv-problems__layout`) with class `llv-problems__note--mobile`. CSS shows exactly one of the two at a time: `.llv-problems__note--mobile` is `display: none` by default (hidden on desktop) and `display: block` inside the `@media (max-width: 992px)` block; `.llv-problems__note--desktop` is shown by default and set `display: none` inside that same media block. A hidden (`display: none`) element is automatically excluded from the accessibility tree by browsers, so no `aria-hidden` is needed on either copy — whichever one is currently invisible is also correctly invisible to screen readers, with no risk of the note being announced twice or not at all.
   - This is a deliberate, scoped exception to the "don't ship duplicate desktop/mobile markup" principle from the original design — one paragraph, not the whole page, and only because visually reordering it across a flex-column-vs-flex-row breakpoint change has no CSS-only solution here without restructuring `.llv-problems__layout` in a way that risked the desktop 2-column layout the site owner hasn't asked to change. If more sections need this same before/after-the-grid reordering later, worth reconsidering a CSS Grid-based layout with named/ordered areas instead of piling up more duplicated paragraphs.
 - **Seventh post-launch live-tweak round (2026-08-25, same session):** same class of request as the sixth round, this time for the Specialist section — the site owner shared screenshots showing the mockup's mobile order (text content, *then* the truck photo below it) versus what shipped (photo first, text below). Unlike the Common Problems note, this one needed no HTML change at all: `.llv-specialist__media` and `.llv-specialist__content` are already direct siblings in the same `.llv-specialist__layout` flex container (unlike the Problems note, which was nested two levels deep inside `.llv-problems__intro`), so a plain CSS `order` swap inside the `@media (max-width: 992px)` block is sufficient — `.llv-specialist__media { order: 2; }` and `.llv-specialist__content { order: 1; }`. Desktop is untouched (no `order` set there, so it keeps the DOM's natural media-then-content left/right arrangement). This is the general lesson from the sixth round's note: when the two things needing reordering are *already flex siblings*, `order` is the right tool and no duplication is needed; duplication is only a fallback for when the content to reorder is nested inside one of the siblings instead.
+- **Eighth post-launch live-tweak round (2026-08-25, same session):** two more requests. (1) `.llv-point` mobile padding reduced from the inherited desktop `30px 32px` to `16px 18px`, matching the source mockup's mobile checklist-card padding (same value already used for `.llv-problems__item`). (2) The 3-point checklist and the photo strip needed to swap visual order on mobile (photo first, checklist below, overlapping its bottom edge) — but unlike the Specialist section (round seven), these two aren't flex siblings and the desktop overlap effect depends on DOM adjacency (`.llv-points` has `margin-bottom: -60px` pulling the *following* sibling, the strip section, up underneath it), so a plain `order` swap would have broken the overlap without also flipping which element carries the negative margin. Went with the same duplication technique as the Common Problems note (round six) instead: the strip `<section>` is now duplicated — one copy (`llv-strip--mobile`) placed *before* `.llv-inner > .llv-points`, one copy (`llv-strip--desktop`) kept in its original position *after* — with `display: none`/`block` toggling per breakpoint exactly one into view, same as the Problems note pattern. On mobile, `.llv-points` gets `margin-bottom: 0` (removing the now-irrelevant pull toward the hidden desktop copy, which would otherwise have yanked the *Process* section up instead) and a new `margin-top: -40px` (pulling itself up to overlap the *preceding* mobile strip image's bottom edge — the overlap direction had to flip along with the visual order). The `-40px` value is an estimate matching the screenshots' proportions, not a pixel-measured value from the mockup; nudge it if the overlap looks off once live.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -496,6 +497,10 @@ body.usps-grumman-llv-pcm-repair .main-content {
   color: var(--llv-slate);
 }
 
+.landing-grumman-llv .llv-strip--mobile {
+  display: none;
+}
+
 .landing-grumman-llv .llv-strip img {
   width: 100%;
   height: 520px !important;
@@ -884,11 +889,24 @@ body.usps-grumman-llv-pcm-repair .main-content {
   .landing-grumman-llv .llv-points {
     grid-template-columns: 1fr;
     gap: 14px;
-    margin-bottom: -30px;
+    margin-bottom: 0;
+    margin-top: -40px;
+  }
+
+  .landing-grumman-llv .llv-point {
+    padding: 16px 18px;
   }
 
   .landing-grumman-llv .llv-strip img {
     height: 220px !important;
+  }
+
+  .landing-grumman-llv .llv-strip--mobile {
+    display: block;
+  }
+
+  .landing-grumman-llv .llv-strip--desktop {
+    display: none;
   }
 
   .landing-grumman-llv .llv-specialist__media {
@@ -1113,6 +1131,10 @@ Create `docs/superpowers/plans/grumman-llv-admin-handoff/cms-page-content.html`:
     </div>
   </section>
 
+  <section class="llv-strip llv-strip--mobile llv-bleed">
+    <img src="{{skin url='images/landing/grumman-llv/route-strip.jpg'}}" alt="USPS mail truck on route in Miami">
+  </section>
+
   <div class="llv-inner">
     <div class="llv-points">
       <div class="llv-point">
@@ -1130,7 +1152,7 @@ Create `docs/superpowers/plans/grumman-llv-admin-handoff/cms-page-content.html`:
     </div>
   </div>
 
-  <section class="llv-strip llv-bleed">
+  <section class="llv-strip llv-strip--desktop llv-bleed">
     <img src="{{skin url='images/landing/grumman-llv/route-strip.jpg'}}" alt="USPS mail truck on route in Miami">
   </section>
 
