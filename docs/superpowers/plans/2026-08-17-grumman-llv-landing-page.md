@@ -55,6 +55,10 @@
   - Three specific `<br>` tags — the one between "Working hours:" and its value, and the two inside the "Ship to:" address — gained a new class `llv-quote__br--stack`, hidden (`display: none`) on mobile only. Desktop keeps these as real line breaks (unchanged, matching the originally-approved desktop design); mobile now lets "Working hours: Mon - Fri: 7:30am - 5:30pm" and the full ship-to address each flow as one line that wraps naturally, matching the mockup's mobile version of this panel (a single flowing text block, not stacked labels) without touching desktop's markup or requiring content duplication — a `<br class="...">` toggle is simpler than the duplication technique used for the Problems-note/photo-strip reorders (rounds six/eight) because here the fix is purely about suppressing specific line breaks, not moving an element relative to a sibling.
   - The Phone/Email `<br>` (between those two lines) was deliberately left as a real, undedicated `<br>` at both breakpoints — it wasn't flagged as a problem and already reads as two separate lines correctly.
 - **Twelfth post-launch live-tweak round (2026-08-25, same session):** `.llv-disclaimer` mobile: `padding: 18px 22px` (was inheriting desktop's `24px` all-around) and `text-align: left` (was inheriting the base rule's `text-align: center`).
+- **Thirteenth post-launch live-tweak round (2026-08-25, same session):** three small mobile spacing adjustments. (1) `.llv-inner` mobile gains `margin-bottom: 26px` — this is the universal content-wrapper class reused across every section, so this adds trailing space after each section's `.llv-inner` block uniformly; checked against the existing negative-margin overlap tricks (round eight's `.llv-points` mobile `margin-top: -40px`, the desktop `.llv-points`/`.llv-badges` overlaps) and confirmed safe — those all use `margin-top` on the overlapping element itself, unaffected by adding `margin-bottom` to a separate ancestor `.llv-inner`. (2) `.llv-problems` mobile `padding-bottom: 40px` (was inheriting `50px` from the shared `.llv-problems, .llv-specialist, .llv-process, .llv-why { padding: 50px 0; }` mobile rule — added as its own single-property override, same specificity, later in source, so only `padding-bottom` is overridden and the shared rule's other three sides are untouched for this selector). (3) `.llv-specialist` mobile `padding-top: 10px`, using the same override technique.
+- **Fourteenth post-launch live-tweak round (2026-08-25, same session):** `.llv-problems__layout` mobile `gap` reduced from the shared `34px` (also used by `.llv-specialist__layout`) to `20px`, via the same single-property-override technique as the thirteenth round.
+- **Fifteenth post-launch live-tweak round (2026-08-25, same session):** the Common Problems section's lede paragraph — specifically "Common symptoms of a failing Grumman LLV PCM may include:" — gets `margin-bottom: 0`, via `.landing-grumman-llv .llv-problems__intro p.llv-lede`. Unlike the other rounds in this batch, no breakpoint was specified for this one, so it was applied as a base rule (both desktop and mobile), scoped narrowly to this one section's lede rather than the shared `p.llv-lede` class (which is also used, with different desired spacing, in the Specialist and Quote sections).
+- **Sixteenth post-launch live-tweak round (2026-08-25, same session):** `.llv-point__text` mobile `font-size: 14px` (new mobile-only override; base/desktop stays `17px`).
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -401,6 +405,10 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv .llv-problems__intro h2.llv-heading {
   font-size: 36px;
+}
+
+.landing-grumman-llv .llv-problems__intro p.llv-lede {
+  margin-bottom: 0;
 }
 
 .landing-grumman-llv .llv-problems__grid {
@@ -791,6 +799,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
 @media (max-width: 992px) {
   .landing-grumman-llv .llv-inner {
     padding: 0 20px;
+    margin-bottom: 26px;
   }
 
   .landing-grumman-llv .llv-eyebrow {
@@ -861,10 +870,22 @@ body.usps-grumman-llv-pcm-repair .main-content {
     padding: 50px 0;
   }
 
+  .landing-grumman-llv .llv-problems {
+    padding-bottom: 40px;
+  }
+
+  .landing-grumman-llv .llv-specialist {
+    padding-top: 10px;
+  }
+
   .landing-grumman-llv .llv-problems__layout,
   .landing-grumman-llv .llv-specialist__layout {
     flex-direction: column;
     gap: 34px;
+  }
+
+  .landing-grumman-llv .llv-problems__layout {
+    gap: 20px;
   }
 
   .landing-grumman-llv .llv-problems__intro,
@@ -912,6 +933,10 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
   .landing-grumman-llv .llv-point {
     padding: 16px 18px;
+  }
+
+  .landing-grumman-llv .llv-point__text {
+    font-size: 14px;
   }
 
   .landing-grumman-llv .llv-strip img {
