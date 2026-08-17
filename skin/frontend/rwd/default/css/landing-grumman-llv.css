@@ -669,12 +669,12 @@ body.usps-grumman-llv-pcm-repair .main-content {
   }
 
   .landing-grumman-llv h1.llv-hero__title {
-    font-size: 30px;
+    font-size: 30px !important;
     margin-bottom: 18px;
   }
 
   .landing-grumman-llv p.llv-hero__lede {
-    font-size: 15px;
+    font-size: 15px !important;
     margin-bottom: 26px;
   }
 
@@ -719,7 +719,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
   .landing-grumman-llv .llv-problems__intro h2.llv-heading,
   .landing-grumman-llv .llv-specialist__content h2.llv-heading,
   .landing-grumman-llv .llv-quote__content h2.llv-heading {
-    font-size: 26px;
+    font-size: 26px !important;
   }
 
   .landing-grumman-llv .llv-problems__grid {

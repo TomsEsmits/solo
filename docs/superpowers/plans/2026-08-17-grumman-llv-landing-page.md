@@ -33,6 +33,7 @@
   - `body.usps-grumman-llv-pcm-repair .main-content` gained `padding-top: 0` alongside its existing `padding-bottom: 0`/`border-bottom` (same sanctioned-exception rule, one more property).
   - `h1.llv-hero__title` font-size `48px` → `56px`; `.llv-eyebrow` font-size `14px` → `16px`.
   - **Responsive breakpoint changed sitewide-for-this-page: `900px` → `992px`.** The single `@media (max-width: 900px)` block (only occurrence of that breakpoint in the file) is now `@media (max-width: 992px)`, per the site owner's request to switch to the smaller-screen layout sooner rather than waiting until 900px.
+- **Fourth post-launch live-tweak round (2026-08-25, same session):** `!important` added to every `font-size`/color-type declaration inside the `@media (max-width: 992px)` block, matching the treatment already applied to their desktop counterparts (`h1.llv-hero__title`, `h2.llv-heading` colors, image dimensions) — without it, a mobile-width override at normal specificity can lose to a `!important` desktop rule of the same selector regardless of the media query matching (this is the same class of bug caught and fixed for `.llv-strip img`'s mobile height earlier). No `color` properties are actually re-declared inside the media block (color values inherit from the `!important` desktop rules unchanged at every width, so there was nothing to touch there) — the three `font-size` declarations (`h1.llv-hero__title`, `p.llv-hero__lede`, the `h2.llv-heading` 3-selector compound) all gained `!important`.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -772,12 +773,12 @@ body.usps-grumman-llv-pcm-repair .main-content {
   }
 
   .landing-grumman-llv h1.llv-hero__title {
-    font-size: 30px;
+    font-size: 30px !important;
     margin-bottom: 18px;
   }
 
   .landing-grumman-llv p.llv-hero__lede {
-    font-size: 15px;
+    font-size: 15px !important;
     margin-bottom: 26px;
   }
 
@@ -822,7 +823,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
   .landing-grumman-llv .llv-problems__intro h2.llv-heading,
   .landing-grumman-llv .llv-specialist__content h2.llv-heading,
   .landing-grumman-llv .llv-quote__content h2.llv-heading {
-    font-size: 26px;
+    font-size: 26px !important;
   }
 
   .landing-grumman-llv .llv-problems__grid {
