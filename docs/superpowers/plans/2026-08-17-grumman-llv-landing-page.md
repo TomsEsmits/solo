@@ -29,6 +29,10 @@
   - `.llv-point` padding `26px 28px` → `30px 32px`; `.llv-point__text` `16px/1.5` → `17px/1.55`.
   - `.llv-process__step` padding-top `20px` → `44px`; `.llv-process__num` `44px/16px-margin` → `52px/20px-margin`; `.llv-process__title` `20px/10px-margin` → `22px/14px-margin`.
   - `.llv-why__card-eyebrow` font-size `13px` → `14px`.
+- **Third post-launch live-tweak round (2026-08-25, same session):**
+  - `body.usps-grumman-llv-pcm-repair .main-content` gained `padding-top: 0` alongside its existing `padding-bottom: 0`/`border-bottom` (same sanctioned-exception rule, one more property).
+  - `h1.llv-hero__title` font-size `48px` → `56px`; `.llv-eyebrow` font-size `14px` → `16px`.
+  - **Responsive breakpoint changed sitewide-for-this-page: `900px` → `992px`.** The single `@media (max-width: 900px)` block (only occurrence of that breakpoint in the file) is now `@media (max-width: 992px)`, per the site owner's request to switch to the smaller-screen layout sooner rather than waiting until 900px.
 - Fonts (Rubik, Inter) are already loaded site-wide via `footer.phtml:109` (Google Fonts). Do not add a new font-face or font import.
 
 ---
@@ -129,6 +133,7 @@ body.usps-grumman-llv-pcm-repair .two-column-right-hero {
 /* Removes the theme's default bottom spacing/rule under the main content
    area on this page only — approved by site owner 2026-08-25. */
 body.usps-grumman-llv-pcm-repair .main-content {
+  padding-top: 0;
   padding-bottom: 0;
   border-bottom: 1px solid #CACACA;
 }
@@ -172,7 +177,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv .llv-eyebrow {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--llv-cyan);
@@ -296,7 +301,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
 
 .landing-grumman-llv h1.llv-hero__title {
   font-weight: 600;
-  font-size: 48px;
+  font-size: 56px;
   line-height: 1.1;
   color: #FFFFFF !important;
   margin: 0 0 26px;
@@ -753,7 +758,7 @@ body.usps-grumman-llv-pcm-repair .main-content {
   text-align: center;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
   .landing-grumman-llv .llv-inner {
     padding: 0 20px;
   }
