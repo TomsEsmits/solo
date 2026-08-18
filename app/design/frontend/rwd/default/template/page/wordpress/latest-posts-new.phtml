@@ -1,0 +1,100 @@
+<?php
+	include( $_SERVER[ 'DOCUMENT_ROOT' ] . "/blog/wp-load.php" );
+	$posts = get_posts(
+		array(
+			"post_status" => "publish",
+			"posts_per_page" => 3,
+			"post_type" => "post"
+		)
+	);
+	function get_featured_image( $id ) {
+		global $post;
+		$id = ( $id == null ) ? $post->ID : $id;
+		return wp_get_attachment_url( get_post_thumbnail_id( $id ) );
+	}
+?>
+
+<section id="wordpress-posts-new">
+	<div class="container">
+		<h2>Visit Our Knowledge Base</h2>
+		<p>Browse step-by-step guides, troubleshooting tips, and programming instructions to <br> help you get the most out of your ECM and PCM services—available 24/7.</p>
+		<div class="post-main-wrapper">
+
+				<?php 
+					$total_posts = count($posts);
+
+					if ($total_posts > 0) : ?>
+						<div class="first-item-wrapper">
+							<?php $p = $posts[0]; ?>
+							<div class="post-wrapper" data-post-page="<?php echo get_permalink($p->ID); ?>">
+								<div class="featured-image">
+									<img src="<?php echo get_featured_image($p->ID); ?>" alt="">
+								</div>
+								<div class="content-wrapper">
+									<h3 class="post-title"><?php echo $p->post_title; ?></h3>
+									<p class="post-content">
+										<?php echo wp_trim_words( apply_filters('the_content', get_post_field('post_content', $p->ID)), 30, '...' ); ?>
+									</p>
+									<a href="<?php echo get_permalink($p->ID); ?>" class="post-page">
+										Continue Reading 
+										<figure><svg xmlns="http://www.w3.org/2000/svg" width="17" height="12" viewBox="0 0 17 12" fill="none">
+												<path fill-rule="evenodd" clip-rule="evenodd" d="M16.3564 6.62651L11.0114 11.9279L9.67539 10.6028L14.3524 5.96395L9.67539 1.32511L11.0114 0L16.3564 5.30139C16.5336 5.47713 16.6331 5.71546 16.6331 5.96395C16.6331 6.21245 16.5336 6.45077 16.3564 6.62651Z" fill="#19BAE0"/>
+												<path fill-rule="evenodd" clip-rule="evenodd" d="M0.497559 5.23596H15.1169V6.73596H0.497559V5.23596Z" fill="#19BAE0"/>
+												</svg>
+										</figure>
+									</a>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+
+					<?php if ($total_posts > 1) : ?>
+						<!-- Next two items wrapper -->
+						<div class="next-two-items-wrapper">
+							<?php for ($i = 1; $i < min(3, $total_posts); $i++) : ?>
+								<?php $p = $posts[$i]; ?>
+									<div class="post-wrapper" data-post-page="<?php echo get_permalink($p->ID); ?>">
+										<div class="featured-image">
+										<img src="<?php echo get_featured_image($p->ID); ?>" alt="">
+									</div>
+									<div class="content-wrapper">
+										<h3 class="post-title"><?php echo $p->post_title; ?></h3>
+										<p class="post-content">
+											<?php echo wp_trim_words( apply_filters('the_content', get_post_field('post_content', $p->ID)), 20, '...' ); ?>
+										</p>
+										<a href="<?php echo get_permalink($p->ID); ?>" class="post-page">
+											Continue Reading 
+											<figure><svg xmlns="http://www.w3.org/2000/svg" width="17" height="12" viewBox="0 0 17 12" fill="none">
+													<path fill-rule="evenodd" clip-rule="evenodd" d="M16.3564 6.62651L11.0114 11.9279L9.67539 10.6028L14.3524 5.96395L9.67539 1.32511L11.0114 0L16.3564 5.30139C16.5336 5.47713 16.6331 5.71546 16.6331 5.96395C16.6331 6.21245 16.5336 6.45077 16.3564 6.62651Z" fill="#19BAE0"/>
+													<path fill-rule="evenodd" clip-rule="evenodd" d="M0.497559 5.23596H15.1169V6.73596H0.497559V5.23596Z" fill="#19BAE0"/>
+													</svg>
+											</figure>
+										</a>
+									</div>
+								</div>
+							<?php endfor; ?>
+						</div>
+					<?php endif; ?>
+
+			<?php /* foreach ( $posts as $p ) : ?>
+				<div class="grid-3-1">
+					<div class="square"  data-post-page="<?php echo get_permalink( $p->ID ); ?>" style="background-image: url( '<?php echo get_featured_image( $p->ID ); ?>' );">
+						<div>
+							<h3><?php echo $p->post_title; ?></h3>
+							<p><a href="<?php echo get_permalink( $p->ID ); ?>">Continue Reading →</a></p>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; */ ?>
+		</div>
+	</div>
+</section>
+
+<script>
+	jQuery(document).ready(function(){
+		jQuery("#wordpress-posts .square").click( function(){
+			var linkData = jQuery(this).attr("data-post-page");
+			window.location.href = linkData;
+		});
+	});
+</script>

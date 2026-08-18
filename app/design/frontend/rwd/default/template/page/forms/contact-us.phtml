@@ -21,6 +21,35 @@
             <p><textarea class="box" id="contact-us-comments"></textarea></p>
         </div>
     </div>
+     <div class="grid-4">
+        <div class="grid-4-4">
+            <!-- Transactional / Informational SMS consent (required) -->
+            <div style="display: flex; gap: 16px; align-items: flex-start; margin: 10px 0;">
+            <input 
+                id="sms_transactional" 
+                name="sms_transactional" 
+                type="checkbox" 
+                value="yes" 
+                required 
+                style="width: 24px; height: 24px; margin-top: 4px;flex-shrink: 0;"
+            >
+            <label for="sms_transactional" style="line-height: 1.4;">
+                I agree to receive transactional text messages from Solo Auto Electronics (e.g., appointment updates, service reminders).
+            </label>
+            </div>
+            <!-- SMS opt-in checkbox (unchecked by default) -->
+            <div style="display: flex;gap: 16px;align-items: center;margin: 10px 0;">
+                <input id="sms_opt_in" name="sms_opt_in" type="checkbox" value="yes" style="width: 24px; height: 24px;flex-shrink: 0;">
+                <label for="sms_opt_in">
+                    By checking this box, I agree to receive promotional and marketing text messages from Solo Auto Electronics 
+                    at the phone number provided. <strong>Consent is not a condition of purchase.</strong> 
+                    You will receive up to 4 messages per month. Reply STOP to unsubscribe, HELP for help. 
+                    See our <a href="https://www.solopcms.com/privacy-policy/" target="_blank">Privacy Policy</a> and 
+                    <a href="https://www.solopcms.com/customer-service/" target="_blank">Terms of Service</a>.
+                </label>
+            </div>
+        </div>
+    </div>
     <div class="g-recaptcha" data-sitekey="6Lf5bpAqAAAAAMRDs7LDzMt4v9S3QsdWAKXbGZ6w"></div>
     <p><a href="#" id="contact-us-submit" class="submit">Submit</a></p>
 </div>

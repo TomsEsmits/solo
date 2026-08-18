@@ -53,7 +53,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
             $select = $this->getLayout()->createBlock('core/html_select')
                 ->setData(array(
                     'id' => 'select_'.$_option->getId(),
-                    'class' => $require.' product-custom-option'
+                    'class' => $require.' product-custom-option 3333'
                 ));
             if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN) {
                 $select->setName('options['.$_option->getid().']')
@@ -85,7 +85,18 @@ class Mage_Catalog_Block_Product_View_Options_Type_Select
                 $select->setValue($configValue);
             }
 
-            return $select->getHtml();
+            // return $select->getHtml();
+
+            $html  = '<div class="custom-select-wrapper">';
+            $html .= $select->getHtml();
+            $html .= '<figure class="select-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.37265 6.38346L0.559669 1.57047L1.7627 0.36744L5.97417 4.57891L10.1856 0.36744L11.3887 1.57047L6.57569 6.38346C6.41614 6.54296 6.19977 6.63256 5.97417 6.63256C5.74857 6.63256 5.5322 6.54296 5.37265 6.38346Z" fill="#636363"/>
+            </svg>
+            </figure>';
+            $html .= '</div>';
+
+            return $html;
         }
 
         if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO

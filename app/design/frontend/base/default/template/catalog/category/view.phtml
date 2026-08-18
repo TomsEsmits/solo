@@ -39,13 +39,18 @@
         $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($_category->getName()).'" title="'.$this->escapeHtml($_category->getName()).'" /></p>';
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
+
+    $currentUrl = Mage::helper('core/url')->getCurrentUrl();
 ?>
-<div class="page-title category-title">
-    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
-        <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
-    <?php endif; ?>
-    <h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
-</div>
+
+<?php if (strpos($currentUrl, '/auto-computers/') == false): ?>
+    <div class="page-title category-title">
+        <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
+            <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
+        <?php endif; ?>
+        <h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
+    </div>
+<?php endif; ?>
 
 <?php echo $this->getMessagesBlock()->toHtml() ?>
 
@@ -53,11 +58,13 @@
     <?php echo $_imgHtml ?>
 <?php endif; ?>
 
-<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-    <div class="category-description std">
-        <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
-    </div>
+<?php if (strpos($currentUrl, '/auto-computers/') == false): ?>
+    <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+        <div class="category-description std">
+            <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+        </div>
     <?php endif; ?>
+<?php endif; ?>
 
 <?php if($this->isContentMode()): ?>
     <?php echo $this->getCmsBlockHtml() ?>
@@ -68,4 +75,98 @@
 
 <?php else: ?>
     <?php echo $this->getProductListHtml() ?>
+<?php endif; ?>
+
+<?php if ($this->getCurrentCategory()->getId() == 290): ?>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Auto Computer Exchange",
+            "serviceType": "ECM/PCM/ECU Rebuild & Reprogram Exchange",
+            "description": "Send your old unit. SOLO rebuilds and reprograms to OEM specs, then ships a plug-and-play replacement with fast turnaround.",
+            "provider": {
+                "@type": "Organization",
+                "name": "SOLO",
+                "url": "https://www.solopcms.com/"
+            },
+            "areaServed": { "@type": "Country", "name": "United States" },
+            "brand": "SOLO",
+            "audience": {
+                "@type": "Audience",
+                "audienceType": ["DIY car owners", "Auto repair professionals"]
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "https://www.solopcms.com/auto-computers/auto-computer-exchange/",
+                "availability": "https://schema.org/InStock",
+                "priceCurrency": "USD",
+                "price": "249.00",
+                 "warranty": {
+                    "@type": "WarrantyPromise",
+                    "durationOfWarranty": { "@type": "QuantitativeValue", "value": 12, "unitCode": "MON" }
+                },
+                "itemOffered": {
+                    "@type": "Product",
+                    "name": "Rebuilt ECM/PCM/ECU (Plug-and-Play)",
+                    "brand": "SOLO",
+                    "category": "Auto Part",
+                    "image": "https://www.solopcms.com/media/catalog/product/cache/1/small_image/210x/9df78eab33525d08d6e5fb8d27136e95/l/s/ls1b_blue_1_29.jpg",
+                    "description": "A plug-and-play rebuilt ECM, PCM, or ECU pre-programmed to OEM specifications with fast turnaround.",
+                    "additionalProperty": [
+                        { "@type": "PropertyValue", "name": "Pre-programmed to VIN", "value": "Yes" },
+                        { "@type": "PropertyValue", "name": "OEM-grade restoration", "value": "Yes" }
+                    ],
+                    "isSimilarTo": [
+                        { "@type": "Product", "name": "ECM" },
+                        { "@type": "Product", "name": "PCM" },
+                        { "@type": "Product", "name": "ECU" }
+                    ],
+                    "offers": {
+                        "@type": "Offer",
+                        "url": "https://www.solopcms.com/auto-computers/auto-computer-exchange/",
+                        "availability": "https://schema.org/InStock",
+                        "priceCurrency": "USD",
+                        "price": "249.00"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to Start an Auto Computer Exchange with SOLO",
+            "description": "Three-step exchange process for ECM/PCM/ECU.",
+            "step": [
+                { "@type": "HowToStep", "name": "Send your old unit", "text": "Ship your existing ECM, PCM, or ECU to SOLO." },
+                { "@type": "HowToStep", "name": "We rebuild & reprogram", "text": "Technicians restore to OEM specifications." },
+                { "@type": "HowToStep", "name": "Receive your replacement", "text": "Ready for immediate installation (plug-and-play)." }
+            ]
+        }
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context":"https://schema.org",
+            "@type":"BreadcrumbList",
+            "itemListElement":[
+                {"@type":"ListItem","position":1,"name":"Auto Computers","item":"https://www.solopcms.com/auto-computers/"},
+                {"@type":"ListItem","position":2,"name":"Auto Computer Exchange","item":"https://www.solopcms.com/auto-computers/auto-computer-exchange/"}
+            ]
+        }
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context":"https://schema.org",
+            "@type":"WebPage",
+            "name":"Auto Computer Exchange | Rebuilt ECMs & PCMs Shipped Fast",
+            "url":"https://www.solopcms.com/auto-computers/auto-computer-exchange/",
+            "about":{"@id":"#solo-auto-computer-exchange"},
+            "primaryImageOfPage":"https://www.solopcms.com/path-to-hero.jpg"
+        }
+    </script>
 <?php endif; ?>

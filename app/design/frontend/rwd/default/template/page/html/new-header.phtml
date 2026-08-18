@@ -85,6 +85,42 @@ else
     
 }
 ?>
+
+<?php 
+$host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+if (strpos($host, '/thank-you') !== false) {
+
+    $lastOrderId = Mage::getSingleton('checkout/session')->getLastOrderId();
+    if ($lastOrderId) {
+        $order = Mage::getModel('sales/order')->load($lastOrderId);
+        $orderItems = $order->getAllVisibleItems();
+        ?>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          "event": "purchase",
+          "ecommerce": {
+            "transaction_id": "<?php echo $order->getIncrementId(); ?>",
+            "value": "<?php echo number_format($order->getGrandTotal(), 2, '.', ''); ?>",
+            "currency": "<?php echo $order->getOrderCurrencyCode(); ?>",
+            "items": [
+              <?php foreach ($orderItems as $i => $_item): ?>
+              {
+                "item_name": "<?php echo addslashes($_item->getName()); ?>",
+                "item_id": "<?php echo $_item->getSku(); ?>",
+                "price": "<?php echo number_format($_item->getPrice(), 2, '.', ''); ?>",
+                "quantity": "<?php echo (int)$_item->getQtyOrdered(); ?>"
+              }<?php if ($i < count($orderItems) - 1) echo ','; ?>
+              <?php endforeach; ?>
+            ]
+          }
+        });
+        </script>
+        <?php
+    }
+}
+?>
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2KBPSD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
@@ -95,6 +131,82 @@ else
     $path_2 = $url_2->getPath();
 ?>
 
+<div class="header-top-part">
+    <div class="container">
+        <div class="inner-wrapper">
+            <div class="header-contact-info">
+                <a href="tel:+18888480144" title="(888) 848-0144">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                            <path d="M21 16.92V20.456C21.0001 20.7092 20.9042 20.953 20.7316 21.1382C20.559 21.3234 20.3226 21.4363 20.07 21.454C19.633 21.484 19.276 21.5 19 21.5C10.163 21.5 3 14.337 3 5.5C3 5.224 3.015 4.867 3.046 4.43C3.06372 4.17744 3.17658 3.94101 3.3618 3.76841C3.54703 3.59581 3.79082 3.49989 4.044 3.5H7.58C7.70404 3.49987 7.8237 3.54586 7.91573 3.62902C8.00776 3.71218 8.0656 3.82658 8.078 3.95C8.101 4.18 8.122 4.363 8.142 4.502C8.34073 5.88892 8.748 7.23783 9.35 8.503C9.445 8.703 9.383 8.942 9.203 9.07L7.045 10.612C8.36445 13.6865 10.8145 16.1365 13.889 17.456L15.429 15.302C15.4919 15.214 15.5838 15.1509 15.6885 15.1237C15.7932 15.0964 15.9042 15.1068 16.002 15.153C17.267 15.7539 18.6156 16.1602 20.002 16.358C20.141 16.378 20.324 16.399 20.552 16.422C20.6752 16.4346 20.7894 16.4926 20.8724 16.5846C20.9553 16.6766 21.0002 16.7961 21 16.92Z" fill="#2B79C2"/>
+                        </svg>
+                    </figure> 
+                    <span class="desktop-text">(888) 848-0144</span>
+                    <span class="mobile-text" style="display: none;">Call Us</span>
+                </a>
+                <div class="word-time">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                            <path d="M12 22.5C6.477 22.5 2 18.023 2 12.5C2 6.977 6.477 2.5 12 2.5C17.523 2.5 22 6.977 22 12.5C22 18.023 17.523 22.5 12 22.5ZM12 20.5C14.1217 20.5 16.1566 19.6571 17.6569 18.1569C19.1571 16.6566 20 14.6217 20 12.5C20 10.3783 19.1571 8.34344 17.6569 6.84315C16.1566 5.34285 14.1217 4.5 12 4.5C9.87827 4.5 7.84344 5.34285 6.34315 6.84315C4.84285 8.34344 4 10.3783 4 12.5C4 14.6217 4.84285 16.6566 6.34315 18.1569C7.84344 19.6571 9.87827 20.5 12 20.5ZM13 12.5H17V14.5H11V7.5H13V12.5Z" fill="#2B79C2"/>
+                        </svg>
+                    </figure>
+                    <p>Mon - Fri: 7:30am - 5:30pm</p>
+                </div>
+            </div>
+            <div class="header-account">
+                <div>
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                            <g clip-path="url(#clip0_453_499)">
+                                <path d="M15.55 13.5C16.3 13.5 16.96 13.09 17.3 12.47L20.88 5.98C21.25 5.32 20.77 4.5 20.01 4.5H5.21L4.27 2.5H1V4.5H3L6.6 12.09L5.25 14.53C4.52 15.87 5.48 17.5 7 17.5H19V15.5H7L8.1 13.5H15.55ZM6.16 6.5H18.31L15.55 11.5H8.53L6.16 6.5ZM7 18.5C5.9 18.5 5.01 19.4 5.01 20.5C5.01 21.6 5.9 22.5 7 22.5C8.1 22.5 9 21.6 9 20.5C9 19.4 8.1 18.5 7 18.5ZM17 18.5C15.9 18.5 15.01 19.4 15.01 20.5C15.01 21.6 15.9 22.5 17 22.5C18.1 22.5 19 21.6 19 20.5C19 19.4 18.1 18.5 17 18.5Z" fill="#2B79C2"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_453_499">
+                                <rect width="24" height="24" fill="white" transform="translate(0 0.5)"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </figure>
+                    <a href="http://solopcms.test/checkout/cart/" title="http://solopcms.test/checkout/cart/">
+                        My Cart (
+                            <?php
+                                $cart2 = Mage::getSingleton('checkout/session')->getQuote();
+                                foreach ($cart2 as $cart_element) {
+                                    if(isset($cart_element['items_count'])){
+                                        $cart_content = preg_replace("/[^0-9,.]/", "", $cart_element['items_count']);
+                                    }
+                                }
+                                if(isset($cart_content) && $cart_content != ''){
+                                    echo $cart_content;
+                                }else{
+                                    echo '0';
+                                }
+                            ?>
+                        )
+                    </a>
+                </div>
+                <div>
+                    <a href="<?php echo $this->helper('customer')->getAccountUrl(); ?>" data-target-element="#header-account">
+                        <figure>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                <g clip-path="url(#clip0_453_502)">
+                                    <path d="M12 2.5C6.48 2.5 2 6.98 2 12.5C2 18.02 6.48 22.5 12 22.5C17.52 22.5 22 18.02 22 12.5C22 6.98 17.52 2.5 12 2.5ZM7.35 19C8.66 18.06 10.26 17.5 12 17.5C13.74 17.5 15.34 18.06 16.65 19C15.34 19.94 13.74 20.5 12 20.5C10.26 20.5 8.66 19.94 7.35 19ZM18.14 17.62C16.45 16.3 14.32 15.5 12 15.5C9.68 15.5 7.55 16.3 5.86 17.62C4.7 16.23 4 14.45 4 12.5C4 8.08 7.58 4.5 12 4.5C16.42 4.5 20 8.08 20 12.5C20 14.45 19.3 16.23 18.14 17.62Z" fill="#2B79C2"/>
+                                    <path d="M12 6.5C10.07 6.5 8.5 8.07 8.5 10C8.5 11.93 10.07 13.5 12 13.5C13.93 13.5 15.5 11.93 15.5 10C15.5 8.07 13.93 6.5 12 6.5ZM12 11.5C11.17 11.5 10.5 10.83 10.5 10C10.5 9.17 11.17 8.5 12 8.5C12.83 8.5 13.5 9.17 13.5 10C13.5 10.83 12.83 11.5 12 11.5Z" fill="#2B79C2"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_453_502">
+                                    <rect width="24" height="24" fill="white" transform="translate(0 0.5)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </figure>
+                        My Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <header class="new-header">
     <div class="wrapper flex-display">
         <div>
@@ -104,77 +216,38 @@ else
                     <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/xlogo.png.pagespeed.ic.xqXcqJ1HMP.png" alt="Solo PCMS" width="167" height="60">
                 </a>
             </div>
-            <div>
-                <a href="tel:+18888480144" class="mobile-only mobile-cta-btn">
-                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/phone-icon-solopcms.png" alt="Call Us">
-                    <span>CALL US!</span>
-                </a>
-            </div>
         </div>
-        <div class="header-contact-info">
-            <p><a href="tel:+18888480144">CALL US! (888) 848-0144</a></p>
-            <p>Mon - Fri. 9am - 6pm ET</p>
-        </div>
-        <div class="header-benefits">
-            <div>
-                <p>
-                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/lifetime.png" height="60" alt="Lifetime Warranty">
-                </p>
-            </div>
-            <div>
-                <p>
-                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/free-shipping.png" height="40" alt="Free US Shipping">
-                </p>
-                <p>
-                    Free US<br>Shipping
-                </p>
-            </div>
-            <div>
-                <p>
-                    <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/worldwide-shipping.png" height="40" alt="Worldwide Shipping">
-                </p>
-                <p>
-                    We Ship<br>Worldwide
-                </p>
-            </div>
-        </div>
-        <div class="header-account">
-            <div>
-                <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/cart-icon.png" alt="Cart">
-                <a href="http://solopcms.test/checkout/cart/">
-                    <span>Cart (
-                        <?php
-                            $cart2 = Mage::getSingleton('checkout/session')->getQuote();
-                            foreach ($cart2 as $cart_element) {
-                                if(isset($cart_element['items_count'])){
-                                    $cart_content = preg_replace("/[^0-9,.]/", "", $cart_element['items_count']);
-                                }
-                            }
-                            if(isset($cart_content) && $cart_content != ''){
-                                echo $cart_content;
-                            }else{
-                                echo '0';
-                            }
-                        ?>
-                    )
-                    </span></a>
-               
-            </div>
-            <div>
-                <a href="<?php echo $this->helper('customer')->getAccountUrl(); ?>" data-target-element="#header-account" class="skip-link">
-                    <span>
-                        <img src="https://www.solopcms.com/skin/frontend/rwd/default/images/account-icon.png" alt="My Account">
-                    </span>
-                    <span>My Account</span>
-                </a>
-            </div>
-        </div>
-
-        </div>
+    </div>
         
-    
         <div  class="desktop-header-nav-container">
-            <div class="mobile-only mobile-header-bar display-flex">
+            <div class="mobile-icons" style="display: none;">
+                <figure class="elementor-menu-toggle__icon--open e-font-icon-svg e-eicon-menu-bar" style="display: flex;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
+                        <g clip-path="url(#clip0_744_379)">
+                            <path d="M3.75 21.5H25.25V19.1111H3.75V21.5ZM3.75 15.5277H25.25V13.1388H3.75V15.5277ZM3.75 7.16663V9.55551H25.25V7.16663H3.75Z" fill="white"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_744_379">
+                            <rect width="28.6667" height="28.6667" fill="white" transform="translate(0.166748)"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </figure>
+
+                <?php /* <svg aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open e-font-icon-svg e-eicon-menu-bar" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
+                    <path d="M104 333H896C929 333 958 304 958 271S929 208 896 208H104C71 208 42 237 42 271S71 333 104 333ZM104 583H896C929 583 958 554 958 521S929 458 896 458H104C71 458 42 487 42 521S71 583 104 583ZM104 833H896C929 833 958 804 958 771S929 708 896 708H104C71 708 42 737 42 771S71 833 104 833Z"></path>
+                </svg>
+                <svg aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close e-font-icon-svg e-eicon-close" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path>
+                </svg> */ ?>
+                
+                <figure class="elementor-menu-toggle__icon--close e-font-icon-svg e-eicon-close" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M1.8 18L0 16.2L7.2 9L0 1.8L1.8 0L9 7.2L16.2 0L18 1.8L10.8 9L18 16.2L16.2 18L9 10.8L1.8 18Z" fill="white"/>
+                    </svg>
+                </figure>
+            </div>
+            <?php /* <div class="mobile-only mobile-header-bar display-flex">
                 <div id="header-nav-icon" class="mobile-hamburger-menu">
                     <div>
                         <span></span>
@@ -212,7 +285,7 @@ else
                         </span>
                     </a>
                 </div>
-            </div>
+            </div> */ ?>
             <div>
                 <div id="header-cart-new">
                     <?php echo $this->getChildHtml('minicart_head'); ?>
@@ -278,23 +351,23 @@ else
     </div>
 </header>
 <script>
-    function mobileMenuDropdown(){
-        if (jQuery(window).width() < 960 && jQuery(window).width() > 769) {
-            jQuery('li.parent').off();
-            jQuery('.new-header .nav-primary .has-children').on("click", function(){
-                event.preventDefault();
-                jQuery(this).parent().toggleClass('menu-active');
-                console.log('script working');
-            });
-        }else if(jQuery(window).width() >= 960){
-            jQuery('li.parent').on('mouseover', function(){
-                jQuery(this).addClass('menu-active');
-            });
-            jQuery('li.parent').on('mouseleave', function(){
-                jQuery(this).removeClass('menu-active');
-            });
-        }
-    }
+    // function mobileMenuDropdown(){
+    //     if (jQuery(window).width() < 960 && jQuery(window).width() > 769) {
+    //         jQuery('li.parent').off();
+    //         jQuery('.new-header .nav-primary .has-children').on("click", function(){
+    //             event.preventDefault();
+    //             jQuery(this).parent().toggleClass('menu-active');
+    //             console.log('script working');
+    //         });
+    //     }else if(jQuery(window).width() >= 960){
+    //         jQuery('li.parent').on('mouseover', function(){
+    //             jQuery(this).addClass('menu-active');
+    //         });
+    //         jQuery('li.parent').on('mouseleave', function(){
+    //             jQuery(this).removeClass('menu-active');
+    //         });
+    //     }
+    // }
     jQuery(document).ready(function(){
         
         jQuery(window).bind('scroll', function () {
@@ -336,10 +409,249 @@ else
            jQuery('#header-minicart').toggleClass('active');
         });
         
-        mobileMenuDropdown();
-    });
-    jQuery( window ).resize(function() {
-        mobileMenuDropdown();
+       // mobileMenuDropdown();
+
+        const menuBar = document.querySelector('.new-header .e-eicon-menu-bar');
+        const closeIcon = document.querySelector('.new-header .e-eicon-close');
+        const navigation = document.querySelector('.new-header #nav');
+        let menuItem = document.querySelector('.new-header #nav .parent');
+
+        if (menuBar && closeIcon && navigation) {
+            menuBar.addEventListener('click', function () {
+                console.log("first click");
+                
+                navigation.classList.add('navigation-active');
+                menuBar.style.display = 'none';
+                closeIcon.style.display = 'flex';
+            });
+
+            closeIcon.addEventListener('click', function () {
+                navigation.classList.remove('navigation-active');
+                closeIcon.style.display = 'none';
+                menuBar.style.display = 'flex';
+
+                const submenu = menuItem?.querySelector('ul');
+                menuItem.classList.remove('children-active');
+
+                if (submenu) {
+                    submenu.classList.remove('sub-menu-active');
+                }
+            });
+        }
+
+        // if (menuItem) {
+        //     menuItem.addEventListener('click', function (e) {
+        //         console.log("second click");
+                
+        //         e.preventDefault();
+                
+        //         const clickedInsideSubmenu = e.target.closest('ul');
+        //         if (clickedInsideSubmenu) {
+        //             return;
+        //         }
+
+        //         menuItem.classList.toggle('children-active');
+
+        //         const submenu = menuItem.querySelector('ul');
+        //         if (submenu) {
+        //             submenu.classList.toggle('sub-menu-active');
+        //         }
+        //     });
+        // }
+
+        // if (menuItem) {
+        //     menuItem.addEventListener('click', function (e) {
+        //         console.log("second click");
+
+        //         const link = e.target.closest('a'); // detect if <a> was clicked
+
+        //         // If user clicked on a link inside the menu, let it work normally
+        //         if (link && !link.nextElementSibling) {
+        //             return; // normal navigation
+        //         }
+
+        //         // If user clicked on the parent that has a submenu, toggle instead
+        //         if (link && link.nextElementSibling && link.nextElementSibling.tagName === "UL") {
+        //             e.preventDefault(); // only block default if submenu exists
+
+        //             menuItem.classList.toggle('children-active');
+
+        //             const submenu = menuItem.querySelector('ul');
+        //             if (submenu) {
+        //                 submenu.classList.toggle('sub-menu-active');
+        //             }
+        //         }
+        //     });
+        // }
+
+
+        // document.addEventListener('click', function (e) {
+        //     console.log("third click", e.target);
+        //     console.log("parrent", e.target.closest("li.level1.view-all, li.level2"));
+            
+
+        //     // if (e.target.closest("li.level1.view-all, li.level2")) {
+        //     //     return; // exit early
+        //     // }
+                
+        //     const thirdLevelParent = e.target.closest('.sub-menu-active li.parent');
+
+        //     if (thirdLevelParent) {
+        //         const childUl = thirdLevelParent.querySelector('ul');
+
+        //         if (childUl) {
+        //             const allThirdLevelMenus = thirdLevelParent.closest('.sub-menu-active').querySelectorAll('ul.sub-menu-active');
+        //             allThirdLevelMenus.forEach(ul => {
+        //                 if (ul !== childUl) {
+        //                     ul.classList.remove('sub-menu-active');
+        //                 }
+        //             });
+
+        //             childUl.classList.toggle('sub-menu-active');
+        //         }
+        //     }
+        // });
+
+//         document.addEventListener("click", function (e) {
+//     const level0Parent = e.target.closest("#nav li.level0.parent > a");
+//     const level1Parent = e.target.closest("#nav li.level1.parent > a");
+
+//     // Handle level0 parent clicks
+//     if (level0Parent) {
+//         e.preventDefault(); // block navigation
+//         const li = level0Parent.parentElement; // li.level0.parent
+//         const submenu = li.querySelector("ul.level0");
+//         if (submenu) {
+//             submenu.classList.add("sub-menu-active");
+//             li.classList.add("children-active");
+//         }
+//         return; // stop here
+//     }
+
+//     // Handle level1 parent clicks inside open level0
+//     if (level1Parent && level1Parent.closest("ul.level0.sub-menu-active")) {
+//         e.preventDefault(); // block navigation
+//         const li = level1Parent.parentElement; // li.level1.parent
+//         const submenu = li.querySelector("ul.level1");
+//         if (submenu) {
+//             submenu.classList.add("sub-menu-active");
+//             li.classList.add("children-active");
+//         }
+//         return; // stop here
+//     }
+// });
+
+        // document.addEventListener("click", function (e) {
+        //     console.log("click", e.target);
+            
+        //     const link = e.target.closest("#nav a"); 
+        //     console.log("link", link);
+            
+        //     if (!link) return;
+
+        //     const li = link.parentElement;
+
+        //     if (!li.classList.contains("parent")) {
+        //         return;
+        //     }
+
+        //     console.log("it has parent");
+            
+
+        //     e.preventDefault();
+
+        //     const submenu = li.querySelector("ul");
+
+        //     if (submenu) {
+        //         submenu.classList.toggle("sub-menu-active");
+        //         li.classList.toggle("children-active");
+        //     }
+        // });
+
+        document.querySelector(".new-header").addEventListener("click", function (e) {
+            if (!e.target.closest("#nav")) {
+                document.querySelectorAll("#nav li.parent.children-active").forEach((li) => {
+                    li.classList.remove("children-active");
+                });
+
+                document.querySelectorAll("#nav ul.sub-menu-active").forEach((ul) => {
+                    ul.classList.remove("sub-menu-active");
+                });
+
+                return;
+            }
+
+            const goBack = e.target.closest(".go-back");
+            if (goBack) {
+                const submenu = goBack.parentElement; 
+                submenu.classList.remove("sub-menu-active");
+
+                const parentLi = submenu.closest("li.parent");
+                if (parentLi) {
+                    parentLi.classList.remove("children-active");
+                }
+                return;
+            }
+
+            const link = e.target.closest("#nav a"); 
+
+            if (!link) return;
+
+            const li = link.parentElement;
+
+            if (!li.classList.contains("parent")) {
+                return;
+            }
+
+            e.preventDefault();
+
+            const submenu = li.querySelector("ul");
+
+            // if (submenu) {
+            //     submenu.classList.toggle("sub-menu-active");
+            //     li.classList.toggle("children-active");
+
+            //     if (
+            //         submenu.classList.contains("sub-menu-active") &&
+            //         !submenu.querySelector(".go-back")
+            //     ) {
+            //         const parentText = li.querySelector("a").innerText.trim();
+            //         submenu.insertAdjacentHTML(
+            //             "afterbegin",
+            //             `<div class="go-back"><span><figure><svg xmlns="http://www.w3.org/2000/svg" width="7" height="9" viewBox="0 0 7 9" fill="none">
+            //                 <path d="M6.61043 7.30642L6.61043 1.69363C6.61075 1.47204 6.54831 1.25489 6.43034 1.06732C6.31237 0.879748 6.14369 0.729418 5.94383 0.633732C5.70669 0.521722 5.44286 0.47858 5.18239 0.509223C4.92193 0.539866 4.67531 0.643061 4.47064 0.807049L1.07097 3.61344C0.943896 3.72358 0.841982 3.85974 0.772134 4.01271C0.702287 4.16567 0.666138 4.33186 0.666138 4.50002C0.666138 4.66818 0.702287 4.83437 0.772134 4.98734C0.841982 5.14031 0.943896 5.27647 1.07097 5.3866L4.47064 8.193C4.67531 8.35699 4.92193 8.46018 5.18239 8.49082C5.44286 8.52147 5.70669 8.47832 5.94383 8.36631C6.14369 8.27063 6.31237 8.1203 6.43034 7.93272C6.54831 7.74515 6.61075 7.528 6.61043 7.30642Z" fill="#BCBCBC"/>
+            //             </svg></figure>Back</span><span>${parentText}</span></div>`
+            //         );
+            //     }
+            // }
+
+            if (submenu) {
+                document.querySelectorAll("#nav li.level1.parent").forEach((otherLi) => {
+                    if (otherLi !== li) {
+                        otherLi.classList.remove("children-active");
+
+                        const otherSubmenu = otherLi.querySelector("ul.level1.sub-menu-active");
+
+                        if (otherSubmenu) {
+                            otherSubmenu.classList.remove("sub-menu-active");
+                        }
+                    }
+                });
+
+                submenu.classList.add("sub-menu-active");
+                li.classList.add("children-active");
+
+                if ( submenu.classList.contains("sub-menu-active") && !submenu.querySelector(".go-back")) {
+                    const parentText = li.querySelector("a").innerText.trim();
+                    submenu.insertAdjacentHTML(
+                        "afterbegin",
+                        `<div class="go-back"><span><figure><svg xmlns="http://www.w3.org/2000/svg" width="7" height="9" viewBox="0 0 7 9" fill="none">
+                            <path d="M6.61043 7.30642L6.61043 1.69363C6.61075 1.47204 6.54831 1.25489 6.43034 1.06732C6.31237 0.879748 6.14369 0.729418 5.94383 0.633732C5.70669 0.521722 5.44286 0.47858 5.18239 0.509223C4.92193 0.539866 4.67531 0.643061 4.47064 0.807049L1.07097 3.61344C0.943896 3.72358 0.841982 3.85974 0.772134 4.01271C0.702287 4.16567 0.666138 4.33186 0.666138 4.50002C0.666138 4.66818 0.702287 4.83437 0.772134 4.98734C0.841982 5.14031 0.943896 5.27647 1.07097 5.3866L4.47064 8.193C4.67531 8.35699 4.92193 8.46018 5.18239 8.49082C5.44286 8.52147 5.70669 8.47832 5.94383 8.36631C6.14369 8.27063 6.31237 8.1203 6.43034 7.93272C6.54831 7.74515 6.61075 7.528 6.61043 7.30642Z" fill="#BCBCBC"/>
+                        </svg></figure>Back</span><span>${parentText}</span></div>`
+                    );
+                }
+            }
+        });
     });
 </script>
 

@@ -46,7 +46,7 @@
         <script type="text/javascript">
             var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
         </script>
-        <div id="messages_product_view">
+        <div id="messages_product_view" qwewq>
             <?php echo $this->getMessagesBlock()->toHtml() ?>
         </div>
         <div class="product-view" itemscope itemtype="http://schema.org/Product">
@@ -59,15 +59,96 @@
             </div>
             <meta itemprop="brand" content="<?php echo $_product->getAttributeText('make');?>" >
             <meta itemprop="model" content="<?php echo $_product->getModel();?>" >
-            <meta itemprop="sku" content="<?php echo strtolower( $_product->getSku() ); ?>" >
+            <meta itemprop="sku" content="<?php echo preg_replace('/\s+/', '-', $_product->getSku()); ?>" />
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
                 <?php if($_product->isAvailable()): ?>
                     <link itemprop="availability" href="http://schema.org/InStock" />
+                <?php else: ?>
+                    <link itemprop="availability" href="http://schema.org/OutOfStock" />
                 <?php endif; ?>
                 <meta itemprop="price" content="<?php echo number_format($_product->getPrice(), '2', '.', ',');?>" >
                 <meta itemprop="priceCurrency" content="USD" >
                 <meta itemprop="priceValidUntil" content="12/31/<?php echo date( "Y" ) + 1; ?>" >
                 <meta itemprop="url" content="<?php echo $_product->getProductUrl(); ?>" >
+
+                <!-- Merchant Return Policy -->
+                <div itemprop="hasMerchantReturnPolicy" itemscope itemtype="https://schema.org/MerchantReturnPolicy">
+                    <meta itemprop="applicableCountry" content="US" />
+                    <meta itemprop="returnPolicyCategory" content="https://schema.org/MerchantReturnFiniteReturnWindow" />
+                    <meta itemprop="merchantReturnDays" content="14" />
+                    <meta itemprop="returnFees" content="https://schema.org/ReturnShippingFees" />
+                    <div itemprop="returnShippingFeesAmount" itemscope itemtype="https://schema.org/MonetaryAmount">
+                        <meta itemprop="@type" content="MonetaryAmount" />
+                        <meta itemprop="value" content="25" />
+                        <meta itemprop="currency" content="USD" />
+                    </div>
+                    <meta itemprop="returnMethod" content="https://schema.org/ReturnByMail" />
+                    <meta itemprop="returnLabelSource" content="https://schema.org/ReturnLabelDownloadAndPrint" />
+                </div>
+
+                <!-- Shipping Details: Ground -->
+                <div itemprop="shippingDetails" itemscope itemtype="https://schema.org/OfferShippingDetails">
+                    <meta itemprop="shippingLabel" content="Ground" />
+                    <div itemprop="shippingRate" itemscope itemtype="https://schema.org/MonetaryAmount">
+                        <meta itemprop="value" content="0.00" />
+                        <meta itemprop="currency" content="USD" />
+                    </div>
+                    <div itemprop="shippingDestination" itemscope itemtype="https://schema.org/DefinedRegion">
+                        <meta itemprop="addressCountry" content="US" />
+                    </div>
+                    <div itemprop="deliveryTime" itemscope itemtype="https://schema.org/ShippingDeliveryTime">
+                        <meta itemprop="cutoffTime" content="15:00" />
+                        <div itemprop="businessDays" itemscope itemtype="https://schema.org/OpeningHoursSpecification">
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Monday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Tuesday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Wednesday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Thursday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Friday" />
+                        </div>
+                        <div itemprop="handlingTime" itemscope itemtype="https://schema.org/QuantitativeValue">
+                            <meta itemprop="minValue" content="1" />
+                            <meta itemprop="maxValue" content="3" />
+                            <meta itemprop="unitCode" content="d" />
+                        </div>
+                        <div itemprop="transitTime" itemscope itemtype="https://schema.org/QuantitativeValue">
+                            <meta itemprop="minValue" content="1" />
+                            <meta itemprop="maxValue" content="6" />
+                            <meta itemprop="unitCode" content="d" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Details: Air -->
+                <div itemprop="shippingDetails" itemscope itemtype="https://schema.org/OfferShippingDetails">
+                    <meta itemprop="shippingLabel" content="Air" />
+                    <div itemprop="shippingRate" itemscope itemtype="https://schema.org/MonetaryAmount">
+                        <meta itemprop="value" content="0.00" />
+                        <meta itemprop="currency" content="USD" />
+                    </div>
+                    <div itemprop="shippingDestination" itemscope itemtype="https://schema.org/DefinedRegion">
+                        <meta itemprop="addressCountry" content="US" />
+                    </div>
+                    <div itemprop="deliveryTime" itemscope itemtype="https://schema.org/ShippingDeliveryTime">
+                        <meta itemprop="cutoffTime" content="15:00" />
+                        <div itemprop="businessDays" itemscope itemtype="https://schema.org/OpeningHoursSpecification">
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Monday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Tuesday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Wednesday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Thursday" />
+                            <meta itemprop="dayOfWeek" content="https://schema.org/Friday" />
+                        </div>
+                        <div itemprop="handlingTime" itemscope itemtype="https://schema.org/QuantitativeValue">
+                            <meta itemprop="minValue" content="1" />
+                            <meta itemprop="maxValue" content="3" />
+                            <meta itemprop="unitCode" content="d" />
+                        </div>
+                        <div itemprop="transitTime" itemscope itemtype="https://schema.org/QuantitativeValue">
+                            <meta itemprop="minValue" content="1" />
+                            <meta itemprop="maxValue" content="2" />
+                            <meta itemprop="unitCode" content="d" />
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="product-essential">
                 <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
@@ -76,87 +157,225 @@
                         <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
                         <input type="hidden" name="related_product" id="related-products-field" value="" />
                     </div>
-                    <div class="grid-3 s-p-o">
+                    <div class="grid-3 s-p-o 213123213">
                         <div class="grid-3-1">
                             <div class="product-img-box">
                                 <?php echo $this->getChildHtml('media') ?>
                             </div>
-                            <div class="clear"></div>
-                            <?php
-                                $detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml');
-                                echo $detailedInfoGroup[ "additional" ];
-                            ?>
-                            <p class="pre-social">Share and Recommend This Item:</p>
-                            <div class="social">
-                                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $currentUrl; ?>">
-                                    <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/facebook.png" alt="Facebook">
-                                </a>
-                                <a target="_blank" href="https://twitter.com/home?status=<?php echo $currentUrl; ?>">
-                                    <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/twitter.png" alt="Twitter">
-                                </a>
-                                <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $currentUrl; ?>&title=&summary=&source=">
-                                    <img src="<?php echo $this->getUrl( "" ) ?>skin/frontend/rwd/default/images/linkedin.png" alt="LinkedIn">
-                                </a>
-                            </div>
-                            <div class="fb-share-button" data-href="<?php echo $currentUrl; ?>" data-layout="button_count"></div>
-                            <br><br>
-                            <div id="fb-root"></div>
-                            <script>
-                                (function(d, s, id) {
-                                var js, fjs = d.getElementsByTagName(s)[0];
-                                if (d.getElementById(id)) return;
-                                js = d.createElement(s); js.id = id;
-                                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-                                fjs.parentNode.insertBefore(js, fjs);
-                                }(document, 'script', 'facebook-jssdk'));
-                            </script>
                         </div>
-                        <div class="grid-3-2 s-p">
+                        <div class="grid-3-2 s-p 123">
+                            <?php if ($bc = $this->getLayout()->getBlock('breadcrumbs')): ?>
+                                <?php echo $bc->toHtml(); ?>
+                            <?php endif; ?>
                             <h1 itemprop="name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
-                            <hr class="thin-line">
-                            <?php if ($_product->getDescription()):?>
-                                <div class="short-description" itemprop="description">
-                                    <?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?>
-                                </div>
-                                <hr class="thin-line">
-                            <?php endif;?>
-                            <?php echo $this->getChildHtml('product_type_availability'); ?>
-                            <hr class="thin-line">
                             <div class="price-box-s-p">
+                                <div>
+                                    <span class="small-text-price">Price:</span>
+                                </div>
                                 <?php echo $this->getPriceHtml($_product); ?>
                                 <?php echo $this->getChildHtml('bundle_prices') ?>
                                 <?php echo $this->getTierPriceHtml() ?>
                             </div>
+
+                            <div class="availability-social-wrapper">
+                                <div class="availability-wrapper">
+                                    <?php
+                                        $_product = Mage::registry('current_product');
+                                        $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
+
+                                        if ($stockItem && $stockItem->getIsInStock()) {
+                                            echo '<p class="availability-text">Availability: <span class="in-stock">In Stock</span></p>';
+                                        } else {
+                                            echo '<p class="availability-text">Availability: <span class="out-of-stock">Out of Stock</span></p>';
+                                        }
+                                    ?>
+                                </div>
+
+                                <div class="social-wrapper">
+                                    <p class="pre-social">Share and Recommend This Item:</p>
+                                    <div class="display-flex share-recommend">
+                                        <div>
+                                            <div class="social">
+                                                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $currentUrl; ?>">
+                                                    <figure>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                                            <g clip-path="url(#clip0_549_74)">
+                                                                <path d="M28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 20.9877 5.11957 26.7796 11.8125 27.8299V18.0469H8.25781V14H11.8125V10.9156C11.8125 7.40687 13.9027 5.46875 17.1005 5.46875C18.6318 5.46875 20.2344 5.74219 20.2344 5.74219V9.1875H18.4691C16.73 9.1875 16.1875 10.2668 16.1875 11.375V14H20.0703L19.4496 18.0469H16.1875V27.8299C22.8804 26.7796 28 20.9877 28 14Z" fill="#39608E"/>
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_549_74">
+                                                                <rect width="28" height="28" fill="white"/>
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                    </figure>
+                                                </a>
+                                                <a target="_blank" href="https://twitter.com/home?status=<?php echo $currentUrl; ?>">
+                                                    <figure>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                                            <path d="M8.80852 25.375C19.372 25.375 25.1513 16.6212 25.1513 9.03217C25.1513 8.78608 25.1459 8.53451 25.1349 8.28842C26.2592 7.47537 27.2294 6.4683 28 5.31451C26.9529 5.78037 25.8412 6.08461 24.7029 6.21686C25.9015 5.49839 26.799 4.36972 27.2289 3.04006C26.1013 3.70832 24.8682 4.17971 23.5823 4.43405C22.716 3.51349 21.5705 2.90397 20.323 2.69973C19.0754 2.49548 17.7954 2.70789 16.6807 3.30411C15.566 3.90033 14.6788 4.84716 14.1562 5.9982C13.6335 7.14924 13.5047 8.44038 13.7895 9.67201C11.5062 9.55744 9.27259 8.96432 7.23331 7.93111C5.19403 6.89791 3.39464 5.44768 1.9518 3.67444C1.21847 4.93878 0.994066 6.43492 1.3242 7.85877C1.65434 9.28263 2.51424 10.5274 3.72914 11.34C2.81707 11.311 1.92497 11.0655 1.12656 10.6236V10.6947C1.12575 12.0215 1.58445 13.3077 2.42469 14.3346C3.26494 15.3614 4.43488 16.0657 5.73562 16.3275C4.89073 16.5587 4.00398 16.5923 3.14398 16.4259C3.51103 17.567 4.22517 18.565 5.18673 19.2807C6.1483 19.9964 7.30931 20.394 8.50773 20.4181C6.47316 22.0163 3.95987 22.8831 1.37266 22.879C0.913835 22.8783 0.455466 22.8502 0 22.7948C2.62833 24.481 5.68579 25.3766 8.80852 25.375Z" fill="#39608E"/>
+                                                        </svg>
+                                                    </figure>
+                                                </a>
+                                                <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $currentUrl; ?>&title=&summary=&source=">
+                                                    <figure>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                                            <path d="M25.9273 0H2.06719C0.924219 0 0 0.902344 0 2.01797V25.9766C0 27.0922 0.924219 28 2.06719 28H25.9273C27.0703 28 28 27.0922 28 25.982V2.01797C28 0.902344 27.0703 0 25.9273 0ZM8.30703 23.8602H4.15078V10.4945H8.30703V23.8602ZM6.22891 8.67344C4.89453 8.67344 3.81719 7.59609 3.81719 6.26719C3.81719 4.93828 4.89453 3.86094 6.22891 3.86094C7.55781 3.86094 8.63516 4.93828 8.63516 6.26719C8.63516 7.59062 7.55781 8.67344 6.22891 8.67344ZM23.8602 23.8602H19.7094V17.3633C19.7094 15.8156 19.682 13.8195 17.5492 13.8195C15.3891 13.8195 15.0609 15.5094 15.0609 17.2539V23.8602H10.9156V10.4945H14.8969V12.3211H14.9516C15.5039 11.2711 16.8602 10.1609 18.8781 10.1609C23.0836 10.1609 23.8602 12.9281 23.8602 16.5266V23.8602Z" fill="#39608E"/>
+                                                        </svg>
+                                                    </figure>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <hr class="thin-line">
-                            <h4>Lifetime Guarantee!</h4>
-                            <p>Please fill in your vehicle information below and click the 'Add to Cart' Button below to purchase.</p>
-                            <?php echo $this->getChildHtml('other');?>
-                            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
-                                <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
-                            <?php else : ?>
-                                <div class="product-options-bottom">
-                                    <?php echo $this->getChildHtml('product_type_data') ?>
-                                    <?php echo $this->getChildHtml('extrahint') ?>
-                                    <?php if (!$this->hasOptions()):?>
-                                        <div class="add-to-box">
-                                            <?php if($_product->isSaleable()): ?>
-                                                <?php echo $this->getChildHtml('addtocart') ?>
-                                                <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
-                                                    <span class="or"><?php echo $this->__('OR') ?></span>
+
+                            <div class="availability in-stock">
+                                <figure>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" viewBox="0 0 49 48" fill="none">
+                                        <rect x="2.64746" y="2" width="44" height="44" rx="22" fill="white"/>
+                                        <rect x="2.64746" y="2" width="44" height="44" rx="22" stroke="#2B79C2" stroke-width="4"/>
+                                        <path d="M18.3858 21.3403H22.3403V17.3858L17.7267 12.7722C19.2025 12.0673 20.8606 11.8373 22.4726 12.1139C24.0846 12.3905 25.5712 13.16 26.7277 14.3165C27.8842 15.473 28.6537 16.9596 28.9303 18.5716C29.2068 20.1836 28.9769 21.8416 28.272 23.3175L36.181 31.2265C36.7054 31.7509 37 32.4621 37 33.2037C37 33.9454 36.7054 34.6566 36.181 35.181C35.6566 35.7054 34.9454 36 34.2037 36C33.4621 36 32.7509 35.7054 32.2265 35.181L24.3175 27.272C22.8416 27.9769 21.1836 28.2068 19.5716 27.9303C17.9596 27.6537 16.473 26.8842 15.3165 25.7277C14.16 24.5712 13.3905 23.0846 13.1139 21.4726C12.8373 19.8606 13.0673 18.2025 13.7722 16.7267L18.3858 21.3403Z" fill="white" stroke="#2B79C2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </figure>
+                                <span class="value">Repair Service Only</span>
+                            </div>
+
+                            <div class="mobile-view-wrapper">           
+                                <?php if ($_product->getDescription()):?>
+                                    <div class="short-description" itemprop="description">
+                                        <?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?>
+                                    </div>
+                                    <hr class="thin-line">
+                                <?php endif;?>
+                                
+                                <h4>Lifetime Guarantee!</h4>
+                                <p>Please fill in your vehicle information below and click the 'Add to Cart' Button below to purchase.</p>
+                                <?php echo $this->getChildHtml('other');?>
+
+                                <div class="add-to-cart-qty-wrapper">
+                                    <hr class="thin-line">
+                                
+                                    <?php echo  $this->getChildHtml('addtocartnew'); ?>
+
+                                    <?php $_product = Mage::registry('current_product'); ?>
+                                    <div class="transmision-qty-wrapper">
+                                        <p class="required">Required Fields *</p>
+                                        <div class="milleage-vin-wrapper">
+                                            <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                                            <?php // echo $this->getChildChildHtml('container1', '', true, true) ?>
+                                            <?php $options = $_product->getOptions(); ?>
+                                                <?php if (!empty($options)): ?>
+                                                    <?php foreach ($options as $_option): ?>
+                                                        <?php if (!in_array($_option->getType(), ['field'])) {
+                                                            continue;
+                                                        } ?>
+
+                                                        <dl class="last">
+                                                            <div class="input-box">
+                                                                <?php
+                                                                    $group = $_option->getGroupByType();
+                                                                    $template = "catalog/product/view/options/type/{$group}.phtml";
+
+                                                                    echo $this->getLayout()
+                                                                        ->createBlock("catalog/product_view_options_type_{$group}")
+                                                                        ->setOption($_option)
+                                                                        ->setProduct($_product)
+                                                                        ->setTemplate($template)
+                                                                        ->toHtml();
+                                                                ?>
+                                                            </div>
+                                                        </dl>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            <?php endif;?>
+                                        </div>
+                                        <div class="transmision-qty-inner-wrapper">
+                                            <?php if ($_product): ?>
+                                                <?php $options = $_product->getOptions(); ?>
+                                                <?php if (!empty($options)): ?>
+                                                    <?php foreach ($options as $_option): ?>
+
+                                                        <?php if (!in_array($_option->getType(), ['drop_down'])) {
+                                                            continue;
+                                                        } ?>
+
+                                                        <dl class="last">
+                                                            <div class="input-box">
+                                                                <?php
+                                                                    $group = $_option->getGroupByType();
+                                                                    $template = "catalog/product/view/options/type/{$group}.phtml";
+
+                                                                    echo $this->getLayout()
+                                                                        ->createBlock("catalog/product_view_options_type_{$group}")
+                                                                        ->setOption($_option)
+                                                                        ->setProduct($_product)
+                                                                        ->setTemplate($template)
+                                                                        ->toHtml();
+                                                                ?>
+                                                            </div>
+                                                        </dl>
+
+                                                    <?php endforeach; ?>
                                                 <?php endif; ?>
                                             <?php endif; ?>
-                                            <?php echo $this->getChildHtml('addto') ?>
-                                            <?php //echo $this->getChildHtml('sharing') ?>
+
+                                            <?php if(!$_product->isGrouped()): ?>
+                                                <div class="qty-wrapper" 123>
+                                                    <label for="qty"><em>*</em> <?php echo $this->__('Qty:') ?></label>
+                                                    <input type="text" pattern="\d*" name="qty" id="qty" maxlength="12" value="<?php echo max($this->getProductDefaultQty() * 1, 1) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
-                                        <?php echo $this->getChildHtml('extra_buttons') ?>
-                                    <?php elseif (!$_product->isSaleable()): ?>
-                                        <div class="add-to-box">
-                                            <?php echo $this->getChildHtml('addto') ?>
-                                            <?php //echo $this->getChildHtml('sharing') ?>
+                                    </div>
+
+                                    <div class="add-to-cart-paypall-wrapper">
+                                        <?php $buttonTitle = $this->__('Add to Cart'); ?>
+                                        <div class="add-to-cart-buttons">
+                                            <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart green-btn" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+                                            <?php //echo $this->getChildHtml('', true, true) ?>
                                         </div>
-                                    <?php endif; ?>
+
+                                        <img src="<?php echo Mage::getBaseUrl('media') . 'inner-page/paypall-logo.png'; ?>" alt="Paypall Logo" />
+                                    </div>
                                 </div>
-                            <?php endif;?>
+
+                                <?php /*
+                                <?php if ($_product->isSaleable() && $this->hasOptions()):?>
+                                    <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
+                                <?php else : ?>
+                                    <div class="product-options-bottom">
+                                        <?php echo $this->getChildHtml('product_type_data') ?>
+                                        <?php echo $this->getChildHtml('extrahint') ?>
+                                        <?php if (!$this->hasOptions()):?>
+                                            <div class="add-to-box">
+                                                <?php if($_product->isSaleable()): ?>
+                                                    <?php echo $this->getChildHtml('addtocart') ?>
+                                                    <?php if( $this->helper('wishlist')->isAllow() || $_compareUrl=$this->helper('catalog/product_compare')->getAddUrl($_product)): ?>
+                                                        <span class="or"><?php echo $this->__('OR') ?></span>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                                <?php echo $this->getChildHtml('addto') ?>
+                                                <?php //echo $this->getChildHtml('sharing') ?>
+                                            </div>
+                                            <?php echo $this->getChildHtml('extra_buttons') ?>
+                                        <?php elseif (!$_product->isSaleable()): ?>
+                                            <div class="add-to-box">
+                                                <?php echo $this->getChildHtml('addto') ?>
+                                                <?php //echo $this->getChildHtml('sharing') ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif;?>  */ ?>
+                            </div>
+
+                             <div class="additonal-info-wrapper">
+                                <?php 
+                                    $detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml');
+                                    echo $detailedInfoGroup[ "additional" ];
+                                ?>
+                            </div>
                         </div>
                     </div>
                     <?php echo $this->getChildHtml('related_products') ?>
@@ -212,6 +431,33 @@
             </div>
             <?php echo $this->getChildHtml('upsell_products') ?>
         </div>
+
+        <div class="desktop-recently-viewed">
+                        <h3>Related Products</h3>
+                        
+                        <div class="related-product-wrapper">
+                            <?php
+                                $collection = Mage::getSingleton('Mage_Reports_Block_Product_Viewed')->getItemsCollection();
+                                
+                                foreach ($collection as $_recentlyProduct):
+                                    $product_id = $_recentlyProduct->_data[ "product_id" ];
+                                    $_product = Mage::getModel('catalog/product')->load( $product_id ); ?>
+                                    
+                                    <a href="<?php echo $_product->getProductUrl(); ?>" class="recently-viewed-box">
+                                        <div class="thumbnail">
+                                            <img src="<?php echo Mage::helper( "catalog/image" )->init( $_product, "image" )->resize( 210, 210 ); ?>" width="210px" height="210px" alt="<?php echo $_product->getName(); ?>">
+                                        </div>
+                                        <div class="product-title">
+                                            <?php echo $_product->getName(); ?>
+                                        </div>
+                                        <div class="price">
+                                            <?php echo Mage::helper('core')->currency($_product->getFinalPrice(), true, false); ?>
+                                        </div>
+                                    </a>
+                                <?php endforeach;
+                            ?>
+                        </div>
+                    </div>
         
         <style type="text/css">
             .thin-line {
@@ -245,3 +491,27 @@
         
     <?php endif;
 ?>
+
+<?php
+    /** @var Mage_Catalog_Model_Product $_product */
+    $_product = Mage::registry('current_product');
+
+    if ($_product && $_product->getId()): ?>
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: "view_item",
+            ecommerce: {
+                affiliation: "SOLO Store",
+                currency: "<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>",
+                value: <?php echo (float)$_product->getFinalPrice(); ?>,
+                items: [{
+                    item_id: "<?php echo $this->escapeHtml($_product->getId()); ?>",
+                    item_name: "<?php echo $this->escapeHtml($_product->getName()); ?>",
+                    price: <?php echo (float)$_product->getFinalPrice(); ?>,
+                    quantity: 1
+                }]
+            }
+        });
+    </script>
+<?php endif; ?>

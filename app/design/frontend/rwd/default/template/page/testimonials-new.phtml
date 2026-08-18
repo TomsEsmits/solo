@@ -1,0 +1,99 @@
+<?php
+    $currentUrl = $this->helper('core/url')->getCurrentUrl();
+?>
+
+<div id="testimonials-news">
+    <div class="container">
+        <div class="content">
+            <?php if (strpos($currentUrl, 'reprogramming-services') !== false): ?>
+                <h2>What Our Customers Are Saying About Us</h2>
+            <?php else: ?>
+                <h2>Precision Repairs, Exceptional Service</h2>
+                <p>Experience excellence in automotive care – choose SOLO PCMS for all your vehicle maintenance and repair requirements.</p>
+            <?php endif; ?>
+        </div>
+
+        <div class="swiper testimonials">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide testimonial">
+                    <div class="content-wrapper">
+                        <p class="testimonial-text">“This business is a lifesaver! They have gone above and beyond to help us get our vehicle back on the road when no one else could!
+                            We are so grateful for the professionalism, and quick turn around time. We had a dead ECM and no one could help. 
+                            After we found a replacement Solo Auto was able to clone our software to the replacement one.Thank you so much for what you do! We are so thankful for you!”
+                        </p>
+                        <div class="bottom-wrapper">
+                            <div class="stars-wrapper">
+                                <span>5.0</span>
+                            </div>
+                            <p class="author">Angela Boys</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide testimonial">
+                    <div class="content-wrapper">
+                        <p class="testimonial-text">“I made the mistake of getting a “new” one from flagship one and struggled with them after getting sent a bad ecu. So my second option, 
+                            which should have been my first was to get it repaired by solo pcms and 3 days later i have a running car again. Great customer service and repair.”
+                        </p>
+                        <div class="bottom-wrapper">
+                            <div class="stars-wrapper">
+                                <span>5.0</span>
+                            </div>
+                            <p class="author">Ulices Pantoja</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide testimonial">
+                    <div class="content-wrapper">
+                        <p class="testimonial-text">“Mailed them my PCM for my Dodge Magnum. They fixed it and had it mailed out back to me two days later. Driven over 1,000 miles since I installed
+                            the fixed PCM and it has seemed to have fixed my vehicle randomly turning off issue. Saved me $900 from what the dealership quoted me! Couldn’t be happier.”
+                        </p>
+                        <div class="bottom-wrapper">
+                            <div class="stars-wrapper">
+                                <span>5.0</span>
+                            </div>
+                            <p class="author">Shawn B</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide testimonial">
+                    <div class="content-wrapper">
+                        <p class="testimonial-text">“I made the mistake of ordering a TCU from another company, I cancelled the charge on my credit card after waiting 12 days and not hearing anything 
+                            from them even after 3 requests for status. I ordered from Solo on the same day I cancelled from the other company and had the part in 3 days. 
+                            I installed the new computer and my van is shifting like new with no error codes. Definitely recommend this company.”
+                        </p>
+
+                        <div class="bottom-wrapper">
+                            <div class="stars-wrapper">
+                                <span>5.0</span>
+                            </div>
+                            <p class="author">Bill K</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+				
+<script>
+     const swiper = new Swiper('.testimonials', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        breakpoints: {
+            992: {
+                slidesPerView: 3,
+            },
+        },
+    });
+</script>

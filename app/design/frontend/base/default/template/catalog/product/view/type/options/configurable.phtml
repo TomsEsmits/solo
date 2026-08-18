@@ -29,6 +29,7 @@
 $_product    = $this->getProduct();
 $_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
 ?>
+
 <?php if ($_product->isSaleable() && count($_attributes)):?>
     <dl>
     <?php foreach($_attributes as $_attribute): ?>

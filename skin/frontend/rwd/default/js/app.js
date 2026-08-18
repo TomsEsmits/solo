@@ -440,12 +440,12 @@ var MenuManager = {
                 // Touch events should cancel this event if a touch pointer is used.
                 // Record that this method has fired so that erroneous following
                 // touch events (if any) can respond accordingly.
-                that.mouseEnterEventObserved = true;
-                that.cancelNextTouch = true;
+                // that.mouseEnterEventObserved = true;
+                // that.cancelNextTouch = true;
 
-                that.mouseEnterAction(e, this);
+                // that.mouseEnterAction(e, this);
             }).on('mouseleave', function(e) {
-                that.mouseLeaveAction(e, this);
+                //that.mouseLeaveAction(e, this);
             });
 
             $j(window).on('touchstart', function(e) {
@@ -460,28 +460,28 @@ var MenuManager = {
                 that.TouchScroll.reset();
             });
 
-            pointerTarget.on('touchend', function(e) {
-                $j(this).data('was-touch', true); // Note that element was invoked by touch pointer
+            // pointerTarget.on('touchend', function(e) {
+            //     // $j(this).data('was-touch', true); // Note that element was invoked by touch pointer
 
-                e.preventDefault(); // Prevent mouse compatibility events from firing where possible
+            //     // e.preventDefault(); // Prevent mouse compatibility events from firing where possible
 
-                if(that.TouchScroll.shouldCancelTouch()) {
-                    return; // Touch was a scroll -- don't do anything else
-                }
+            //     // if(that.TouchScroll.shouldCancelTouch()) {
+            //     //     return; // Touch was a scroll -- don't do anything else
+            //     // }
 
-                if(that.touchEventOrderIncorrect) {
-                    that.PartialTouchEventsSupport.touchAction(e, this);
-                } else {
-                    that.touchAction(e, this);
-                }
-            }).on('click', function(e) {
-                if($j(this).data('was-touch')) { // Event invoked after touch
-                    e.preventDefault(); // Prevent following link
-                    return; // Prevent other behavior
-                }
+            //     // if(that.touchEventOrderIncorrect) {
+            //     //     that.PartialTouchEventsSupport.touchAction(e, this);
+            //     // } else {
+            //     //     that.touchAction(e, this);
+            //     // }
+            // }).on('click', function(e) {
+            //     // if($j(this).data('was-touch')) { // Event invoked after touch
+            //     //     e.preventDefault(); // Prevent following link
+            //     //     return; // Prevent other behavior
+            //     // }
 
-                that.mouseClickAction(e, this);
-            });
+            //     // that.mouseClickAction(e, this);
+            // });
         }
     },
 

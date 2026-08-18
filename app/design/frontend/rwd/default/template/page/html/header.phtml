@@ -275,24 +275,24 @@ height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Ma
     </div>
 </header>
 <script>
-    function mobileMenuDropdown(){
-        if (jQuery(window).width() < 960 && jQuery(window).width() > 769) {
-            jQuery('li.parent').off();
-            jQuery('.new-header .nav-primary .has-children').on("click", function(){
-                event.preventDefault();
-                jQuery(this).parent().toggleClass('menu-active');
-                console.log('script working');
-            });
-        }else if(jQuery(window).width() >= 960){
-            jQuery('li.parent').on('mouseover', function(){
-                jQuery(this).addClass('menu-active');
-            });
-            jQuery('li.parent').on('mouseleave', function(){
-                jQuery(this).removeClass('menu-active');
-            });
-        }
-    }
-    jQuery(document).ready(function(){
+    // function mobileMenuDropdown(){
+    //     if (jQuery(window).width() < 960 && jQuery(window).width() > 769) {
+    //         jQuery('li.parent').off();
+    //         jQuery('.new-header .nav-primary .has-children').on("click", function(){
+    //             event.preventDefault();
+    //             jQuery(this).parent().toggleClass('menu-active');
+    //             console.log('script working');
+    //         });
+    //     }else if(jQuery(window).width() >= 960){
+    //         jQuery('li.parent').on('mouseover', function(){
+    //             jQuery(this).addClass('menu-active');
+    //         });
+    //         jQuery('li.parent').on('mouseleave', function(){
+    //             jQuery(this).removeClass('menu-active');
+    //         });
+    //     }
+    // }
+    jQuery(document).ready(function() {
         
         jQuery(window).bind('scroll', function () {
             if (jQuery(window).scrollTop() > 160) {
@@ -333,13 +333,12 @@ height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Ma
            jQuery('#header-minicart').toggleClass('active');
         });
         
-        console.log('test');
-        mobileMenuDropdown();
-        console.log(jQuery(window).width());
+        //mobileMenuDropdown();
+        // console.log(jQuery(window).width());
     });
-    jQuery( window ).resize(function() {
-        mobileMenuDropdown(); 
-    });
+    // jQuery( window ).resize(function() {
+    //     mobileMenuDropdown(); 
+    // });
 </script>
 
 <?php echo $this->getChildHtml('topContainer'); ?>

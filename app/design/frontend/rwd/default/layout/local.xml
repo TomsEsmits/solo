@@ -78,4 +78,12 @@
             <remove name="checkout.cart.shipping"/>
         </reference>
     </checkout_cart_index>
+
+    <catalog_product_view>
+        <reference name="breadcrumbs">
+            <action method="setTemplate">
+                <template>creareseo/page/html/breadcrumbs.phtml</template>
+            </action>
+        </reference>
+    </catalog_product_view>
 </layout>

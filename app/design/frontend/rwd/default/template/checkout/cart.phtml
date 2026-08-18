@@ -229,3 +229,36 @@
     </div>
     <?php echo $this->getChildHtml('crosssell') ?>
 </div>
+
+<?php
+/** @var Mage_Checkout_Model_Cart $cart */
+$cart = Mage::getSingleton('checkout/cart');
+$quote = $cart->getQuote();
+
+if ($quote && $quote->getItemsCount() > 0):
+    $items = [];
+    foreach ($quote->getAllVisibleItems() as $item) {
+        $product = $item->getProduct();
+        $items[] = [
+            'item_id'   => $product->getId(),
+            'item_name' => $this->escapeHtml($product->getName()),
+            'price'     => (float)$item->getPrice(),
+            'quantity'  => (int)$item->getQty()
+        ];
+    }
+?>
+<script type="text/javascript">
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+    event: "cart_view",
+    ecommerce: {
+        affiliation: "SOLO Store",
+        currency: "<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>",
+        value: <?php echo (float)$quote->getGrandTotal(); ?>,
+        tax: <?php echo (float)$quote->getTaxAmount(); ?>,
+        shipping: <?php echo (float)$quote->getShippingAddress()->getShippingAmount(); ?>,
+        items: <?php echo json_encode($items); ?>
+    }
+});
+</script>
+<?php endif; ?>

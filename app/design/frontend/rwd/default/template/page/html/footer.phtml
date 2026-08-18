@@ -24,33 +24,94 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="footer-container">
-    <div class="footer">
-        <?php echo $this->getLayout()->createBlock( "cms/block" )->setBlockId( "footer-block" )->toHtml(); ?>
-        
-        <address class="copyright"><?php echo $this->getCopyright() ?></address>
-        <img loading="lazy" style="margin: 0px auto;" id="Image-Maps-Com-image-maps-2014-12-12-153656" src="//www.solopcms.com/skin/frontend/rwd/default/images/bottom-logo.jpg" border="0" width="724" height="43" orgWidth="724" orgHeight="43" usemap="#image-maps-2014-12-12-153656" alt="Solo Automotive Electronics Logo" />
-        <map name="image-maps-2014-12-12-153656" id="ImageMapsCom-image-maps-2014-12-12-153656">
-            <area alt="fix-ya" title="FixYa" href="https://www.fixya.com/users/solo-auto-electornic?up=1" shape="rect" coords="0,0,207,43" style="outline:none;" target="_blank" />
-            <area alt="e-bay" title="eBay" href="https://www.ebay.com/usr/ecu_cs03" shape="rect" coords="212,0,383,43" style="outline:none;" target="_blank" />
-            <area alt="bbb" title="BBB" href="https://www.bbb.org/south-east-florida/business-reviews/auto-repair-and-service-equipment-and-supplies/solo-automotive-electronics-in-miami-fl-92012238" shape="rect" coords="399,0,567,43" style="outline:none;" target="_blank" />
-        </map>
-    </div>
-</div>
+<footer class="website-footer">
+    <div class="container">
+        <div class="footer-top-part">
+            <div class="inner-wrapper">
+                <a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>">
+                    <img loading="lazy" alt="Logo for Solo PCMS" 
+                        src="<?php echo $this->getSkinUrl('images/logo.png'); ?>" />
+                </a>
+                <div class="social">
+                    <a target="_blank" href="https://www.facebook.com/autocomputerrepair">
+                        <figure>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                <g clip-path="url(#clip0_453_467)">
+                                    <path d="M28 14C28 6.26801 21.732 0 14 0C6.26801 0 0 6.26801 0 14C0 20.9877 5.11957 26.7796 11.8125 27.8299V18.0469H8.25781V14H11.8125V10.9156C11.8125 7.40687 13.9027 5.46875 17.1005 5.46875C18.6318 5.46875 20.2344 5.74219 20.2344 5.74219V9.1875H18.4691C16.73 9.1875 16.1875 10.2668 16.1875 11.375V14H20.0703L19.4496 18.0469H16.1875V27.8299C22.8804 26.7796 28 20.9877 28 14Z" fill="#39608E"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_453_467">
+                                    <rect width="28" height="28" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </figure>
+                    </a>
+                    <a target="_blank" href="https://twitter.com/dodgepcm">
+                        <figure>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                <path d="M8.80852 25.3749C19.372 25.3749 25.1513 16.621 25.1513 9.03205C25.1513 8.78595 25.1459 8.53439 25.1349 8.2883C26.2592 7.47525 27.2294 6.46817 28 5.31439C26.9529 5.78024 25.8412 6.08449 24.7029 6.21674C25.9015 5.49827 26.799 4.3696 27.2289 3.03994C26.1013 3.70819 24.8682 4.17959 23.5823 4.43392C22.716 3.51337 21.5705 2.90385 20.323 2.6996C19.0754 2.49536 17.7954 2.70777 16.6807 3.30399C15.566 3.90021 14.6788 4.84703 14.1562 5.99807C13.6335 7.14912 13.5047 8.44026 13.7895 9.67189C11.5062 9.55732 9.27259 8.9642 7.23331 7.93099C5.19403 6.89779 3.39464 5.44755 1.9518 3.67431C1.21847 4.93866 0.994066 6.4348 1.3242 7.85865C1.65434 9.2825 2.51424 10.5272 3.72914 11.3399C2.81707 11.3109 1.92497 11.0653 1.12656 10.6235V10.6945C1.12575 12.0214 1.58445 13.3076 2.42469 14.3344C3.26494 15.3613 4.43488 16.0655 5.73562 16.3274C4.89073 16.5585 4.00398 16.5922 3.14398 16.4258C3.51103 17.5669 4.22517 18.5649 5.18673 19.2806C6.1483 19.9963 7.30931 20.3939 8.50773 20.418C6.47316 22.0162 3.95987 22.883 1.37266 22.8789C0.913835 22.8782 0.455466 22.8501 0 22.7947C2.62833 24.4809 5.68579 25.3765 8.80852 25.3749Z" fill="#39608E"/>
+                            </svg>
+                        </figure>
+                    </a>
+                    <a target="_blank" href="https://cl.linkedin.com/company/solo-automotive-electronics">
+                        <figure>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                <path d="M25.9273 0H2.06719C0.924219 0 0 0.902344 0 2.01797V25.9766C0 27.0922 0.924219 28 2.06719 28H25.9273C27.0703 28 28 27.0922 28 25.982V2.01797C28 0.902344 27.0703 0 25.9273 0ZM8.30703 23.8602H4.15078V10.4945H8.30703V23.8602ZM6.22891 8.67344C4.89453 8.67344 3.81719 7.59609 3.81719 6.26719C3.81719 4.93828 4.89453 3.86094 6.22891 3.86094C7.55781 3.86094 8.63516 4.93828 8.63516 6.26719C8.63516 7.59062 7.55781 8.67344 6.22891 8.67344ZM23.8602 23.8602H19.7094V17.3633C19.7094 15.8156 19.682 13.8195 17.5492 13.8195C15.3891 13.8195 15.0609 15.5094 15.0609 17.2539V23.8602H10.9156V10.4945H14.8969V12.3211H14.9516C15.5039 11.2711 16.8602 10.1609 18.8781 10.1609C23.0836 10.1609 23.8602 12.9281 23.8602 16.5266V23.8602Z" fill="#39608E"/>
+                            </svg>
+                        </figure>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-inner-wrapper">
+            <?php echo $this->getLayout()->createBlock( "cms/block" )->setBlockId( "footer-block" )->toHtml(); ?>
+            
+             <div class="footer-bottom-part">
+                <address class="copyright 312321"><?php echo $this->getCopyright() ?></address>
+                <img loading="lazy" src="<?php echo $this->getSkinUrl('images/footer-logos.png'); ?>" class="desktop-footer-image" width="622" height="37" alt="Solo Automotive Electronics Logo" />
+                <img 
+                    loading="lazy" 
+                    src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'home-page/footer-bottom-img-1.png'; ?>" 
+                    width="331" height="37" 
+                    alt="Footer Logo 1" 
+                    class="mobile-footer-image"
+                    style="display: none;"
+                />
 
-<div itemscope itemtype="https://schema.org/Organization" id="bottom-address" style="padding-bottom: 25px;">
-    <div itemprop="name"><a itemprop="url" href="https://www.solopcms.com"><strong>Solo Auto Electronics</strong></a></div>
-    <div itemprop="description">Solo PCMS is a national provider and repair center for PCM, ECM, ECU, TCM, and TCU auto computers.</div>
-    <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-        <span itemprop="streetAddress">14361 SW 120th Street Unit 106</span><br>
-        <span itemprop="addressLocality">Miami</span>, <span itemprop="addressRegion">FL</span>, <span itemprop="postalCode">33186</span>, <span itemprop="addressCountry">United States</span>
+                <img 
+                    loading="lazy" 
+                    src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'home-page/footer-bottom-img-2.png'; ?>" 
+                    width="282" height="37" 
+                    alt="Footer Logo 2" 
+                    class="mobile-footer-image"
+                    style="display: none;"
+                />
+             </div>
+        </div>
     </div>
-</div>
+
+    <?php /* <div itemscope itemtype="https://schema.org/Organization" id="bottom-address" style="padding-bottom: 25px;">
+        <div itemprop="name"><a itemprop="url" href="https://www.solopcms.com"><strong>Solo Auto Electronics</strong></a></div>
+        <div itemprop="description">Solo PCMS is a national provider and repair center for PCM, ECM, ECU, TCM, and TCU auto computers.</div>
+        <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+            <span itemprop="streetAddress">14361 SW 120th Street Unit 106</span><br>
+            <span itemprop="addressLocality">Miami</span>, <span itemprop="addressRegion">FL</span>, <span itemprop="postalCode">33186</span>, <span itemprop="addressCountry">United States</span>
+        </div>
+    </div> */ ?>
+</footer>
 
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700|Raleway:300,400,500,700,600|Dosis:400,700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="//www.solopcms.com/skin/frontend/rwd/default/css/jquery.sidr.dark.css" media="print" onload="this.media='all'">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
 <?php echo $this->getLayout()->createBlock( "core/template" )->setTemplate( "page/forms/quick-quote.phtml" )->toHtml(); ?>
+
+<?php echo $this->getLayout()->createBlock( 'cms/widget_block' )->setBlockId( 12 )->setTemplate( 'cms/widget/static_block/default_no_wrap.phtml' )->toHtml(); ?>
+<?php echo $this->getLayout()->createBlock( 'cms/widget_block' )->setBlockId( 13 )->setTemplate( 'cms/widget/static_block/default_no_wrap.phtml' )->toHtml(); ?>
 
 <script type="text/javascript" src="//cloud.pacific54.com/piwik.js" async defer></script>
 
@@ -114,3 +175,40 @@ type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
 </script> */ ?>
 
 <?php /* Was moved to the GTM tag: <script type="module" src="//161251.tctm.co/t.js"></script> */ ?>
+
+<?php
+$_product = Mage::registry('current_product');
+
+$productData = null;
+if ($_product && $_product->getId()) {
+    $productData = [
+        'item_id'    => $this->escapeHtml($_product->getId()),
+        'item_name'  => $this->escapeHtml($_product->getName()),
+        'price'      => (float)$_product->getFinalPrice(),
+        'quantity'   => 1
+    ];
+}
+
+$currency = Mage::app()->getStore()->getCurrentCurrencyCode();
+
+?>
+<script type="text/javascript">
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+    event: "page_view",
+    ecommerce: {
+        affiliation: "SOLO Store",
+        currency: "<?php echo $currency; ?>",
+        <?php if ($productData): ?>
+        items: [{
+            item_id: "<?php echo $productData['item_id']; ?>",
+            item_name: "<?php echo $productData['item_name']; ?>",
+            price: <?php echo $productData['price']; ?>,
+            quantity: 1,
+        }]
+        <?php else: ?>
+            items: []
+        <?php endif; ?>
+    }
+});
+</script>

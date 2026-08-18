@@ -101,3 +101,7 @@ coverage/
 # Swap / temp
 *.swp
 *.tmp
+
+# Claude Code local config (machine-specific, not shared)
+.claude/settings.local.json
+.claude/session.log

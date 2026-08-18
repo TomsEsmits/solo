@@ -53,13 +53,21 @@
 
             <div class="sort-by">
                 <label><?php echo $this->__('Sort By') ?></label>
-                <select onchange="setLocation(this.value)" title="<?php echo $this->__('Sort By') ?>">
-                    <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
-                        <option value="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key)): ?> selected="selected"<?php endif; ?>>
-                            <?php echo $this->__($_order) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="sort-by-select-wrapper">
+                    <figure>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.37265 6.38346L0.559669 1.57047L1.7627 0.367439L5.97417 4.57891L10.1856 0.367439L11.3887 1.57047L6.57569 6.38346C6.41614 6.54296 6.19977 6.63256 5.97417 6.63256C5.74857 6.63256 5.5322 6.54296 5.37265 6.38346Z" fill="#202A38"/>
+                        </svg>
+                    </figure>
+
+                    <select onchange="setLocation(this.value)" title="<?php echo $this->__('Sort By') ?>" style="display: none;">
+                        <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
+                            <option value="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if($this->isOrderCurrent($_key)): ?> selected="selected"<?php endif; ?>>
+                                <?php echo $this->__($_order) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
                 <?php if($this->getCurrentDirection() == 'desc'): ?>
                     <a href="<?php echo $this->getOrderUrl(null, 'asc') ?>" class="sort-by-switcher sort-by-switcher--desc" title="<?php echo $this->__('Set Ascending Direction') ?>"><?php echo $this->__('Set Ascending Direction') ?></a>
                 <?php else: ?>
@@ -71,15 +79,29 @@
     <div class="pager">
         <div class="count-container">
             <?php if($this->getLastPageNum()>1): ?>
+                <?php /*
                 <p class="amount amount--has-pages">
                     <?php echo $this->__('%s-%s of %s', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
                 </p>
+                */ ?>
+
+                <p class="amount amount--has-page">
+                    <?php echo $this->__('Showing %s–%s of %s results', 
+                        $this->getFirstNum(), 
+                        $this->getLastNum(), 
+                        $this->getTotalNum()
+                    ) ?>
+                </p>
             <?php else: ?>
                 <p class="amount amount--no-pages">
-                    <strong><?php echo $this->__('%s Item(s)', $this->getTotalNum()) ?></strong>
+                    <?php echo $this->__('Showing %s of %s results', 
+                        $this->getLastNum(), 
+                        $this->getTotalNum()
+                    ) ?>
                 </p>
             <?php endif; ?>
 
+            <?php /*
             <div class="limiter">
                 <label><?php echo $this->__('Show') ?></label>
                 <select onchange="setLocation(this.value)" title="<?php echo $this->__('Results per page'); ?>">
@@ -90,6 +112,7 @@
                 <?php endforeach; ?>
                 </select>
             </div>
+            */ ?>
         </div>
 
         <?php echo $this->getPagerHtml() ?>

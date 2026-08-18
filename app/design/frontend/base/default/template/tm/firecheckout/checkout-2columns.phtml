@@ -160,3 +160,34 @@
 
 <?php echo $this->getChildHtml('firecheckout.scripts') ?>
 <?php echo $this->getChildHtml('firecheckout.custom') ?>
+
+<?php
+/** @var Mage_Checkout_Model_Session $session */
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+if ($quote && $quote->getItemsCount()):
+    $items = [];
+    foreach ($quote->getAllVisibleItems() as $item) {
+        $product = $item->getProduct();
+        $items[] = [
+            'item_id'   => $product->getId(),
+            'item_name' => $this->escapeHtml($product->getName()),
+            'price'     => (float)$item->getPrice(),
+            'quantity'  => (int)$item->getQty()
+        ];
+    }
+?>
+<script type="text/javascript">
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+    event: "begin_checkout",
+    ecommerce: {
+        affiliation: "SOLO Store",
+        currency: "<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>",
+        value: <?php echo (float)$quote->getGrandTotal(); ?>,
+        tax: <?php echo (float)$quote->getTaxAmount(); ?>,
+        shipping: <?php echo (float)$quote->getShippingAddress()->getShippingAmount(); ?>,
+        items: <?php echo json_encode($items); ?>
+    }
+});
+</script>
+<?php endif; ?>
