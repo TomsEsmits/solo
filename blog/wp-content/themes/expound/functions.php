@@ -6,6 +6,27 @@
  */
 
 /**
+ * Render a Magento static block by its integer block_id.
+ * Usage: <?php the_magento_block(15); ?>
+ *
+ * @param int $block_id The Magento cms_block.block_id value.
+ */
+function the_magento_block( $block_id ) {
+    if ( ! class_exists( 'Mage' ) ) {
+        return;
+    }
+
+    $block = Mage::getModel( 'cms/block' )->load( (int) $block_id );
+
+    if ( ! $block->getId() || ! $block->getIsActive() ) {
+        return;
+    }
+
+    $processor = Mage::helper( 'cms' )->getPageTemplateProcessor();
+    echo $processor->filter( $block->getContent() );
+}
+
+/**
  * Set the content width based on the theme's design and stylesheet.
  */
 if ( ! isset( $content_width ) )

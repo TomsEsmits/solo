@@ -29,8 +29,9 @@
     $_product = $this->getProduct();
 	$current_product_id = $_product->getId();
 ?>
-<div class="product-options" id="product-options-wrapper">
-    <?php echo $this->getChildHtml('', true, true);?>
+<div class="product-options 989" id="product-options-wrapper">
+    <?php echo $this->getChildHtml('', true, true); ?>
+
     <?php if ($this->hasRequiredOptions()):?>
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
     <?php endif;?>

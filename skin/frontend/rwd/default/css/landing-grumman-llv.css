@@ -1,0 +1,989 @@
+/* Scoped styles for the USPS Grumman LLV PCM Repair landing page.
+   Every selector is nested under .landing-grumman-llv so nothing here
+   can affect the site header, topmenu, or footer. Loaded only on this
+   one CMS page via that page's Layout Update XML — never add this file
+   to a global layout handle. */
+
+/* SANCTIONED EXCEPTIONS — the only rules in this file not nested under
+   .landing-grumman-llv. Every one is additionally scoped to
+   body.usps-grumman-llv-pcm-repair, a class that ONLY exists on this one
+   CMS page (added by this page's own Layout Update XML — see
+   docs/superpowers/plans/grumman-llv-admin-handoff/layout-update.xml), so
+   none of these can affect any other page on the site even though the
+   selectors themselves reach outside .landing-grumman-llv. */
+
+/* .llv-bleed uses 100vw to break out of the theme's container for true
+   edge-to-edge hero/photo-strip backgrounds. 100vw always includes the
+   vertical-scrollbar gutter, and this theme's overflow-x is `visible` at
+   every breakpoint (skin/frontend/rwd/default/css/styles.css:15953,16773),
+   so without this rule the hero causes a page-wide horizontal scrollbar. */
+body.usps-grumman-llv-pcm-repair > .wrapper {
+  overflow-x: hidden !important;
+}
+
+/* The theme's own "page title" banner above the main content — approved
+   by site owner 2026-08-25 to be hidden on this page only. */
+body.usps-grumman-llv-pcm-repair .two-column-right-hero {
+  display: none;
+}
+
+/* Removes the theme's default bottom spacing/rule under the main content
+   area on this page only — approved by site owner 2026-08-25. */
+body.usps-grumman-llv-pcm-repair .main-content {
+  padding-top: 0;
+  padding-bottom: 0;
+  border-bottom: 1px solid #CACACA;
+}
+
+/* Hides the shared footer's copyright/description line on this page
+   only — approved by site owner 2026-08-25. */
+body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copyright {
+  display: none;
+}
+
+.landing-grumman-llv {
+  --llv-navy: #39608E;
+  --llv-cyan: #19BAE0;
+  --llv-cyan-hover: #14A5C7;
+  --llv-dark: #141B24;
+  --llv-slate: #3B4652;
+  --llv-body: #5A5A5A;
+  --llv-muted: #909090;
+  --llv-amber: #F5AD0D;
+  --llv-border: #E9E9E9;
+  --llv-panel-bg: rgba(243, 244, 246, 0.6);
+  --llv-radius-lg: 24px;
+  --llv-radius-md: 16px;
+  --llv-shadow-card: 0px 20px 60px rgba(141, 141, 141, 0.16), 0px 6px 20px rgba(141, 141, 141, 0.08);
+
+  font-family: 'Rubik', -apple-system, 'Segoe UI', sans-serif;
+  color: var(--llv-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.landing-grumman-llv * {
+  box-sizing: border-box;
+}
+
+.landing-grumman-llv img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.landing-grumman-llv .llv-inner {
+  max-width: 1590px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.landing-grumman-llv .llv-eyebrow {
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--llv-cyan);
+  margin: 0 0 18px;
+}
+
+.landing-grumman-llv h2.llv-heading {
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 1.12;
+  color: var(--llv-navy) !important;
+  margin: 0 0 20px;
+}
+
+.landing-grumman-llv .llv-heading--center {
+  text-align: center;
+}
+
+.landing-grumman-llv p.llv-lede {
+  font-size: 17px;
+  line-height: 1.8;
+  margin: 0 0 14px;
+}
+
+.landing-grumman-llv p.llv-note {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--llv-muted);
+  margin: 0;
+}
+
+.landing-grumman-llv .llv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  padding: 18px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.landing-grumman-llv .llv-btn:hover {
+  text-decoration: none;
+}
+
+.landing-grumman-llv .llv-btn svg {
+  flex: none;
+}
+
+.landing-grumman-llv .llv-btn--cyan {
+  background: var(--llv-cyan);
+  color: #FFFFFF;
+}
+
+.landing-grumman-llv .llv-btn--cyan:hover {
+  background: var(--llv-cyan-hover);
+  color: #FFFFFF;
+}
+
+.landing-grumman-llv .llv-btn--outline-white {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  color: #FFFFFF;
+  background: transparent;
+}
+
+.landing-grumman-llv .llv-btn--outline-white:hover {
+  background: #FFFFFF;
+  color: var(--llv-dark);
+}
+
+.landing-grumman-llv .llv-btn--outline-blue {
+  box-shadow: inset 0 0 0 1px var(--llv-navy);
+  color: var(--llv-navy);
+  background: transparent;
+}
+
+.landing-grumman-llv .llv-btn--outline-blue:hover {
+  background: var(--llv-navy);
+  color: #FFFFFF;
+}
+
+.landing-grumman-llv .llv-ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.landing-grumman-llv .llv-bleed {
+  position: relative;
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.landing-grumman-llv .llv-hero {
+  position: relative;
+  background: var(--llv-dark);
+  overflow: hidden;
+}
+
+.landing-grumman-llv .llv-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.landing-grumman-llv .llv-hero__scrim {
+  position: relative;
+  background: linear-gradient(100deg, rgba(15, 12, 8, 0.9) 0%, rgba(15, 12, 8, 0.6) 55%, rgba(15, 12, 8, 0.15) 100%);
+  padding: 70px 0 0;
+  padding-bottom: 110px;
+}
+
+.landing-grumman-llv h1.llv-hero__title {
+  font-weight: 600;
+  font-size: 56px;
+  line-height: 1.1;
+  color: #FFFFFF !important;
+  margin: 0 0 26px;
+  max-width: 720px;
+}
+
+.landing-grumman-llv .llv-hero__title-accent {
+  color: var(--llv-cyan);
+}
+
+.landing-grumman-llv p.llv-hero__lede {
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 34px;
+  max-width: 680px;
+}
+
+.landing-grumman-llv .llv-badges {
+  position: relative;
+  z-index: 2;
+  margin-top: -80px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.landing-grumman-llv .llv-badge {
+  background: #FFFFFF;
+  border-radius: var(--llv-radius-lg);
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--llv-shadow-card);
+}
+
+.landing-grumman-llv .llv-badge__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(25, 186, 224, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-grumman-llv .llv-badge__title {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--llv-navy);
+}
+
+.landing-grumman-llv .llv-badge__text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--llv-body);
+}
+
+.landing-grumman-llv .llv-problems {
+  padding: 90px 0;
+}
+
+.landing-grumman-llv .llv-problems__layout {
+  display: flex;
+  gap: 70px;
+  align-items: flex-start;
+}
+
+.landing-grumman-llv .llv-problems__intro {
+  width: 420px;
+  flex: none;
+}
+
+.landing-grumman-llv .llv-problems__intro h2.llv-heading {
+  font-size: 36px;
+}
+
+.landing-grumman-llv .llv-problems__intro p.llv-lede {
+  margin-bottom: 0;
+}
+
+.landing-grumman-llv .llv-problems__grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--llv-border);
+  border: 1px solid var(--llv-border);
+}
+
+.landing-grumman-llv .llv-problems__item {
+  background: #FFFFFF;
+  padding: 26px 28px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.landing-grumman-llv .llv-problems__num {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--llv-amber);
+  flex: none;
+}
+
+.landing-grumman-llv .llv-problems__label {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.4;
+  color: var(--llv-slate);
+}
+
+.landing-grumman-llv .llv-problems__note--mobile {
+  display: none;
+}
+
+.landing-grumman-llv .llv-specialist {
+  padding: 90px 0 60px;
+}
+
+.landing-grumman-llv .llv-specialist__layout {
+  display: flex;
+  gap: 70px;
+  align-items: center;
+}
+
+.landing-grumman-llv .llv-specialist__media {
+  width: 620px;
+  flex: none;
+  position: relative;
+  padding-top: 40px;
+}
+
+.landing-grumman-llv .llv-specialist__media-backdrop {
+  position: absolute;
+  right: 24px;
+  top: 0;
+  width: 420px;
+  height: 300px;
+  background: var(--llv-cyan);
+}
+
+.landing-grumman-llv .llv-specialist__media img {
+  position: relative;
+  width: 100%;
+  display: block;
+  margin-top: 60px;
+  filter: drop-shadow(0 24px 40px rgba(20, 27, 36, 0.25));
+  height: unset !important;
+}
+
+.landing-grumman-llv .llv-specialist__content {
+  flex: 1;
+}
+
+.landing-grumman-llv .llv-specialist__content h2.llv-heading {
+  font-size: 36px;
+}
+
+.landing-grumman-llv .llv-points {
+  position: relative;
+  z-index: 2;
+  margin-bottom: -60px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.landing-grumman-llv .llv-point {
+  background: #FFFFFF;
+  border-radius: var(--llv-radius-lg);
+  padding: 30px 32px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  box-shadow: var(--llv-shadow-card);
+}
+
+.landing-grumman-llv .llv-point svg {
+  flex: none;
+}
+
+.landing-grumman-llv .llv-point__text {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--llv-slate);
+}
+
+.landing-grumman-llv .llv-strip--mobile {
+  display: none;
+}
+
+.landing-grumman-llv .llv-strip img {
+  width: 100%;
+  height: 520px !important;
+  object-fit: cover;
+}
+
+.landing-grumman-llv .llv-process {
+  padding: 90px 0;
+  background: var(--llv-panel-bg);
+}
+
+.landing-grumman-llv .llv-process__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 1590px;
+  margin: 0 auto;
+}
+
+.landing-grumman-llv .llv-process__step {
+  position: relative;
+  padding-top: 44px;
+  border-top: 2px solid var(--llv-border);
+}
+
+.landing-grumman-llv .llv-process__tick {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--llv-cyan);
+}
+
+.landing-grumman-llv .llv-process__num {
+  font-weight: 600;
+  font-size: 52px;
+  line-height: 1;
+  color: var(--llv-cyan);
+  margin-bottom: 20px;
+}
+
+.landing-grumman-llv .llv-process__title {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--llv-navy);
+  margin-bottom: 14px;
+}
+
+.landing-grumman-llv .llv-process__text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--llv-body);
+}
+
+.landing-grumman-llv .llv-why {
+  padding: 90px 0;
+}
+
+.landing-grumman-llv .llv-why__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 24px;
+}
+
+.landing-grumman-llv .llv-why__media {
+  grid-row: span 2;
+  border-radius: var(--llv-radius-lg);
+  overflow: hidden;
+  position: relative;
+  min-height: 420px;
+}
+
+.landing-grumman-llv .llv-why__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.landing-grumman-llv .llv-why__media-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(transparent, rgba(10, 15, 22, 0.85));
+  padding: 70px 30px 28px;
+  color: #FFFFFF;
+}
+
+.landing-grumman-llv .llv-why__media-caption .llv-eyebrow {
+  margin-bottom: 8px;
+}
+
+.landing-grumman-llv .llv-why__media-caption strong {
+  display: block;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+.landing-grumman-llv .llv-why__card {
+  border-radius: var(--llv-radius-lg);
+  padding: 36px 34px;
+}
+
+.landing-grumman-llv .llv-why__card--dark {
+  grid-column: span 2;
+  background: var(--llv-dark);
+  color: #FFFFFF;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.landing-grumman-llv .llv-why__card--outline {
+  box-shadow: inset 0 0 0 1px var(--llv-border);
+  background: #FFFFFF;
+}
+
+.landing-grumman-llv .llv-why__card--cyan {
+  background: var(--llv-cyan);
+  color: #FFFFFF;
+}
+
+.landing-grumman-llv .llv-why__card-icon {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.landing-grumman-llv .llv-why__card--dark .llv-why__card-icon {
+  background: rgba(25, 186, 224, 0.15);
+  margin-bottom: 0;
+}
+
+.landing-grumman-llv .llv-why__card--outline .llv-why__card-icon {
+  background: rgba(25, 186, 224, 0.12);
+}
+
+.landing-grumman-llv .llv-why__card--cyan .llv-why__card-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.landing-grumman-llv .llv-why__card-eyebrow {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--llv-cyan);
+  margin-bottom: 12px;
+}
+
+.landing-grumman-llv .llv-why__card--cyan .llv-why__card-eyebrow {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.landing-grumman-llv .llv-why__card-title {
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.landing-grumman-llv .llv-why__card--outline .llv-why__card-title {
+  color: var(--llv-navy);
+}
+
+.landing-grumman-llv p.llv-why__card-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.landing-grumman-llv .llv-why__card--dark .llv-why__card-text {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.landing-grumman-llv .llv-why__card--outline .llv-why__card-text {
+  color: var(--llv-body);
+}
+
+.landing-grumman-llv .llv-why__card--cyan .llv-why__card-text {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.landing-grumman-llv .llv-why__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 44px;
+}
+
+.landing-grumman-llv .llv-quote {
+  padding: 0 0 90px;
+}
+
+.landing-grumman-llv .llv-quote__box {
+  background: var(--llv-panel-bg);
+  border: 1px solid var(--llv-border);
+  border-radius: var(--llv-radius-lg);
+  padding: 60px;
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+.landing-grumman-llv .llv-quote__content {
+  flex: 1.1;
+}
+
+.landing-grumman-llv .llv-quote__content h2.llv-heading {
+  font-size: 32px;
+}
+
+.landing-grumman-llv .llv-quote__panel {
+  flex: none;
+  width: 340px;
+  background: #FFFFFF;
+  box-shadow: inset 0 0 0 1px var(--llv-border);
+  border-radius: var(--llv-radius-md);
+  padding: 32px 34px;
+  font-family: 'Inter', sans-serif;
+}
+
+.landing-grumman-llv .llv-quote__panel-title {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--llv-slate);
+  margin-bottom: 18px;
+}
+
+.landing-grumman-llv .llv-quote__panel-row {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--llv-body);
+  margin-top: 0;
+}
+
+.landing-grumman-llv .llv-quote__panel-row + .llv-quote__panel-row {
+  margin-top: 14px;
+}
+
+.landing-grumman-llv .llv-quote__panel-row strong {
+  color: var(--llv-slate);
+}
+
+.landing-grumman-llv .llv-quote__panel-row a {
+  color: var(--llv-navy);
+  text-decoration: none;
+}
+
+.landing-grumman-llv .llv-quote__panel-row a:hover {
+  text-decoration: underline;
+}
+
+.landing-grumman-llv .llv-disclaimer {
+  background: var(--llv-panel-bg);
+  padding: 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--llv-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .landing-grumman-llv .llv-inner {
+    padding: 0 20px;
+    margin-bottom: 0;
+  }
+
+  .landing-grumman-llv .llv-eyebrow {
+    font-size: 12px;
+  }
+
+  .landing-grumman-llv p.llv-lede {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .landing-grumman-llv p.llv-note {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+
+  .landing-grumman-llv .llv-hero {
+    padding-bottom: 0;
+  }
+
+  .landing-grumman-llv .llv-hero__scrim {
+    padding-top: 44px;
+    padding-bottom: 65px;
+  }
+
+  .landing-grumman-llv h1.llv-hero__title {
+    font-size: 30px !important;
+    margin-bottom: 18px;
+  }
+
+  .landing-grumman-llv p.llv-hero__lede {
+    font-size: 15px !important;
+    margin-bottom: 26px;
+  }
+
+  .landing-grumman-llv .llv-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .landing-grumman-llv .llv-btn {
+    text-align: center;
+  }
+
+  .landing-grumman-llv .llv-badges {
+    margin-top: -40px;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .landing-grumman-llv .llv-badge {
+    padding: 18px 16px;
+    border-radius: var(--llv-radius-md);
+  }
+
+  .landing-grumman-llv .llv-badge__title {
+    font-size: 15px !important;
+  }
+
+  .landing-grumman-llv .llv-badge__text {
+    font-size: 12.5px;
+  }
+
+  .landing-grumman-llv .llv-problems,
+  .landing-grumman-llv .llv-specialist,
+  .landing-grumman-llv .llv-process,
+  .landing-grumman-llv .llv-why {
+    padding: 50px 0;
+  }
+
+  .landing-grumman-llv .llv-process {
+    margin-top: 25px;
+  }
+
+  .landing-grumman-llv .llv-problems {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .landing-grumman-llv .llv-specialist {
+    padding-top: 10px;
+  }
+
+  .landing-grumman-llv .llv-problems__layout,
+  .landing-grumman-llv .llv-specialist__layout {
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  .landing-grumman-llv .llv-problems__layout {
+    gap: 20px;
+    margin-bottom: 0;
+  }
+
+  .landing-grumman-llv .llv-problems__intro,
+  .landing-grumman-llv .llv-specialist__media {
+    width: 100%;
+  }
+
+  .landing-grumman-llv .llv-problems__intro h2.llv-heading,
+  .landing-grumman-llv .llv-specialist__content h2.llv-heading,
+  .landing-grumman-llv .llv-process h2.llv-heading {
+    font-size: 26px !important;
+  }
+
+  .landing-grumman-llv .llv-quote__content h2.llv-heading {
+    font-size: 22px !important;
+  }
+
+  .landing-grumman-llv .llv-problems__grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .landing-grumman-llv .llv-problems__item {
+    padding: 16px 18px;
+  }
+
+  .landing-grumman-llv .llv-problems__label {
+    font-size: 15px;
+  }
+
+  .landing-grumman-llv .llv-problems__note--desktop {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-problems__note--mobile {
+    display: block;
+  }
+
+  .landing-grumman-llv .llv-points {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 0;
+    margin-top: -40px;
+  }
+
+  .landing-grumman-llv .llv-point {
+    padding: 16px 18px;
+  }
+
+  .landing-grumman-llv .llv-point__text {
+    font-size: 14px;
+  }
+
+  .landing-grumman-llv .llv-strip img {
+    height: 220px !important;
+  }
+
+  .landing-grumman-llv .llv-strip--mobile {
+    display: block;
+  }
+
+  .landing-grumman-llv .llv-strip--desktop {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-specialist__media {
+    padding-top: 26px;
+    order: 2;
+  }
+
+  .landing-grumman-llv .llv-specialist__content {
+    order: 1;
+  }
+
+  .landing-grumman-llv .llv-specialist__media-backdrop {
+    width: 220px;
+    height: 150px;
+  }
+
+  .landing-grumman-llv .llv-specialist__media img {
+    margin-top: 26px;
+  }
+
+  .landing-grumman-llv .llv-process__grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .landing-grumman-llv .llv-process__step {
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 16px;
+    row-gap: 8px;
+    align-items: baseline;
+  }
+
+  .landing-grumman-llv .llv-process__num {
+    font-size: 34px;
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0;
+  }
+
+  .landing-grumman-llv .llv-process__title {
+    font-size: 17px;
+    grid-column: 2;
+    grid-row: 1;
+    margin-bottom: 0;
+  }
+
+  .landing-grumman-llv .llv-process__text {
+    font-size: 14px;
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .landing-grumman-llv .llv-why__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-grumman-llv .llv-why__media {
+    grid-row: auto;
+    min-height: 240px;
+  }
+
+  .landing-grumman-llv .llv-why__media-caption {
+    padding: 50px 20px 18px;
+  }
+
+  .landing-grumman-llv .llv-why__media-caption strong {
+    font-size: 17px;
+  }
+
+  .landing-grumman-llv .llv-why__card {
+    padding: 26px 24px;
+  }
+
+  .landing-grumman-llv .llv-why__card--dark {
+    grid-column: auto;
+    flex-direction: column;
+  }
+
+  .landing-grumman-llv .llv-why__card-icon {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-why__cta {
+    margin-top: 24px;
+  }
+
+  .landing-grumman-llv .llv-why {
+    padding-bottom: 40px;
+  }
+
+  .landing-grumman-llv .llv-why__card-eyebrow {
+    font-size: 11px;
+  }
+
+  .landing-grumman-llv .llv-why__card-title {
+    font-size: 18px;
+  }
+
+  .landing-grumman-llv p.llv-why__card-text {
+    font-size: 13.5px;
+  }
+
+  .landing-grumman-llv .llv-quote {
+    padding-bottom: 40px;
+  }
+
+  .landing-grumman-llv .llv-btn--cyan,
+  .landing-grumman-llv .llv-btn--outline-blue {
+    font-size: 15px;
+    padding: 15px;
+  }
+
+  .landing-grumman-llv .llv-quote__box {
+    flex-direction: column;
+    padding: 28px 24px;
+    gap: 30px;
+  }
+
+  .landing-grumman-llv .llv-quote__panel {
+    width: 100%;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-title {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row {
+    font-size: 13px;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row + .llv-quote__panel-row {
+    margin-top: 0;
+  }
+
+  .landing-grumman-llv .llv-quote__panel-row a {
+    color: #2B79C2;
+  }
+
+  .landing-grumman-llv .llv-quote__br--stack {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-disclaimer {
+    font-size: 12px;
+    padding: 18px 22px;
+    text-align: left;
+  }
+}

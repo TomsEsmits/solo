@@ -31,17 +31,16 @@
 <?php $buttonTitle = $this->__('Add to Cart'); ?>
 <?php /* if($_product->isSaleable()): */ ?>
     <div class="add-to-cart">
-        
-            <?php if(!$_product->isGrouped()): ?>
-                <div class="qty-wrapper">
+            <?php /* if(!$_product->isGrouped()): ?>
+                <div class="qty-wrapper" 123>
                     <label for="qty"><?php echo $this->__('Qty:') ?></label>
                     <input type="text" pattern="\d*" name="qty" id="qty" maxlength="12" value="<?php echo max($this->getProductDefaultQty() * 1, 1) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
                 </div>
-            <?php endif; ?>
-            <div class="add-to-cart-buttons">
+            <?php endif; */ ?>
+           <?php /* <div class="add-to-cart-buttons">
                 <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart green-btn" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
                 <?php //echo $this->getChildHtml('', true, true) ?>
-            </div>
+            </div> */ ?>
         <?php /* 
         <a style="width: 240px;" id="get-a-call-back" href="<?php echo $this->getUrl( "" ) ?>contact-us/" class="float-right button button-green">Question? Get A Call Back</a>
         <div class="get-a-call-back">

@@ -4,17 +4,17 @@
         umask( 0 );
         Mage::app();
         
-        if ( isset( $_GET[ "category" ] ) && $_GET[ "category" ] == "111" ) {
-            $string = "Step 1. Select Auto Make";
+        if ( isset( $_GET[ "category" ] ) && $_GET[ "category" ] == "111" ) { 
+            $string = "1 | Select auto make";
         }
         if ( isset( $_GET[ "category" ] ) && $_GET[ "category" ] != "111" ) {
-            $string = "Step 2. Select Auto Model";
+            $string = "2 | Select model";
         }
         if ( isset( $_GET[ "attribute" ] ) && $_GET[ "attribute" ] == "year" ) {
-            $string = "Step 3. Select Auto Year";
+            $string = "3 | Select year";
         }
         if ( isset( $_GET[ "attribute" ] ) && $_GET[ "attribute" ] == "engine_type" ) {
-            $string = "Step 4. Select Engine Type";
+            $string = "4 | Select engine type";
         }
         
         if ( $_GET[ "category" ] != "" && is_numeric( $_GET[ "category" ] ) && $_GET[ "attribute" ] == "" ) {

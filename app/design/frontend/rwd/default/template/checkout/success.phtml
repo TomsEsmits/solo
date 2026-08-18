@@ -132,6 +132,53 @@ $total = (float)number_format($order()->getSubtotal(),2);
 ?>
 */ ?>
 
+<?php
+$orderId = Mage::getSingleton('checkout/session')->getLastOrderId(); // REPLACE_ORDER_ID
+$order = Mage::getModel('sales/order')->load($orderId);
 
+if ($order && $order->getId()) {
+    $orderData = [
+        'REPLACE_ORDER_ID'       => $order->getIncrementId(),
+        'REPLACE_ORDER_TOTAL'    => $order->getGrandTotal(),
+        'REPLACE_TAX_AMOUNT'     => $order->getTaxAmount(),
+        'REPLACE_SHIPPING_AMOUNT'=> $order->getShippingAmount(),
+        'REPLACE_CURRENCY'       => $order->getOrderCurrencyCode(),
+    ];
+
+    $items = [];
+    foreach ($order->getAllVisibleItems() as $item) {
+        $items[] = [
+            'REPLACE_PRODUCT_SKU'    => $item->getSku(),
+            'REPLACE_PRODUCT_NAME'   => $item->getName(),
+            'REPLACE_PRODUCT_PRICE'  => $item->getPrice(),
+            'REPLACE_PRODUCT_QTY'    => (int)$item->getQtyOrdered(),
+        ];
+    }
+}
+?>
+<?php if (isset($orderData) && !empty($items)): ?>
+    <script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: "view_product",
+        ecommerce: {
+            transaction_id: "<?php echo $orderData['REPLACE_ORDER_ID']; ?>",
+            affiliation: "SOLO Store",
+            value: <?php echo (float)$orderData['REPLACE_ORDER_TOTAL']; ?>,
+            tax: <?php echo (float)$orderData['REPLACE_TAX_AMOUNT']; ?>,
+            shipping: <?php echo (float)$orderData['REPLACE_SHIPPING_AMOUNT']; ?>,
+            currency: "<?php echo $orderData['REPLACE_CURRENCY']; ?>",
+            items: <?php echo json_encode(array_map(function($item) {
+                return [
+                    'item_id'   => $item['REPLACE_PRODUCT_SKU'],
+                    'item_name' => $item['REPLACE_PRODUCT_NAME'],
+                    'price'     => (float)$item['REPLACE_PRODUCT_PRICE'],
+                    'quantity'  => (int)$item['REPLACE_PRODUCT_QTY']
+                ];
+            }, $items)); ?>
+        }
+    });
+    </script>
+<?php endif; ?>
 
 <script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"5224022"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script><noscript><img src="//bat.bing.com/action/0?ti=5224022&Ver=2" height="0" width="0" style="display:none; visibility: hidden;" /></noscript>

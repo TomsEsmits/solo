@@ -24,6 +24,8 @@
 				<!--<?php the_author(); ?>/<?php echo get_the_date(); ?>-->
 			</div>
 			<h1><?php echo the_title(); ?></h1>
+			<?php get_template_part( 'template-parts/vehicle-search-form' ); ?>
+			<?php the_static_block( 'home-page-logos' ); ?>
 			<?php echo the_content(); ?>
 			
 		</div>

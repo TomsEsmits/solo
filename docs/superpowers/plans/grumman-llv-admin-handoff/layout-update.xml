@@ -1,0 +1,11 @@
+<reference name="root">
+    <action method="addBodyClass">
+        <class>usps-grumman-llv-pcm-repair</class>
+    </action>
+</reference>
+<reference name="head">
+    <action method="addItem">
+        <type>skin_css</type>
+        <name>css/landing-grumman-llv.css</name>
+    </action>
+</reference>

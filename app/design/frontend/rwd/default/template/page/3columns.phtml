@@ -28,6 +28,8 @@
 /**
  * Template for Mage_Page_Block_Html
  */
+
+$currentPath = trim(Mage::app()->getRequest()->getRequestString(), '/');
 ?>
 
 <!DOCTYPE html>
@@ -55,19 +57,451 @@
 <?php echo $this->getChildHtml('after_body_start') ?>
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>
-    <div class="page">
-        <?php echo $this->getChildHtml('header') ?>
-        <div class="main-container col3-layout">
+    <div class="page" 7>
+        <?php echo $this->getChildHtml('new-header') ?>
+        <?php $currentCategory = Mage::registry('current_category'); ?>
+            <?php if ($currentCategory) : ?>
+                <section class="inner-page-main-banner">
+                    <figure class="top-left-icon-desktop 3223">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="231" height="503" viewBox="0 0 231 503" fill="none">
+                            <path d="M-962 -189.887L231 -189.887L-70.5 625.113H-962V-189.887Z" fill="#19BAE0" fill-opacity="0.1"/>
+                        </svg>
+                    </figure>
+                    <figure class="top-left-icon" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="71" height="716" viewBox="0 0 71 716" fill="none">
+                            <path d="M-977 0L71 0L-193.855 716H-977V0Z" fill="#19BAE0" fill-opacity="0.1"/>
+                        </svg>
+                    </figure>
+                    <?php
+                        $description = trim($currentCategory->getDescription());
+
+                        if ($description) {
+                            // Check if there’s an <h1> tag
+                            if (strpos($description, '<h1>') !== false) {
+                                // Split description at the first <h1> tag
+                                $parts = explode('<h1>', $description, 2);
+
+                                // First part: before <h1>
+                                $topDescription = trim($parts[0]);
+
+                                // Second part: <h1> and everything after
+                                $bottomDescription = '<h1>' . trim($parts[1]);
+                            } else {
+                                // No <h1>, show full description normally
+                                $topDescription = $description;
+                                $bottomDescription = '';
+                            }
+                        }
+                    ?>
+                    <div class="container">
+                        <div class="inner-wrapper">
+                            <div class="content-wrapper">
+                                <h2 123123><?php echo $this->escapeHtml($currentCategory->getName()); ?></h2>
+                                <p 12321321><?php echo $topDescription; ?><?php // echo $currentCategory->getDescription(); ?></p>
+                            </div>  
+                            <div class="banner-wrapper">
+                                <figure class="figure-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="328" height="455" viewBox="0 0 328 455" fill="none" style="height: 100%;">
+                                        <path d="M1193 761L0 761L301.5 -54H1193V761Z" fill="white" fill-opacity="0.34"></path>
+                                    </svg>
+                                </figure>
+                                <figure class="figure-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1128" height="699" viewBox="0 0 1128 494" fill="none">
+                                        <path d="M0 0.662964H1128L959 493.548H0V0.662964Z" fill="white" fill-opacity="0.45"></path>
+                                    </svg>
+                                </figure>
+                                <figure class="figure-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="274" height="455" viewBox="0 0 274 455" fill="none">
+                                        <path d="M-1124 -4H274L90.7256 476H-1124V-4Z" fill="white" fill-opacity="0.45"></path>
+                                    </svg>
+                                </figure>
+                                <figure class="figure-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1193" height="815" viewBox="0 0 1193 815" fill="none">
+                                        <path d="M0 0L1193 0L891.5 815H0V0Z" fill="white"></path>
+                                    </svg>
+                                </figure>
+
+                                <img src="<?php echo Mage::getBaseUrl('media') . 'inner-page/inner-page-banner.png'; ?>" alt="<?php echo $this->escapeHtml($currentCategory->getName()); ?>" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mobile-banner-wrapper" style="display: none;">
+                        <figure class="mobile-figure-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="111" height="352" viewBox="0 0 111 352" fill="none">
+                                <path d="M0 -4.19617e-05L111 -6.10352e-05L37.5476 352L0 352V-4.19617e-05Z" fill="white" fill-opacity="0.45"/>
+                            </svg>
+                        </figure>
+                        <img src="<?php echo Mage::getBaseUrl('media') . 'inner-page/inner-page-banner.png'; ?>" alt="<?php echo $this->escapeHtml($currentCategory->getName()); ?>" />
+                    </div>
+                </section>
+            <?php endif; ?>
+            <?php if ($currentCategory && $currentCategory->getId() == "111") : ?>
+                <section class="home-page-logos">
+                    <div class="container">
+                        <div class="logo-wrapper">
+                            <div><a id="logoclicks" href="https://www.solopcms.com/auto-computers/toyota-ecm-ecu-pcm/">
+                                <img loading="lazy" src="<?php echo Mage::getBaseUrl('media') . 'home-page/logos/toyota.png'; ?>" alt="Toyota Logo" />
+                                </a>
+                            </div>
+                            <div>
+                                <img loading="lazy" src="<?php echo Mage::getBaseUrl('media') . 'home-page/logos/cummins.png'; ?>" alt="Cummins Logo" />
+                            </div>
+                            <div>
+                                <a id="logoclicks" href="https://www.solopcms.com/auto-computers/ford-ecm-ecu-pcm/">
+                                    <img loading="lazy" src="<?php echo Mage::getBaseUrl('media') . 'home-page/logos/honda.png'; ?>" alt="Honda Logo" />
+                                </a>
+                            </div>
+                            <div>
+                                <a id="logoclicks" href="https://www.solopcms.com/auto-computers/honda-ecm-ecu-pcm/">
+                                    <img loading="lazy" src="<?php echo Mage::getBaseUrl('media') . 'home-page/logos/ford.png'; ?>" alt="Ford Logo" />
+                                </a>
+                            </div>
+                            <div>
+                                <a id="logoclicks" href="https://www.solopcms.com/auto-computers/dodge-ecm-ecu-pcm/">
+                                    <img loading="lazy" src="<?php echo Mage::getBaseUrl('media') . 'home-page/logos/lexus.png'; ?>" alt="Lexus Logo" />
+                                </a>
+                            </div>
+                            <div>
+                                <a id="logoclicks" href="https://www.solopcms.com/auto-computers/lexus-ecm-ecu-pcm/">
+                                    <img loading="lazy" src="<?php echo Mage::getBaseUrl('media') . 'home-page/logos/general-motors.png'; ?>" alt="General Motors Logo" />
+                                </a>
+                            </div>
+                            <div>
+                                <a id="logoclicks" href="https://www.solopcms.com/auto-computers/gmc-ecm-ecu-pcm/">
+                                    <img loading="lazy" src="<?php echo Mage::getBaseUrl('media') . 'home-page/logos/dodge.png'; ?>" alt="Dodge Logo" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            <?php endif; ?>
+        <div class="breadcrumbs-wrapper">
+            <div class="container">
+                <?php echo $this->getChildHtml('breadcrumbs'); ?>
+            </div>
+        </div>
+
+        <section class="extra-content">
+            <?php if (!empty($bottomDescription)): ?>
+                <div class="container">
+                    <div class="category-description-bottom">
+                        <?php echo $bottomDescription; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </section>
+
+       <?php if ($currentPath === 'auto-computers') : ?>
+        <section class="product-grid-and-categories">
+            <div class="container">
+                <div class="inner-wrapper">
+                    <div class="category-wrapper">
+                        <p class="category-block-title">Product Categories</p>
+                        <?php
+                            $currentCategory = Mage::registry('current_category');
+
+                            if ($currentCategory && $currentCategory->getId()) {
+                                $children = $currentCategory->getChildrenCategories();
+                            }
+
+                            $categoryGroups = [
+                                'Auto Make' => [304, 32, 15, 3, 82, 64, 55, 60, 50, 53, 30, 108, 251, 259, 322, 264, 266, 269],
+                                'Diagnosis & Codes' => [288, 298],
+                                'Units function or type' => [289, 295, 290, 294, 293],
+                                'Services' => [297, 291, 300, 299],
+                                'Wholesale' => [292],
+                            ];
+
+                            $categoryCollection = Mage::getModel('catalog/category')->getCollection()
+                                ->addAttributeToSelect(['name', 'is_active'])
+                                ->addAttributeToFilter('entity_id', ['in' => array_merge(...array_values($categoryGroups))])
+                                ->addAttributeToFilter('is_active', 1);
+
+                            $categories = [];
+                            foreach ($categoryCollection as $cat) {
+                                $categories[$cat->getId()] = $cat;
+                            }
+                        ?>
+
+                        <ul class="group-list">
+                            <?php foreach ($categoryGroups as $groupName => $ids): ?>
+                                <div class="category-group">
+                                    <h3>
+                                        <?php echo $this->escapeHtml($groupName); ?>
+                                        <figure>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.98398 6.88345L0.170998 2.07046L1.37403 0.867431L5.5855 5.0789L9.79697 0.867432L11 2.07047L6.18702 6.88345C6.02747 7.04295 5.8111 7.13255 5.5855 7.13255C5.3599 7.13255 5.14353 7.04295 4.98398 6.88345Z" fill="#212121"/>
+                                            </svg>
+                                        </figure>
+                                    </h3>
+                                    <div class="category-main-wrapper">
+                                         <ul>
+                                            <?php foreach ($ids as $id): ?>
+                                                <?php if (isset($categories[$id])): ?>
+                                                    <?php $cat = $categories[$id]; ?>
+                                                    <li>
+                                                        <a href="<?php echo $cat->getUrl(); ?>">
+                                                            <?php echo $this->escapeHtml($cat->getName()); ?>
+                                                            <span class="count">(<?php echo $cat->getProductCount(); ?>)</span>
+                                                        </a>
+                                                    </li>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <div class="product-grid">
+                        <div class="top-part">
+                            <?php echo $this->getChildHtml('content') ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    rebuildCustomSelect(".sort-by-select-wrapper select");
+
+                    const groups = document.querySelectorAll(".category-group");
+
+                    groups.forEach(header => {
+                        header.addEventListener("click", function() {
+
+                            if (header.classList.contains("active")) {
+                                header.classList.remove("active");
+                                return;
+                            }
+
+                            document.querySelectorAll(".category-group").forEach(group => {
+                                group.classList.remove("active");
+                            });
+
+                            header.classList.add("active");
+                        });
+                    });
+                });
+
+                function rebuildCustomSelect(selector) {
+                    var $wrapper = jQuery(selector).closest(".sort-by-select-wrapper");
+                    var select = $wrapper.find("select")[0];
+                    if (!select) return;
+
+                    $wrapper.find(".select-selected, .select-items").remove();
+
+                    var selected = document.createElement("div");
+                    selected.classList.add("select-selected");
+
+                    var selectedOption = select.options[select.selectedIndex];
+                    selected.textContent = selectedOption ? selectedOption.textContent : "";
+                    $wrapper[0].appendChild(selected);
+
+                    var optionsList = document.createElement("div");
+                    optionsList.classList.add("select-items");
+                    optionsList.style.display = "none";
+
+                    Array.from(select.options).forEach(function(opt, index) {
+                        var optionDiv = document.createElement("div");
+                        optionDiv.textContent = opt.textContent;
+
+                        optionDiv.addEventListener("click", function () {
+                            if (opt.disabled) {
+                                select.selectedIndex = 0;
+                                selected.textContent = select.options[0].textContent;
+                            } else {
+                                if (select.selectedIndex !== index) {
+                                    select.selectedIndex = index;
+                                    selected.textContent = opt.textContent;
+
+                                    select.dispatchEvent(new Event("change"));
+                                }
+                            }
+                            optionsList.style.display = "none";
+                            selected.classList.remove("active");
+                        });
+
+                        optionsList.appendChild(optionDiv);
+                    });
+
+                    $wrapper[0].appendChild(optionsList);
+
+                    selected.addEventListener("click", function(e) {
+                        e.stopPropagation();
+
+                        if (selected.classList.contains("active")) {
+                            selected.classList.remove("active");
+                            selected.parentElement.classList.remove("active");
+                            optionsList.style.display = "none";
+                        } else {
+                            selected.classList.add("active");
+                            optionsList.style.display = "flex";
+                            selected.parentElement.classList.add("active");
+                        }
+                    });
+
+                    select.addEventListener("change", function () {
+                        var newOption = select.options[select.selectedIndex];
+                        selected.textContent = newOption ? newOption.textContent : "";
+                    });
+                }
+            </script>
+        </section>
+        <?php endif; ?>
+        <?php if (strpos($currentPath, 'auto-computers/') === 0) : ?>
+            <section class="product-grid-and-categories">
+                <div class="container">
+                    <div class="inner-wrapper">
+                        <div class="category-wrapper">
+                            <p class="category-block-title">Shop by</p>
+
+                            <ul class="group-list">
+                                <?php
+                                    $layerBlock = $this->getLayout()->createBlock('catalog/layer_view');
+                                    $_filters = $layerBlock->getFilters();
+                                ?>
+                                <?php foreach ($_filters as $_filter): ?>
+                                    <?php if ($_filter->getItemsCount()): ?>
+                                        <?php
+                                            $filterName = $_filter->getName();
+                                            if ($filterName == 'Category') {
+                                                $filterName = 'Model';
+                                            }
+                                        ?>
+                                        <div class="category-group">
+                                            <h3>
+                                                <?php echo $this->__($filterName); ?>
+                                                <figure>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.98398 6.88345L0.170998 2.07046L1.37403 0.867431L5.5855 5.0789L9.79697 0.867432L11 2.07047L6.18702 6.88345C6.02747 7.04295 5.8111 7.13255 5.5855 7.13255C5.3599 7.13255 5.14353 7.04295 4.98398 6.88345Z" fill="#212121"/>
+                                                    </svg>
+                                                </figure>
+                                            </h3>
+                                            <div class="category-main-wrapper">
+                                                <ul>
+                                                    <li>
+                                                        <?php echo $_filter->getHtml() ?>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <div class="product-grid">
+                            <div class="top-part">
+                                <?php echo $this->getChildHtml('content') ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        rebuildCustomSelect(".sort-by-select-wrapper select");
+
+                        const groups = document.querySelectorAll(".category-group");
+
+                        groups.forEach(header => {
+                            header.addEventListener("click", function() {
+
+                                if (header.classList.contains("active")) {
+                                    header.classList.remove("active");
+                                    return;
+                                }
+
+                                document.querySelectorAll(".category-group").forEach(group => {
+                                    group.classList.remove("active");
+                                });
+
+                                header.classList.add("active");
+                            });
+                        });
+                    });
+
+                    function rebuildCustomSelect(selector) {
+                        var $wrapper = jQuery(selector).closest(".sort-by-select-wrapper");
+                        var select = $wrapper.find("select")[0];
+                        if (!select) return;
+
+                        $wrapper.find(".select-selected, .select-items").remove();
+
+                        var selected = document.createElement("div");
+                        selected.classList.add("select-selected");
+
+                        var selectedOption = select.options[select.selectedIndex];
+                        selected.textContent = selectedOption ? selectedOption.textContent : "";
+                        $wrapper[0].appendChild(selected);
+
+                        var optionsList = document.createElement("div");
+                        optionsList.classList.add("select-items");
+                        optionsList.style.display = "none";
+
+                        Array.from(select.options).forEach(function(opt, index) {
+                            var optionDiv = document.createElement("div");
+                            optionDiv.textContent = opt.textContent;
+
+                            optionDiv.addEventListener("click", function () {
+                                if (opt.disabled) {
+                                    select.selectedIndex = 0;
+                                    selected.textContent = select.options[0].textContent;
+                                } else {
+                                    if (select.selectedIndex !== index) {
+                                        select.selectedIndex = index;
+                                        selected.textContent = opt.textContent;
+
+                                        select.dispatchEvent(new Event("change"));
+                                    }
+                                }
+                                optionsList.style.display = "none";
+                                selected.classList.remove("active");
+                            });
+
+                            optionsList.appendChild(optionDiv);
+                        });
+
+                        $wrapper[0].appendChild(optionsList);
+
+                        selected.addEventListener("click", function(e) {
+                            e.stopPropagation();
+
+                            if (selected.classList.contains("active")) {
+                                selected.classList.remove("active");
+                                selected.parentElement.classList.remove("active");
+                                optionsList.style.display = "none";
+                            } else {
+                                selected.classList.add("active");
+                                optionsList.style.display = "flex";
+                                selected.parentElement.classList.add("active");
+                            }
+                        });
+
+                        select.addEventListener("change", function () {
+                            var newOption = select.options[select.selectedIndex];
+                            selected.textContent = newOption ? newOption.textContent : "";
+                        });
+                    }
+                </script>
+            </section>
+        <?php endif; ?>
+
+        <?php echo $this->getLayout()->createBlock('cms/widget_block')
+            ->setBlockId(15)
+            ->setTemplate('cms/widget/static_block/default.phtml')
+            ->toHtml(); 
+        ?>
+        <div class="main-container col3-layout" >
             <div class="main">
-                <?php echo $this->getChildHtml('breadcrumbs') ?>
+                <?php echo $this->getChildHtml('breadcrumbs'); ?>
                 <div class="col-wrapper">
                      <!-- Add your widget block here -->
-                    <?php
-                        echo $this->getLayout()
-                            ->createBlock('cms/widget_block')
-                            ->setTemplate('cms/widget/static_block/default.phtml')
-                            ->setBlockId('10')
-                            ->toHtml();
+                    <?php    if ($currentCategory && $currentCategory->getId() !== "111") {
+                            echo $this->getLayout()
+                                ->createBlock('cms/widget_block')
+                                ->setTemplate('cms/widget/static_block/default.phtml')
+                                ->setBlockId('10')
+                                ->toHtml();
+                        }
                     ?>
                     <?php // This left_first block will display above the main content on smaller viewports ?>
                     <?php if ($_leftContent = $this->getChildHtml('left_first')): ?>
