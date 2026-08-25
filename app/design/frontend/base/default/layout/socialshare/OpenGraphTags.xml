@@ -9,6 +9,23 @@
 			</block>
 		</reference>
 
+		<!-- Same dynamic og: tags block as above, wired to the "new-head"
+		     block used by page/custom_column.phtml and
+		     page/new_custom_product.phtml. Those two page templates never
+		     echo the "head" block, so without this, pages using them had
+		     no per-page og:title/og:description at all — only ever the
+		     static sitewide fallback removed from new-head.phtml.
+		     Block name kept distinct from "og_meta" above since both are
+		     always present in the layout tree regardless of which page
+		     template ends up rendering. Fix 2026-08-20. -->
+		<reference name="new-head">
+			<block type="core/template" name="og_meta_new_head">
+				<action method="setTemplate" ifconfig="opengraphtags/conf/active">
+					<template>socialshare/head.phtml</template>
+				</action>
+			</block>
+		</reference>
+
 		<reference name="after_body_start">
 			<block type="core/template" name="og_meta">
 				<action method="setTemplate" ifconfig="opengraphtags/conf/active">

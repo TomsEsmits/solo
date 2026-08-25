@@ -28,6 +28,17 @@
 /**
  * Template for Mage_Page_Block_Html
  */
+
+$path = parse_url(Mage::helper('core/url')->getCurrentUrl(), PHP_URL_PATH);
+$parts = array_values(array_filter(explode('/', trim($path, '/'))));
+$slug = end($parts);
+if (!$slug) {
+    $slug = '';
+}
+$readable = uc_words(str_replace('-', ' ', $slug), ' ');
+
+$page = Mage::getSingleton('cms/page');
+$h1 = trim((string)$page->getContentHeading());
 ?>
 
 <!DOCTYPE html>
@@ -48,15 +59,123 @@
     <?php echo $this->getChildHtml('global_notices') ?>
     <div class="page" 3.1>
         <?php echo $this->getChildHtml('new-header') ?>
-        <div class="main-container col1-layout">
-            <div class="main">
-                <?php echo $this->getChildHtml('breadcrumbs') ?>
-                <div class="col-main">
-                    <?php echo $this->getChildHtml('global_messages') ?>
-                    <?php echo $this->getChildHtml('content') ?>
+        <?php if ($this->getRequest()->getControllerName() !== "product" && Mage::getSingleton('cms/page')->getIdentifier() !== 'usps-grumman-llv-pcm-repair') : ?>
+            <section class="two-column-right-hero">
+                <div class="container-1600">
+                    <p class="service-name"><?php echo $this->escapeHtml($readable); ?></p>
+
+                    <?php if ($h1 !== '') : ?>
+                        <h1><?php echo $this->escapeHtml($h1) ?></h1>
+                    <?php endif; ?>
+                </div>
+            </section>
+        <?php endif; ?>
+        <?php // echo $this->getChildHtml('breadcrumbs') ?>
+        <main class="main-content">
+            <?php echo $this->getChildHtml('global_messages') ?>
+            <?php echo $this->getChildHtml('content') ?>
+        </main>
+        <?php
+            $request = Mage::app()->getRequest();
+            $blockId = null;
+
+            if (
+                $request->getRouteName() === 'cms'
+                && $request->getControllerName() === 'page'
+                && Mage::getSingleton('cms/page')->getId() == 76
+            ) {
+                $blockId = 27;
+            }
+
+            if ($blockId) {
+                $cmsBlock = Mage::getModel('cms/block')->load($blockId);
+
+                if ($cmsBlock->getIsActive()) {
+                    ?>
+                    <section class="faq-section">
+                        <div class="container">
+                            <div class="section-title">
+                                <h3>Frequently asked questions</h3>
+                            </div>
+
+                            <div class="faq-items">
+                                <?php echo $cmsBlock->getContent(); ?>
+                            </div>
+                        </div>
+                    </section>
+                    <?php
+                }
+            }
+        ?>
+
+        <?php if ( $request->getRouteName() === 'cms' && $request->getControllerName() === 'page' && Mage::getSingleton('cms/page')->getId() == 76) : ?>
+            <section class="section">
+                <div class="container-1600">
+                    <div class="cms-auto-computer-repair">
+                        <style>
+                            .cms-auto-computer-repair #contact-us-form {
+                                max-width: 1260px;
+                                margin: auto;
+                            }
+                        </style>
+                        <?php echo $this->getLayout()
+                            ->createBlock('core/template')
+                            ->setTemplate('page/forms/repair-center.phtml')
+                            ->toHtml(); ?>
+                    </div>
+                </div>
+            </section>
+
+            <div class="auto-computer-repair-blue-full-width">
+                <h3>how it works</h3>
+                <div class="auto-computer-repair-boxes-wrapper">
+                    <div class="auto-computer-repair-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="65" height="64" viewBox="0 0 65 64" fill="none">
+                            <path d="M59.4639 17.248L39.4639 6.24799C39.1685 6.08553 38.8369 6.00034 38.4999 6.00034C38.1628 6.00034 37.8312 6.08553 37.5359 6.24799L17.5359 17.248C17.2223 17.4206 16.9608 17.6743 16.7787 17.9825C16.5966 18.2906 16.5005 18.642 16.5005 19C16.5005 19.358 16.5966 19.7094 16.7787 20.0175C16.9608 20.3257 17.2223 20.5793 17.5359 20.752L36.4999 31.182V52.62L30.4279 49.28L28.4999 52.782L37.5359 57.752C37.8312 57.9145 38.1628 57.9996 38.4999 57.9996C38.8369 57.9996 39.1685 57.9145 39.4639 57.752L59.4639 46.752C59.7776 46.5794 60.0392 46.3258 60.2214 46.0176C60.4036 45.7095 60.4998 45.358 60.4999 45V19C60.4998 18.642 60.4036 18.2905 60.2214 17.9823C60.0392 17.6742 59.7776 17.4206 59.4639 17.248ZM38.4999 10.284L54.3499 19L38.4999 27.716L22.6499 19L38.4999 10.284ZM56.4999 43.818L40.4999 52.618V31.18L56.4999 22.38V43.818Z" fill="#4587B9"/>
+                            <path d="M20.5 32H4.5V28H20.5V32ZM24.5 48H8.5V44H24.5V48ZM28.5 40H12.5V36H28.5V40Z" fill="#4587B9"/>
+                        </svg>
+                        <div>
+                            <p>The customer sends in the auto computer.</p>
+                        </div>
+                    </div>
+                    <div class="auto-computer-repair-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <path d="M27.44 50.6667H16V53.3333C16 54.6667 14.9333 56 13.3333 56H10.6667C9.33333 56 8 54.6667 8 53.3333V32L13.6 16C14.1333 14.4 15.4667 13.3333 17.3333 13.3333H46.6667C48.2667 13.3333 49.8667 14.4 50.4 16L55.76 31.3067C53.7758 29.1258 51.2711 27.4835 48.48 26.5333L45.6 18.6667H18.1333L15.4667 26.6667H37.0933C34.1067 27.7333 31.4933 29.6 29.5467 32H13.3333V45.3333H25.8133C26.08 47.2267 26.6667 49.0133 27.44 50.6667ZM16 38.6667C16 40.8 17.8667 42.6667 20 42.6667C22.1333 42.6667 24 40.8 24 38.6667C24 36.5333 22.1333 34.6667 20 34.6667C17.8667 34.6667 16 36.5333 16 38.6667ZM42.96 30.96C36.2933 30.96 30.96 36.2933 30.96 42.96C30.96 49.6267 36.2933 54.96 42.96 54.96C45.3333 54.96 47.4667 54.2933 49.3333 53.1467L57.6267 61.3333L61.3333 57.6267L53.12 49.3333C54.2933 47.52 54.96 45.3333 54.96 42.96C54.96 36.2933 49.6267 30.96 42.96 30.96ZM42.96 36.2933C46.6667 36.2933 49.6267 39.28 49.6267 42.96C49.6267 46.64 46.6667 49.6267 42.96 49.6267C39.2533 49.6267 36.2933 46.6667 36.2933 42.96C36.2933 39.2533 39.28 36.2933 42.96 36.2933Z" fill="#4587B9"/>
+                        </svg>
+                        <div>
+                            <p>Diagnosis and evaluation</p>
+                        </div>
+                    </div>
+                    <div class="auto-computer-repair-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="65" height="64" viewBox="0 0 65 64" fill="none">
+                                <path d="M29.8335 29.3333L16.5002 16M13.8335 20L20.5002 13.3333L12.5002 9.33332L9.8335 12L13.8335 20ZM53.7668 23.9333C55.0471 22.6542 55.9279 21.0304 56.3019 19.2597C56.676 17.4889 56.5271 15.6476 55.8735 13.96L52.0815 17.752H46.7482V12.4187L50.5402 8.62666C48.8524 7.97157 47.0105 7.82149 45.239 8.1947C43.4674 8.56792 41.8426 9.44832 40.5626 10.7286C39.2826 12.009 38.4025 13.6339 38.0297 15.4056C37.6569 17.1772 37.8074 19.019 38.4628 20.7067L21.2095 37.9627C19.5219 37.3072 17.68 37.1567 15.9084 37.5295C14.1368 37.9024 12.5118 38.7824 11.2315 40.0624C9.95115 41.3425 9.07076 42.9672 8.69754 44.7388C8.32433 46.5104 8.47441 48.3522 9.1295 50.04L12.9188 46.248H18.2522V51.5813L14.4602 55.3733C16.1475 56.0284 17.9889 56.1787 19.7602 55.806C21.5314 55.4332 23.1561 54.5534 24.4362 53.2738C25.7164 51.9942 26.5969 50.3699 26.9704 48.5989C27.344 46.8278 27.1945 44.9863 26.5402 43.2987L43.7988 26.04C45.4858 26.6925 47.326 26.8407 49.0956 26.4667C50.8653 26.0927 52.4881 25.2126 53.7668 23.9333Z" stroke="#4587B9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M31.959 38.6666L46.903 53.6106C47.2374 53.9457 47.6345 54.2114 48.0717 54.3928C48.509 54.5741 48.9777 54.6675 49.451 54.6675C49.9243 54.6675 50.393 54.5741 50.8302 54.3928C51.2674 54.2114 51.6646 53.9457 51.999 53.6106L54.111 51.4986C54.446 51.1643 54.7118 50.7671 54.8931 50.3299C55.0745 49.8927 55.1678 49.424 55.1678 48.9506C55.1678 48.4773 55.0745 48.0086 54.8931 47.5714C54.7118 47.1342 54.446 46.737 54.111 46.4026L39.167 31.4586" stroke="#4587B9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        <div>
+                            <p>Repairs and Testing</p>
+                        </div>
+                    </div>
+                    <div class="auto-computer-repair-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <path d="M13.3335 45.3333C13.3335 46.7478 13.8954 48.1044 14.8956 49.1046C15.8958 50.1048 17.2523 50.6667 18.6668 50.6667C20.0813 50.6667 21.4379 50.1048 22.4381 49.1046C23.4383 48.1044 24.0002 46.7478 24.0002 45.3333C24.0002 43.9188 23.4383 42.5623 22.4381 41.5621C21.4379 40.5619 20.0813 40 18.6668 40C17.2523 40 15.8958 40.5619 14.8956 41.5621C13.8954 42.5623 13.3335 43.9188 13.3335 45.3333ZM40.0002 45.3333C40.0002 46.7478 40.5621 48.1044 41.5623 49.1046C42.5625 50.1048 43.919 50.6667 45.3335 50.6667C46.748 50.6667 48.1045 50.1048 49.1047 49.1046C50.1049 48.1044 50.6668 46.7478 50.6668 45.3333C50.6668 43.9188 50.1049 42.5623 49.1047 41.5621C48.1045 40.5619 46.748 40 45.3335 40C43.919 40 42.5625 40.5619 41.5623 41.5621C40.5621 42.5623 40.0002 43.9188 40.0002 45.3333Z" stroke="#4587B9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M13.3333 45.3333H8V16C8 15.2928 8.28095 14.6145 8.78105 14.1144C9.28115 13.6143 9.95942 13.3333 10.6667 13.3333H34.6667V29.3333H21.3333M21.3333 29.3333L26.6667 34.6667M21.3333 29.3333L26.6667 24M24 45.3333H40M34.6667 16H48L56 29.3333V45.3333H50.6667" stroke="#4587B9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div>
+                            <p>fast return shipping</p>
+                        </div>
+                    </div>
+                    <div class="auto-computer-repair-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="65" height="64" viewBox="0 0 65 64" fill="none">
+                            <path d="M58.3933 23.2267C61.7266 19.8933 60.2066 16 58.3933 14.1067L50.3933 6.10667C47.0333 2.77334 43.1666 4.29334 41.2733 6.10667L36.74 10.6667H29.8333C24.7666 10.6667 21.8333 13.3333 20.34 16.4L8.49997 28.24V38.9067L6.60664 40.7733C3.27331 44.1333 4.79331 48 6.60664 49.8933L14.6066 57.8933C16.0466 59.3333 17.5933 59.8667 19.06 59.8667C20.9533 59.8667 22.6866 58.9333 23.7266 57.8933L30.9266 50.6667H40.5C45.0333 50.6667 47.3266 47.84 48.1533 45.0667C51.1666 44.2667 52.82 41.9733 53.4866 39.7333C57.62 38.6667 59.1666 34.7467 59.1666 32V24H57.5933L58.3933 23.2267ZM53.8333 32C53.8333 33.2 53.3266 34.6667 51.1666 34.6667H48.5V37.3333C48.5 38.5333 47.9933 40 45.8333 40H43.1666V42.6667C43.1666 43.8667 42.66 45.3333 40.5 45.3333H28.74L19.9933 54.08C19.1666 54.8533 18.6866 54.4 18.3933 54.1067L10.42 46.16C9.64664 45.3333 10.1 44.8533 10.3933 44.56L13.8333 41.0933V30.4267L19.1666 25.0933V29.3333C19.1666 32.56 21.3 37.3333 27.1666 37.3333C33.0333 37.3333 35.1666 32.56 35.1666 29.3333H53.8333V32ZM54.6066 19.44L50.0733 24H29.8333V29.3333C29.8333 30.5333 29.3266 32 27.1666 32C25.0066 32 24.5 30.5333 24.5 29.3333V21.3333C24.5 20.1067 24.9533 16 29.8333 16H38.9266L45.0066 9.92C45.8333 9.14667 46.3133 9.6 46.6066 9.89334L54.58 17.84C55.3533 18.6667 54.9 19.1467 54.6066 19.44Z" fill="#4587B9"/>
+                        </svg>
+                        <div>
+                            <p>support for installation if needed.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
+
         <?php echo $this->getChildHtml('footer_before') ?>
         <?php echo $this->getChildHtml('footer') ?>
         <?php echo $this->getChildHtml('global_cookie_notice') ?>

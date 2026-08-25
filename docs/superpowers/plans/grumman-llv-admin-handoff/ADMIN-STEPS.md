@@ -75,9 +75,18 @@ If anything looks off style-wise, the fix is almost always in
 `skin/frontend/rwd/default/css/landing-grumman-llv.css` — every rule in
 that file is scoped under `.landing-grumman-llv` EXCEPT a handful of
 clearly-commented "SANCTIONED EXCEPTIONS" grouped near the top of the file
-(suppressing the horizontal-scrollbar risk, hiding the theme's page-title
-banner, adjusting `.main-content` spacing, and hiding the shared footer's
-copyright line — all specific to this page). Every one of those exceptions
+(suppressing the horizontal-scrollbar risk, adjusting `.main-content`
+spacing, and hiding the shared footer's copyright line — all specific to
+this page). Every one of those exceptions
 is scoped to `body.usps-grumman-llv-pcm-repair`, a class that only exists
 on this page — so it's safe to edit the file without risk of touching any
 other page, as long as you don't remove any exception's scoping class.
+
+The theme's default page-title banner (`.two-column-right-hero`, the
+"Usps Grumman Llv Pcm Repair" strip that would otherwise render above the
+hero) isn't hidden with CSS — it's genuinely excluded at the PHP level in
+`app/design/frontend/rwd/default/template/page/1column.phtml`, which
+checks `Mage::getSingleton('cms/page')->getIdentifier()` against this
+page's identifier. That file is shared by every 1-column page on the
+site, so if this page's URL identifier ever changes, that check needs
+updating too or the banner comes back.

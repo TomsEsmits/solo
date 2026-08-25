@@ -21,12 +21,6 @@ body.usps-grumman-llv-pcm-repair > .wrapper {
   overflow-x: hidden !important;
 }
 
-/* The theme's own "page title" banner above the main content — approved
-   by site owner 2026-08-25 to be hidden on this page only. */
-body.usps-grumman-llv-pcm-repair .two-column-right-hero {
-  display: none;
-}
-
 /* Removes the theme's default bottom spacing/rule under the main content
    area on this page only — approved by site owner 2026-08-25. */
 body.usps-grumman-llv-pcm-repair .main-content {
@@ -83,7 +77,11 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
   font-size: 16px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--llv-cyan);
+  /* --llv-cyan fails WCAG AA at this text size (2.09-2.30:1). Darkened
+     for eyebrow labels only — buttons, badge icons, and the hero accent
+     span keep --llv-cyan since those already pass (large text / non-text
+     UI). Accessibility review 2026-08-20. */
+  color: #0E7FA0 !important;
   margin: 0 0 18px;
 }
 
@@ -108,7 +106,10 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 .landing-grumman-llv p.llv-note {
   font-size: 15px;
   line-height: 1.8;
-  color: var(--llv-muted);
+  /* --llv-muted fails WCAG AA (2.90-3.19:1) — this covers the symptom
+     diagnosis caveat and the specialist-experience copy. Accessibility
+     review 2026-08-20. */
+  color: var(--llv-body);
   margin: 0;
 }
 
@@ -200,6 +201,26 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
   background: linear-gradient(100deg, rgba(15, 12, 8, 0.9) 0%, rgba(15, 12, 8, 0.6) 55%, rgba(15, 12, 8, 0.15) 100%);
   padding: 70px 0 0;
   padding-bottom: 110px;
+}
+
+/* Duplicate of .llv-hero__bg rendered as a normal block image directly
+   under the <h1>. Hidden by default; swapped in for .llv-hero__bg below
+   768px so mobile gets its own block image instead of a full-bleed
+   background photo behind the copy — see the 768px media query below.
+   Both share the same alt text; only one is ever un-hidden, so this
+   never double-announces to screen readers. */
+.landing-grumman-llv .llv-hero__img-mobile {
+  display: none;
+}
+
+/* The darkened .llv-eyebrow color above is tuned for white/light-grey
+   section backgrounds. On the hero's dark photo/scrim, the original
+   bright --llv-cyan already clears 4.5:1 comfortably, so restore it here
+   instead of inheriting the darkened value (which would fail on a dark
+   background). */
+.landing-grumman-llv .llv-hero__scrim .llv-eyebrow {
+  /* !important needed to beat the base .llv-eyebrow rule's !important. */
+  color: var(--llv-cyan) !important;
 }
 
 .landing-grumman-llv h1.llv-hero__title {
@@ -492,6 +513,10 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 }
 
 .landing-grumman-llv .llv-why__media-caption .llv-eyebrow {
+  /* Same reasoning as .llv-hero__scrim .llv-eyebrow above — dark photo
+     caption background, bright --llv-cyan already passes here.
+     !important needed to beat the base .llv-eyebrow rule's !important. */
+  color: var(--llv-cyan) !important;
   margin-bottom: 8px;
 }
 
@@ -522,7 +547,12 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 }
 
 .landing-grumman-llv .llv-why__card--cyan {
-  background: var(--llv-cyan);
+  /* White text on --llv-cyan tops out at 2.30:1 no matter the text
+     opacity — the background itself is too light. Switched to
+     --llv-navy, which clears 4.5:1 with solid white text while staying
+     visually distinct from the --llv-dark card in this same row.
+     Accessibility review 2026-08-20. */
+  background: var(--llv-navy);
   color: #FFFFFF;
 }
 
@@ -560,7 +590,7 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
 }
 
 .landing-grumman-llv .llv-why__card--cyan .llv-why__card-eyebrow {
-  color: rgba(255, 255, 255, 0.85);
+  color: #FFFFFF;
 }
 
 .landing-grumman-llv .llv-why__card-title {
@@ -668,10 +698,25 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   line-height: 1.6;
-  color: var(--llv-muted);
+  /* --llv-muted was 2.90:1 — worst-scoring text on the page.
+     Accessibility review 2026-08-20. */
+  color: var(--llv-body);
   font-style: italic;
   text-align: center;
 }
+
+.landing-grumman-llv .llv-related { padding: 40px 0 8px; }
+.landing-grumman-llv .llv-related__title {
+  font-size: 15px; font-weight: 700; color: #1B2B3A; margin-bottom: 14px;
+}
+.landing-grumman-llv .llv-related__list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 10px 28px;
+}
+.landing-grumman-llv .llv-related__list a {
+  font-size: 14.5px; color: #0E7FA0; text-decoration: underline;
+}
+.landing-grumman-llv .llv-related__list a:hover { color: #19BAE0; }
 
 @media (max-width: 992px) {
   .landing-grumman-llv .llv-inner {
@@ -985,5 +1030,26 @@ body.usps-grumman-llv-pcm-repair .footer-inner-wrapper .footer-bottom-part .copy
     font-size: 12px;
     padding: 18px 22px;
     text-align: left;
+  }
+}
+
+/* Client review 2026-08-20: on phones the full-bleed hero photo runs
+   behind the copy and the whiteboard text in the shot shows through the
+   CTA buttons. Below 768px, swap the background photo for a plain block
+   image directly under the <h1> instead, on a solid dark background. */
+@media (max-width: 768px) {
+  .landing-grumman-llv .llv-hero__bg {
+    display: none;
+  }
+
+  .landing-grumman-llv .llv-hero__scrim {
+    background: var(--llv-dark);
+  }
+
+  .landing-grumman-llv .llv-hero__img-mobile {
+    display: block;
+    border-radius: var(--llv-radius-md);
+    margin: 0 0 22px;
+    height: auto !important;
   }
 }

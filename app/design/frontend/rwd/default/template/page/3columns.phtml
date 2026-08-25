@@ -357,8 +357,12 @@ $currentPath = trim(Mage::app()->getRequest()->getRequestString(), '/');
 
                             <ul class="group-list">
                                 <?php
-                                    $layerBlock = $this->getLayout()->createBlock('catalog/layer_view');
+                                    $layerBlock = $this->getLayout()->getBlock('catalog.leftnav'); 
+                                    if (!$layerBlock) {
+                                        $layerBlock = $this->getLayout()->createBlock('catalog/layer_view');
+                                    }
                                     $_filters = $layerBlock->getFilters();
+
                                 ?>
                                 <?php foreach ($_filters as $_filter): ?>
                                     <?php if ($_filter->getItemsCount()): ?>
@@ -486,11 +490,12 @@ $currentPath = trim(Mage::app()->getRequest()->getRequestString(), '/');
         <?php endif; ?>
 
         <?php echo $this->getLayout()->createBlock('cms/widget_block')
-            ->setBlockId(15)
+            ->setBlockId(18)
             ->setTemplate('cms/widget/static_block/default.phtml')
             ->toHtml(); 
         ?>
-        <div class="main-container col3-layout" >
+
+        <?php /* <div class="main-container col3-layout" >
             <div class="main">
                 <?php echo $this->getChildHtml('breadcrumbs'); ?>
                 <div class="col-wrapper">
@@ -515,7 +520,7 @@ $currentPath = trim(Mage::app()->getRequest()->getRequestString(), '/');
                 </div>
                 <div class="col-right sidebar"><?php echo $this->getChildHtml('right') ?></div>
             </div>
-        </div>
+        </div> */ ?>
         <?php echo $this->getChildHtml('footer_before') ?>
         <?php echo $this->getChildHtml('footer') ?>
         <?php echo $this->getChildHtml('global_cookie_notice') ?>

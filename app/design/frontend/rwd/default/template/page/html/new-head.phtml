@@ -40,16 +40,20 @@
 <meta name="twitter:site" content="@dodgepcm" />
 <meta name="twitter:title" content="Solo PCMS PCM ECU ECM Engine Auto Computers" />
 <meta name="twitter:description" content="Solo PCMS is the leading provider of PCM, ECM, and ECU auto omputers" />
-<meta name="twitter:image" content="http://www.solopcms.com/skin/frontend/rwd/default/images/logo.png" />
-<meta name="twitter:url" content="http://www.solopcms.com" />
+<meta name="twitter:image" content="https://www.solopcms.com/skin/frontend/rwd/default/images/logo.png" />
+<meta name="twitter:url" content="https://www.solopcms.com" />
 <meta name="twitter:creator" content="@dodgepcm" />
 <meta name="google-site-verification" content="OKYgkhB36171uiZx5Xn9td1U-vdZS-HXUijseIhWagQ" />
 <meta name="google-site-verification" content="0VMFH8MrM846IjZJkk3afI2bcokKEMwblb7-4Nk1ACo" />
 
-<meta property="og:title" content="Solo PCMS PCM ECM ECU Engine Auto Computers"/>
-<meta property="og:image" content="http://www.solopcms.com/skin/frontend/rwd/default/images/logo.png"/>
-<meta property="og:site_name" content="SOLO PCMS PCM ECU ECM Engine Auto Computers"/>
-<meta property="og:description" content="Solo PCMS is a provider of PCM, ECM, ECU, and Engine Auto Computers"/>
+<!-- Static og:title/og:image/og:site_name/og:description removed
+     2026-08-20 — same fix as page/html/head.phtml. This page template
+     previously had NO dynamic replacement at all (SocialShare's og_meta
+     block was only wired to the "head" block reference, not "new-head"),
+     so pages using this template got the wrong og: data with no
+     fallback. Fixed by also wiring SocialShare to "new-head" — see
+     app/design/frontend/base/default/layout/socialshare/OpenGraphTags.xml
+     — so the getChildHtml() call below now renders the correct ones. -->
 
 <link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />

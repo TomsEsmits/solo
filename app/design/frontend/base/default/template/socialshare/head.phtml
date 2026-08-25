@@ -82,6 +82,14 @@
 		$_socialShareOgData["og:type"] = "website";
 	}
 
+	/* USPS Grumman LLV PCM Repair landing page — shares the hero photo
+	   instead of falling through to the sitewide default (logo/none).
+	   Accessibility/SEO review 2026-08-20. */
+	elseif (Mage::getSingleton('cms/page')->getIdentifier() == 'usps-grumman-llv-pcm-repair') {
+		$_socialShareOgData["og:type"] = "website";
+		$_socialShareOgData["og:image"] = $this->getSkinUrl('images/landing/grumman-llv/hero-engine-bay.jpg');
+	}
+
 	/* Default Image */
 	if(!array_key_exists("og:image", $_socialShareOgData)) {
 		if (Mage::getStoreConfig('opengraphtags/defaults/default_image')) { 
